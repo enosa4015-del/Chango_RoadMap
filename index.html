@@ -1,0 +1,2380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Chango</title>
+ <link rel="icon" href="images/Logo.jpg" type="image/x-icon">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+ :root {
+ --primary: #6C3CE1;
+ --primary-light: #8B5CF6;
+ --primary-dark: #5224B5;
+ --accent: #F97316;
+ --accent-light: #FB923C;
+ --bg-dark: #0A0A0F;
+ --bg-card: #12121A;
+ --bg-card-hover: #1A1A25;
+ --text: #F8F8FC;
+ --text-muted: #9CA3AF;
+ --text-dim: #6B7280;
+ --border: #1F1F2E;
+ --gradient-1: linear-gradient(135deg, #6C3CE1, #F97316);
+ --gradient-2: linear-gradient(135deg, #8B5CF6, #6C3CE1);
+ --gradient-3: linear-gradient(135deg, #F97316, #EF4444);
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.35);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.3);
+ --radius: 20px;}
+
+ .theme-toggle {
+ width: 42px; height: 42px; min-width: 42px; border-radius: 12px; border: 1.5px solid var(--border);
+ background: var(--bg-card); color: var(--accent-light); cursor: pointer;
+ font-size: 1.15rem; display: inline-flex; align-items: center; justify-content: center;
+ transition: all 0.25s ease;
+ }
+ .theme-toggle:hover { border-color: var(--primary); box-shadow: var(--glow-purple); transform: translateY(-2px); }
+ [data-theme="light"] {
+ --bg-dark: #F5F6FB;
+ --bg-card: #FFFFFF;
+ --bg-card-hover: #EEF1F7;
+ --text: #14141B;
+ --text-muted: #3E4757;
+ --text-dim: #79808F;
+ --border: #E4E7EF;
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.12);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.1);
+ }
+ [data-theme="light"] nav { background: rgba(255, 255, 255, 0.88); }
+ [data-theme="light"] nav.scrolled { background: rgba(255, 255, 255, 0.97); box-shadow: 0 6px 24px rgba(24, 22, 48, 0.06); }
+ [data-theme="light"] .nav-links.active { background: rgba(255, 255, 255, 0.98); }
+ [data-theme="light"] .btn-outline { background: #FFFFFF; }
+ [data-theme="light"] .hero-badge { background: rgba(108, 60, 225, 0.08); }
+ [data-theme="light"] .problem-card, [data-theme="light"] .feature-card, [data-theme="light"] .journey-step,
+ [data-theme="light"] .step-card, [data-theme="light"] .mp-card, [data-theme="light"] .price-card,
+ [data-theme="light"] .project-card, [data-theme="light"] .testimonial-card, [data-theme="light"] .cta-box,
+ [data-theme="light"] .problem-gaps {
+ box-shadow: 0 12px 34px rgba(24, 22, 48, 0.07);
+ }
+ [data-theme="light"] .journey-step:hover, [data-theme="light"] .feature-card:hover,
+ [data-theme="light"] .price-card:hover, [data-theme="light"] .project-card:hover {
+ box-shadow: 0 18px 44px rgba(24, 22, 48, 0.12);
+ }
+ [data-theme="light"] .social-icon { background: #FFFFFF; }
+ [data-theme="light"] .step-icon, [data-theme="light"] .mp-card-icon, [data-theme="light"] .feature-icon { background: rgba(108, 60, 225, 0.1); }
+ [data-theme="light"] .journey, [data-theme="light"] .how-it-works {
+ background: linear-gradient(180deg, var(--bg-dark), #F0F2F9);
+ }
+ [data-theme="light"] .features, [data-theme="light"] .ai-section,
+ [data-theme="light"] .pricing, [data-theme="light"] footer {
+ background: #F0F2F9;
+ }
+
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+
+ html {
+ scroll-behavior: smooth;
+ }
+
+ body {
+ font-family: 'Inter', sans-serif;
+ background: var(--bg-dark);
+ color: var(--text);
+ overflow-x: hidden;
+ line-height: 1.7;
+ }
+
+ /* Scrollbar */
+ ::-webkit-scrollbar { width: 10px; }
+ ::-webkit-scrollbar-track { background: transparent; }
+ ::-webkit-scrollbar-thumb { background: rgba(148, 148, 175, 0.35); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+ ::-webkit-scrollbar-thumb:hover { background: rgba(108, 60, 225, 0.7); border: 2px solid transparent; background-clip: padding-box; }
+ html { scrollbar-width: thin; scrollbar-color: rgba(148, 148, 175, 0.35) transparent; }
+
+ /* NAV */
+ nav {
+ position: fixed;
+ top: 0;
+ left: 0;
+ right: 0;
+ z-index: 1000;
+ padding: 1rem 2rem;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ backdrop-filter: blur(20px);
+ background: rgba(10, 10, 15, 0.8);
+ border-bottom: 1px solid var(--border);
+ transition: all 0.3s ease;
+ }
+
+ nav.scrolled {
+ padding: 0.6rem 2rem;
+ background: rgba(10, 10, 15, 0.95);
+ }
+
+ .logo {
+ display: flex;
+ align-items: center;
+ gap: 0.6rem;
+ text-decoration: none;
+ }
+
+ .logo-icon {
+ width: 42px;
+ height: 42px;
+ background: var(--gradient-1);
+ border-radius: 12px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ overflow: hidden;
+ box-shadow: var(--glow-purple);
+ }
+
+ .logo-icon img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ }
+
+ .logo-text {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 1.5rem;
+ font-weight: 700;
+ background: var(--gradient-1);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ .nav-links {
+ display: flex;
+ align-items: center;
+ gap: 2rem;
+ list-style: none;
+ }
+
+ .nav-links a {
+ color: var(--text-muted);
+ text-decoration: none;
+ font-size: 0.9rem;
+ font-weight: 500;
+ transition: color 0.3s;
+ position: relative;
+ }
+
+ .nav-links a:hover { color: var(--text); }
+
+ .nav-links a::after {
+ content: '';
+ position: absolute;
+ bottom: -4px;
+ left: 0;
+ width: 0;
+ height: 2px;
+ background: var(--gradient-1);
+ transition: width 0.3s;
+ }
+
+ .nav-links a:hover::after { width: 100%; }
+
+ .btn {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ padding: 0.7rem 1.6rem;
+ border-radius: 12px;
+ font-weight: 700;
+ font-size: 0.9rem;
+ text-decoration: none;
+ transition: all 0.3s ease;
+ cursor: pointer;
+ border: none;
+ font-family: 'Inter', sans-serif;
+ }
+
+ .btn-primary {
+ background: var(--gradient-1);
+ color: white;
+ box-shadow: 0 4px 20px rgba(108, 60, 225, 0.4);
+ }
+
+ .btn-primary:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 8px 30px rgba(108, 60, 225, 0.6);
+ }
+
+ .btn-outline {
+ background: transparent;
+ color: var(--text);
+ border: 1.5px solid var(--border);
+ }
+
+ .btn-outline:hover {
+ border-color: var(--primary);
+ background: rgba(108, 60, 225, 0.1);
+ }
+
+ .btn-large {
+ padding: 1rem 2.2rem;
+ font-size: 1rem;
+ border-radius: 14px;
+ }
+
+ .btn-white {
+ background: white;
+ color: var(--bg-dark);
+ }
+
+ .btn-white:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 8px 30px rgba(255,255,255,0.2);
+ }
+
+ .btn-journey {
+ background: var(--gradient-3);
+ color: white;
+ box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+ }
+
+ .btn-journey:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 8px 30px rgba(249, 115, 22, 0.6);
+ }
+
+ .hamburger {
+ display: none;
+ flex-direction: column;
+ gap: 5px;
+ cursor: pointer;
+ background: none;
+ border: none;
+ }
+
+ .hamburger span {
+ width: 25px;
+ height: 2px;
+ background: var(--text);
+ transition: 0.3s;
+ }
+
+ /* HERO */
+ .hero {
+ min-height: 100vh;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+ padding: 8rem 2rem 4rem;
+ position: relative;
+ overflow: hidden;
+ }
+
+ .hero-bg {
+ position: absolute;
+ inset: 0;
+ overflow: hidden;
+ }
+
+ .hero-bg-img {
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ opacity: 0.12;
+ z-index: 1;
+ filter: brightness(1.2);
+ }
+
+ .hero-bg .orb {
+ position: absolute;
+ border-radius: 50%;
+ filter: blur(120px);
+ opacity: 0.4;
+ animation: float 8s ease-in-out infinite;
+ }
+
+ .hero-bg .orb-1 {
+ width: 500px;
+ height: 500px;
+ background: var(--primary);
+ top: -10%;
+ left: -5%;
+ animation-delay: 0s;
+ }
+
+ .hero-bg .orb-2 {
+ width: 400px;
+ height: 400px;
+ background: var(--accent);
+ bottom: -10%;
+ right: -5%;
+ animation-delay: 3s;
+ }
+
+ .hero-bg .orb-3 {
+ width: 300px;
+ height: 300px;
+ background: #EC4899;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ animation-delay: 5s;
+ opacity: 0.2;
+ }
+
+ @keyframes float {
+ 0%, 100% { transform: translateY(0) scale(1); }
+ 50% { transform: translateY(-30px) scale(1.05); }
+ }
+
+ .hero-grid {
+ position: absolute;
+ inset: 0;
+ background-image:
+ linear-gradient(rgba(108, 60, 225, 0.05) 1px, transparent 1px),
+ linear-gradient(90deg, rgba(108, 60, 225, 0.05) 1px, transparent 1px);
+ background-size: 60px 60px;
+ }
+
+ .hero-content {
+ position: relative;
+ z-index: 2;
+ max-width: 900px;
+ }
+
+ .hero-badge {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ padding: 0.5rem 1.2rem;
+ background: rgba(108, 60, 225, 0.15);
+ border: 1px solid rgba(108, 60, 225, 0.3);
+ border-radius: 50px;
+ font-size: 0.85rem;
+ color: var(--primary-light);
+ margin-bottom: 2rem;
+ animation: fadeInUp 0.8s ease;
+ }
+
+ .hero-badge .dot {
+ width: 8px;
+ height: 8px;
+ background: var(--accent);
+ border-radius: 50%;
+ animation: pulse 2s infinite;
+ }
+
+ @keyframes pulse {
+ 0%, 100% { opacity: 1; }
+ 50% { opacity: 0.4; }
+ }
+
+ .hero h1 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: clamp(2.8rem, 6vw, 5rem);
+ font-weight: 800;
+ line-height: 1.1;
+ margin-bottom: 1.5rem;
+ animation: fadeInUp 0.8s ease 0.1s both;
+ }
+
+ .hero h1 .gradient-text {
+ background: var(--gradient-1);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ .hero h1 .accent-text {
+ background: var(--gradient-3);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ .hero-logo-wrap {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ margin: 0 auto 1.5rem;
+ position: relative;
+ animation: fadeInUp 0.8s ease 0.15s both;
+ }
+
+ .hero-logo {
+ max-width: 320px;
+ width: 80%;
+ height: auto;
+ filter: drop-shadow(0 0 40px rgba(108, 60, 225, 0.45)) drop-shadow(0 0 20px rgba(249, 115, 22, 0.25));
+ transition: transform 0.4s ease;
+ }
+
+ .hero-logo:hover {
+ transform: scale(1.04);
+ }
+
+ .hero-sub {
+ font-size: 1.2rem;
+ color: var(--text-muted);
+ max-width: 650px;
+ margin: 0 auto 2.5rem;
+ line-height: 1.8;
+ animation: fadeInUp 0.8s ease 0.2s both;
+ }
+
+ .hero-buttons {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 1rem;
+ flex-wrap: wrap;
+ animation: fadeInUp 0.8s ease 0.3s both;
+ }
+
+ .hero-social {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 1rem;
+ margin-top: 2.5rem;
+ animation: fadeInUp 0.8s ease 0.4s both;
+ }
+
+ .hero-social .divider {
+ width: 60px;
+ height: 1px;
+ background: var(--border);
+ }
+
+ .hero-social-label {
+ font-size: 0.8rem;
+ color: var(--text-dim);
+ letter-spacing: 1px;
+ text-transform: uppercase;
+ font-weight: 500;
+ }
+
+ .social-icon-group {
+ display: flex;
+ align-items: center;
+ gap: 0.9rem;
+ }
+
+ .social-icon {
+ width: 48px;
+ height: 48px;
+ border-radius: 14px;
+ background: var(--bg-card);
+ border: 1.5px solid var(--border);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: var(--text-muted);
+ text-decoration: none;
+ font-size: 1.4rem;
+ transition: all 0.3s ease;
+ position: relative;
+ overflow: hidden;
+ }
+
+ .social-icon::before {
+ content: '';
+ position: absolute;
+ inset: 0;
+ background: var(--gradient-1);
+ opacity: 0;
+ transition: opacity 0.3s;
+ }
+
+ .social-icon:hover {
+ transform: translateY(-4px);
+ border-color: transparent;
+ color: white;
+ box-shadow: 0 8px 25px rgba(108, 60, 225, 0.4);
+ }
+
+ .social-icon:hover::before { opacity: 1; }
+
+ .social-icon svg, .social-icon span { position: relative; z-index: 1; }
+
+ .social-icon.linkedin:hover::before { background: linear-gradient(135deg, #0A66C2, #0077B5); }
+ .social-icon.whatsapp:hover::before { background: linear-gradient(135deg, #25D366, #128C7E); }
+
+ .social-icon.linkedin:hover { box-shadow: 0 8px 25px rgba(10, 102, 194, 0.4); }
+ .social-icon.whatsapp:hover { box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); }
+
+ .hero-stats {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 3rem;
+ margin-top: 4rem;
+ animation: fadeInUp 0.8s ease 0.5s both;
+ }
+
+ .hero-stat {
+ text-align: center;
+ }
+
+ .hero-stat .number {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 2rem;
+ font-weight: 700;
+ background: var(--gradient-1);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ .hero-stat .label {
+ font-size: 0.85rem;
+ color: var(--text-dim);
+ margin-top: 0.2rem;
+ }
+
+ @keyframes fadeInUp {
+ from { opacity: 0; transform: translateY(30px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+
+ /* SECTIONS */
+ section {
+ padding: 6rem 2rem;
+ position: relative;
+ }
+
+ .container {
+ max-width: 1200px;
+ margin: 0 auto;
+ }
+
+ .section-label {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ font-size: 0.8rem;
+ font-weight: 600;
+ color: var(--primary-light);
+ text-transform: uppercase;
+ letter-spacing: 2px;
+ margin-bottom: 1rem;
+ }
+
+ .section-label .line {
+ width: 30px;
+ height: 2px;
+ background: var(--gradient-1);
+ }
+
+ .section-title {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: clamp(2rem, 4vw, 3rem);
+ font-weight: 700;
+ margin-bottom: 1rem;
+ line-height: 1.2;
+ }
+
+ .section-desc {
+ color: var(--text-muted);
+ font-size: 1.1rem;
+ max-width: 600px;
+ line-height: 1.8;
+ }
+
+ /* PROBLEM */
+ .problem { background: var(--bg-dark); }
+
+ .problem-grid {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 4rem;
+ align-items: center;
+ margin-top: 3rem;
+ }
+
+ .problem-visual {
+ position: relative;
+ }
+
+ .fragmentation-map {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 1rem;
+ }
+
+ .frag-item {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 16px;
+ padding: 1.2rem;
+ text-align: center;
+ transition: all 0.3s;
+ cursor: default;
+ }
+
+ .frag-item:hover {
+ border-color: var(--primary);
+ transform: translateY(-4px);
+ box-shadow: var(--glow-purple);
+ }
+
+ .frag-item .icon {
+ font-size: 1.8rem;
+ margin-bottom: 0.5rem;
+ }
+
+ .frag-item .name {
+ font-size: 0.8rem;
+ font-weight: 600;
+ color: var(--text-muted);
+ }
+
+ .problem-gaps {
+ display: flex;
+ flex-direction: column;
+ gap: 1rem;
+ margin-top: 2rem;
+ }
+
+ .gap-item {
+ display: flex;
+ align-items: flex-start;
+ gap: 1rem;
+ padding: 1.2rem;
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 14px;
+ transition: all 0.3s;
+ }
+
+ .gap-item:hover {
+ border-color: var(--accent);
+ background: var(--bg-card-hover);
+ }
+
+ .gap-num {
+ width: 36px;
+ height: 36px;
+ min-width: 36px;
+ background: var(--gradient-3);
+ border-radius: 10px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-weight: 700;
+ font-size: 0.85rem;
+ }
+
+ .gap-text h4 {
+ font-size: 0.95rem;
+ font-weight: 600;
+ margin-bottom: 0.2rem;
+ }
+
+ .gap-text p {
+ font-size: 0.85rem;
+ color: var(--text-dim);
+ }
+
+ /* JOURNEY */
+ .journey {
+ background: linear-gradient(180deg, var(--bg-dark), #0D0D15);
+ }
+
+ .journey-flow {
+ display: flex;
+ align-items: flex-start;
+ justify-content: center;
+ gap: 0;
+ margin-top: 3rem;
+ flex-wrap: wrap;
+ position: relative;
+ }
+
+ .journey-step {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ text-align: center;
+ padding: 1.5rem 1rem;
+ position: relative;
+ flex: 0 0 auto;
+ width: 150px;
+ }
+
+ .journey-step .step-icon {
+ width: 64px;
+ height: 64px;
+ border-radius: 20px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 1.6rem;
+ margin-bottom: 0.8rem;
+ position: relative;
+ z-index: 2;
+ transition: all 0.3s;
+ }
+
+ .journey-step:hover .step-icon {
+ transform: scale(1.1);
+ }
+
+ .journey-step:nth-child(1) .step-icon { background: rgba(108, 60, 225, 0.2); border: 1px solid rgba(108, 60, 225, 0.4); }
+ .journey-step:nth-child(2) .step-icon { background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.4); }
+ .journey-step:nth-child(3) .step-icon { background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); }
+ .journey-step:nth-child(4) .step-icon { background: rgba(249, 115, 22, 0.2); border: 1px solid rgba(249, 115, 22, 0.4); }
+ .journey-step:nth-child(5) .step-icon { background: rgba(236, 72, 153, 0.2); border: 1px solid rgba(236, 72, 153, 0.4); }
+ .journey-step:nth-child(6) .step-icon { background: rgba(139, 92, 246, 0.2); border: 1px solid rgba(139, 92, 246, 0.4); }
+ .journey-step:nth-child(7) .step-icon { background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); }
+ .journey-step:nth-child(8) .step-icon { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); }
+
+ .journey-step .step-title {
+ font-weight: 600;
+ font-size: 0.9rem;
+ margin-bottom: 0.3rem;
+ }
+
+ .journey-step .step-desc {
+ font-size: 0.75rem;
+ color: var(--text-dim);
+ line-height: 1.5;
+ }
+
+ .journey-arrow {
+ display: flex;
+ align-items: center;
+ padding-top: 1.5rem;
+ color: var(--text-dim);
+ font-size: 1.2rem;
+ }
+
+ /* FEATURES */
+ .features { background: #0D0D15; }
+
+ .features-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 1.5rem;
+ margin-top: 3rem;
+ }
+
+ .feature-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 20px;
+ padding: 2rem;
+ transition: all 0.4s ease;
+ position: relative;
+ overflow: hidden;
+ }
+
+ .feature-card::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ height: 3px;
+ background: var(--gradient-1);
+ opacity: 0;
+ transition: opacity 0.3s;
+ }
+
+ .feature-card:hover {
+ border-color: var(--primary);
+ transform: translateY(-6px);
+ box-shadow: var(--glow-purple);
+ }
+
+ .feature-card:hover::before { opacity: 1; }
+
+ .feature-icon {
+ width: 56px;
+ height: 56px;
+ border-radius: 16px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 1.5rem;
+ margin-bottom: 1.2rem;
+ background: rgba(108, 60, 225, 0.15);
+ }
+
+ .feature-card:nth-child(2) .feature-icon { background: rgba(249, 115, 22, 0.15); }
+ .feature-card:nth-child(3) .feature-icon { background: rgba(16, 185, 129, 0.15); }
+ .feature-card:nth-child(4) .feature-icon { background: rgba(59, 130, 246, 0.15); }
+ .feature-card:nth-child(5) .feature-icon { background: rgba(236, 72, 153, 0.15); }
+ .feature-card:nth-child(6) .feature-icon { background: rgba(139, 92, 246, 0.15); }
+
+ .feature-card h3 {
+ font-size: 1.15rem;
+ font-weight: 700;
+ margin-bottom: 0.6rem;
+ }
+
+ .feature-card p {
+ font-size: 0.9rem;
+ color: var(--text-muted);
+ line-height: 1.7;
+ }
+
+ /* PROJECTS */
+ .projects { background: var(--bg-dark); }
+
+ .projects-showcase {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 1.5rem;
+ margin-top: 3rem;
+ }
+
+ .project-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 18px;
+ overflow: hidden;
+ transition: all 0.4s;
+ }
+
+ .project-card:hover {
+ border-color: var(--accent);
+ transform: translateY(-5px);
+ box-shadow: var(--glow-orange);
+ }
+
+ .project-preview {
+ height: 160px;
+ background: linear-gradient(135deg, rgba(108, 60, 225, 0.2), rgba(249, 115, 22, 0.2));
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 3rem;
+ position: relative;
+ }
+
+ .project-preview::after {
+ content: '';
+ position: absolute;
+ inset: 0;
+ background: linear-gradient(180deg, transparent, var(--bg-card));
+ }
+
+ .project-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+ .project-info {
+ padding: 1.5rem;
+ }
+
+ .project-tag {
+ display: inline-block;
+ padding: 0.25rem 0.7rem;
+ background: rgba(108, 60, 225, 0.15);
+ color: var(--primary-light);
+ border-radius: 6px;
+ font-size: 0.75rem;
+ font-weight: 600;
+ margin-bottom: 0.6rem;
+ }
+
+ .project-card:nth-child(2) .project-tag { background: rgba(249, 115, 22, 0.15); color: var(--accent); }
+ .project-card:nth-child(3) .project-tag { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+ .project-card:nth-child(4) .project-tag { background: rgba(59, 130, 246, 0.15); color: #3B82F6; }
+ .project-card:nth-child(5) .project-tag { background: rgba(236, 72, 153, 0.15); color: #EC4899; }
+ .project-card:nth-child(6) .project-tag { background: rgba(139, 92, 246, 0.15); color: #8B5CF6; }
+
+ .project-info h3 {
+ font-size: 1.05rem;
+ font-weight: 600;
+ margin-bottom: 0.4rem;
+ }
+
+ .project-info p {
+ font-size: 0.85rem;
+ color: var(--text-dim);
+ }
+
+ /* HOW IT WORKS */
+ .how-it-works {
+ background: linear-gradient(180deg, var(--bg-dark), #0D0D15);
+ }
+
+ .steps-container {
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 2rem;
+ margin-top: 3rem;
+ }
+
+ .step-card {
+ text-align: center;
+ padding: 2rem 1.5rem;
+ position: relative;
+ }
+
+ .step-number {
+ width: 56px;
+ height: 56px;
+ border-radius: 50%;
+ background: var(--gradient-1);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 1.3rem;
+ font-weight: 700;
+ margin: 0 auto 1.2rem;
+ box-shadow: var(--glow-purple);
+ }
+
+ .step-card h3 {
+ font-size: 1.1rem;
+ font-weight: 700;
+ margin-bottom: 0.5rem;
+ }
+
+ .step-card p {
+ font-size: 0.88rem;
+ color: var(--text-muted);
+ line-height: 1.7;
+ }
+
+ .step-connector {
+ position: absolute;
+ top: 48px;
+ right: -1rem;
+ color: var(--text-dim);
+ font-size: 1.2rem;
+ }
+
+ /* AI ASSISTANT */
+ .ai-section {
+ background: #0D0D15;
+ }
+
+ .ai-content {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 4rem;
+ align-items: center;
+ margin-top: 3rem;
+ }
+
+ .ai-features {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 1rem;
+ }
+
+ .ai-feature {
+ display: flex;
+ align-items: flex-start;
+ gap: 0.8rem;
+ padding: 1rem;
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 14px;
+ transition: all 0.3s;
+ }
+
+ .ai-feature:hover {
+ border-color: var(--primary);
+ background: var(--bg-card-hover);
+ }
+
+ .ai-feature .aicon {
+ font-size: 1.3rem;
+ min-width: 32px;
+ text-align: center;
+ }
+
+ .ai-feature span {
+ font-size: 0.88rem;
+ font-weight: 500;
+ }
+
+ .ai-visual {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ }
+
+ .ai-bot {
+ width: 320px;
+ height: 380px;
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 24px;
+ padding: 2rem;
+ position: relative;
+ overflow: hidden;
+ }
+
+ .ai-bot::before {
+ content: '';
+ position: absolute;
+ top: -50%;
+ left: -50%;
+ width: 200%;
+ height: 200%;
+ background: conic-gradient(from 0deg, transparent, var(--primary), transparent, var(--accent), transparent);
+ animation: rotate 6s linear infinite;
+ opacity: 0.1;
+ }
+
+ @keyframes rotate {
+ to { transform: rotate(360deg); }
+ }
+
+ .ai-bot-header {
+ position: relative;
+ display: flex;
+ align-items: center;
+ gap: 0.8rem;
+ margin-bottom: 1.5rem;
+ }
+
+ .ai-bot-avatar {
+ width: 44px;
+ height: 44px;
+ border-radius: 14px;
+ background: var(--gradient-1);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 1.3rem;
+ }
+
+ .ai-bot-name {
+ font-weight: 600;
+ }
+
+ .ai-bot-status {
+ font-size: 0.78rem;
+ color: #10B981;
+ }
+
+ .ai-chat {
+ position: relative;
+ display: flex;
+ flex-direction: column;
+ gap: 0.8rem;
+ }
+
+ .chat-msg {
+ padding: 0.8rem 1rem;
+ border-radius: 14px;
+ font-size: 0.85rem;
+ line-height: 1.5;
+ max-width: 85%;
+ }
+
+ .chat-bot {
+ background: rgba(108, 60, 225, 0.15);
+ border: 1px solid rgba(108, 60, 225, 0.3);
+ align-self: flex-start;
+ }
+
+ .chat-user {
+ background: rgba(249, 115, 22, 0.15);
+ border: 1px solid rgba(249, 115, 22, 0.3);
+ align-self: flex-end;
+ }
+
+ /* MARKETPLACE */
+ .marketplace { background: var(--bg-dark); }
+
+ .marketplace-visual {
+ display: grid;
+ grid-template-columns: 1fr auto 1fr;
+ gap: 2rem;
+ align-items: center;
+ margin-top: 3rem;
+ }
+
+ .mp-side {
+ display: flex;
+ flex-direction: column;
+ gap: 1rem;
+ }
+
+ .mp-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 16px;
+ padding: 1.2rem;
+ display: flex;
+ align-items: center;
+ gap: 1rem;
+ transition: all 0.3s;
+ }
+
+ .mp-card:hover {
+ border-color: var(--primary);
+ transform: translateX(5px);
+ }
+
+ .mp-card.right:hover {
+ transform: translateX(-5px);
+ }
+
+ .mp-card-icon {
+ width: 44px;
+ height: 44px;
+ border-radius: 12px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 1.2rem;
+ background: rgba(108, 60, 225, 0.15);
+ min-width: 44px;
+ }
+
+ .mp-card:nth-child(2) .mp-card-icon { background: rgba(249, 115, 22, 0.15); }
+ .mp-card:nth-child(3) .mp-card-icon { background: rgba(16, 185, 129, 0.15); }
+
+ .mp-card-text h4 { font-size: 0.9rem; font-weight: 600; }
+ .mp-card-text p { font-size: 0.8rem; color: var(--text-dim); }
+
+ .mp-bridge {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 0.5rem;
+ }
+
+ .mp-bridge-icon {
+ width: 80px;
+ height: 80px;
+ border-radius: 50%;
+ background: var(--gradient-1);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 2rem;
+ box-shadow: var(--glow-purple);
+ }
+
+ .mp-bridge-text {
+ font-weight: 700;
+ font-size: 1.1rem;
+ background: var(--gradient-1);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ /* PRICING */
+ .pricing { background: #0D0D15; }
+
+ .pricing-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 1.5rem;
+ margin-top: 3rem;
+ justify-content: center;
+ }
+ .pricing-grid:has(.price-card) {
+ grid-template-columns: minmax(320px, 450px);
+ justify-content: center;
+ max-width: 450px;
+ margin: 3rem auto 0;
+ }
+
+ .price-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 20px;
+ padding: 2rem;
+ transition: all 0.4s;
+ position: relative;
+ }
+
+ .price-card.featured {
+ border-color: rgba(249, 115, 22, 0.45);
+ box-shadow: 0 20px 60px rgba(108, 60, 225, 0.25), var(--glow-purple);
+ text-align: center;
+ overflow: hidden;
+ background:
+ radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.12), transparent 60%),
+ linear-gradient(180deg, rgba(108, 60, 225, 0.08), transparent 45%),
+ var(--bg-card);
+ }
+ .price-card.featured::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ height: 4px;
+ background: linear-gradient(90deg, #10B981, #3B82F6, #8B5CF6, #F97316, #EF4444);
+ }
+
+ .bc-ribbon {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.4rem;
+ margin: -0.3rem auto 1rem;
+ padding: 0.3rem 1.1rem;
+ background: var(--gradient-3);
+ color: white;
+ border-radius: 50px;
+ font-size: 0.75rem;
+ font-weight: 700;
+ letter-spacing: 0.5px;
+ text-transform: uppercase;
+ box-shadow: 0 6px 18px rgba(249, 115, 22, 0.35);
+ }
+ .bc-icon {
+ width: 64px;
+ height: 64px;
+ margin: 0 auto 1rem;
+ border-radius: 18px;
+ background: var(--gradient-1);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 1.8rem;
+ box-shadow: var(--glow-purple);
+ }
+ .price-card.featured h3 {
+ font-size: 1.45rem;
+ background: linear-gradient(135deg, #F97316, #EF4444);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+ .price-card.featured .bc-sub {
+ color: var(--text-muted);
+ font-size: 0.9rem;
+ margin-bottom: 0.5rem;
+ }
+ .price-card.featured .price-amount {
+ font-size: 2.6rem;
+ display: flex;
+ align-items: baseline;
+ justify-content: center;
+ gap: 0.4rem;
+ margin: 0.8rem 0;
+ }
+ .bc-currency {
+ font-size: 1.1rem;
+ font-weight: 700;
+ background: linear-gradient(135deg, var(--primary-light), var(--accent));
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ opacity: 0.85;
+ }
+ .bc-per {
+ font-size: 0.85rem;
+ font-weight: 500;
+ }
+ .price-card.featured .price-features {
+ text-align: left;
+ background: var(--bg-card-hover);
+ border: 1px solid var(--border);
+ border-radius: 16px;
+ padding: 1.2rem 1.3rem;
+ }
+ .price-card.featured .price-features li { text-align: left; }
+ .price-card.featured .price-features li .check {
+ width: 22px;
+ height: 22px;
+ min-width: 22px;
+ border-radius: 50%;
+ background: rgba(16, 185, 129, 0.15);
+ color: #10B981;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 0.75rem;
+ font-weight: 800;
+ }
+
+ .price-card:hover {
+ transform: translateY(-5px);
+ }
+
+ .price-card h3 {
+ font-size: 1.2rem;
+ font-weight: 700;
+ margin-bottom: 0.5rem;
+ }
+
+ .price-amount {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 2.5rem;
+ font-weight: 800;
+ margin: 1rem 0;
+ }
+
+ .price-amount span {
+ font-size: 1rem;
+ font-weight: 400;
+ color: var(--text-dim);
+ }
+ .price-card.featured .price-amount span {
+ font-size: 1rem;
+ font-weight: 500;
+ }
+
+ .price-features {
+ list-style: none;
+ display: flex;
+ flex-direction: column;
+ gap: 0.7rem;
+ margin: 1.5rem 0;
+ }
+
+ .price-features li {
+ display: flex;
+ align-items: center;
+ gap: 0.6rem;
+ font-size: 0.9rem;
+ color: var(--text-muted);
+ }
+
+ .price-features li .check {
+ color: #10B981;
+ font-weight: 700;
+ }
+
+ /* TESTIMONIALS */
+ .testimonials { background: var(--bg-dark); }
+
+ .testimonials-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 1.5rem;
+ margin-top: 3rem;
+ }
+
+ .testimonial-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 18px;
+ padding: 1.8rem;
+ transition: all 0.3s;
+ }
+
+ .testimonial-card:hover {
+ border-color: var(--primary);
+ }
+
+ .testimonial-stars {
+ color: #FBBF24;
+ font-size: 0.9rem;
+ margin-bottom: 0.8rem;
+ }
+
+ .testimonial-text {
+ font-size: 0.92rem;
+ color: var(--text-muted);
+ line-height: 1.7;
+ margin-bottom: 1.2rem;
+ font-style: italic;
+ }
+
+ .testimonial-author {
+ display: flex;
+ align-items: center;
+ gap: 0.8rem;
+ }
+
+ .testimonial-avatar {
+ width: 42px;
+ height: 42px;
+ border-radius: 50%;
+ background: var(--gradient-1);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-weight: 700;
+ font-size: 0.9rem;
+ }
+
+ .testimonial-card:nth-child(2) .testimonial-avatar { background: var(--gradient-3); }
+ .testimonial-card:nth-child(3) .testimonial-avatar { background: linear-gradient(135deg, #10B981, #3B82F6); }
+
+ .testimonial-name { font-weight: 600; font-size: 0.9rem; }
+ .testimonial-role { font-size: 0.8rem; color: var(--text-dim); }
+
+ /* CTA */
+ .cta {
+ background: var(--bg-dark);
+ padding: 6rem 2rem;
+ }
+
+ .cta-box {
+ max-width: 900px;
+ margin: 0 auto;
+ text-align: center;
+ padding: 4rem 3rem;
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 28px;
+ position: relative;
+ overflow: hidden;
+ }
+
+ .cta-box::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ height: 3px;
+ background: var(--gradient-1);
+ }
+
+ .cta-box::after {
+ content: '';
+ position: absolute;
+ inset: 0;
+ background: radial-gradient(circle at 50% 0%, rgba(108, 60, 225, 0.1), transparent 60%);
+ }
+
+ .cta-box > * { position: relative; z-index: 2; }
+
+ .cta-box h2 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: clamp(1.8rem, 3vw, 2.5rem);
+ font-weight: 700;
+ margin-bottom: 1rem;
+ }
+
+ .cta-box p {
+ color: var(--text-muted);
+ font-size: 1.05rem;
+ margin-bottom: 2rem;
+ max-width: 550px;
+ margin-left: auto;
+ margin-right: auto;
+ }
+
+ .cta-buttons {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 1rem;
+ flex-wrap: wrap;
+ }
+
+ /* FOOTER */
+ footer {
+ background: #08080D;
+ border-top: 1px solid var(--border);
+ padding: 4rem 2rem 2rem;
+ }
+
+ .footer-grid {
+ max-width: 1200px;
+ margin: 0 auto;
+ display: grid;
+ grid-template-columns: 2fr 1fr 1fr 1fr;
+ gap: 3rem;
+ }
+
+ .footer-brand p {
+ color: var(--text-dim);
+ font-size: 0.9rem;
+ margin-top: 1rem;
+ line-height: 1.7;
+ }
+
+ .footer-col h4 {
+ font-size: 0.85rem;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 1px;
+ margin-bottom: 1rem;
+ color: var(--text-muted);
+ }
+
+ .footer-col a {
+ display: block;
+ color: var(--text-dim);
+ text-decoration: none;
+ font-size: 0.88rem;
+ padding: 0.3rem 0;
+ transition: color 0.3s;
+ }
+
+ .footer-col a:hover { color: var(--text); }
+
+ .footer-bottom {
+ max-width: 1200px;
+ margin: 3rem auto 0;
+ padding-top: 2rem;
+ border-top: 1px solid var(--border);
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ }
+
+ .footer-bottom p {
+ font-size: 0.82rem;
+ color: var(--text-dim);
+ }
+
+ .footer-social {
+ display: flex;
+ gap: 1rem;
+ }
+
+ .footer-social a {
+ width: 38px;
+ height: 38px;
+ border-radius: 10px;
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: var(--text-dim);
+ text-decoration: none;
+ transition: all 0.3s;
+ font-size: 0.9rem;
+ }
+
+ .footer-social a:hover {
+ border-color: var(--primary);
+ color: var(--text);
+ }
+
+ /* SCROLL ANIMATIONS */
+ .reveal {
+ opacity: 0;
+ transform: translateY(40px);
+ transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ .reveal.visible {
+ opacity: 1;
+ transform: translateY(0);
+ }
+
+ /* RESPONSIVE */
+ @media (max-width: 1024px) {
+ .features-grid,
+ .projects-showcase,
+ .pricing-grid,
+ .testimonials-grid {
+ grid-template-columns: repeat(2, 1fr);
+ }
+
+ .problem-grid,
+ .ai-content {
+ grid-template-columns: 1fr;
+ gap: 2rem;
+ }
+
+ .steps-container {
+ grid-template-columns: repeat(2, 1fr);
+ }
+
+ .marketplace-visual {
+ grid-template-columns: 1fr;
+ }
+
+ .mp-bridge { order: -1; }
+
+ .footer-grid {
+ grid-template-columns: 1fr 1fr;
+ }
+ }
+
+ @media (max-width: 768px) {
+ .nav-links { display: none; }
+ .hamburger { display: flex; }
+
+ .nav-links.active {
+ display: flex;
+ flex-direction: column;
+ position: absolute;
+ top: 100%;
+ left: 0;
+ right: 0;
+ background: rgba(10, 10, 15, 0.98);
+ padding: 1.5rem 2rem;
+ border-bottom: 1px solid var(--border);
+ }
+
+ .features-grid,
+ .projects-showcase,
+ .pricing-grid,
+ .testimonials-grid {
+ grid-template-columns: 1fr;
+ }
+
+ .steps-container {
+ grid-template-columns: 1fr;
+ }
+
+ .hero-stats {
+ gap: 1.5rem;
+ }
+
+ .journey-flow {
+ flex-direction: column;
+ align-items: center;
+ }
+
+ .journey-arrow {
+ transform: rotate(90deg);
+ padding: 0;
+ }
+
+ .footer-grid {
+ grid-template-columns: 1fr;
+ }
+
+ .footer-bottom {
+ flex-direction: column;
+ gap: 1rem;
+ text-align: center;
+ }
+
+ .ai-features {
+ grid-template-columns: 1fr;
+ }
+
+ .fragmentation-map {
+ grid-template-columns: repeat(2, 1fr);
+ }
+ }
+ </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+ <a href="#" class="logo">
+ <div class="logo-icon"><img src="images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <ul class="nav-links" id="navLinks">
+ <li><a href="#problem">The Problem</a></li>
+ <li><a href="#journey">The Journey</a></li>
+ <li><a href="#features">Features</a></li>
+ <li><a href="#projects">Projects</a></li>
+ <li><a href="#ai">AI Assistant</a></li>
+ <li><a href="#pricing">Pricing</a></li>
+ <li><a href="#cta" class="btn btn-primary" style="padding: 0.5rem 1.2rem;">Get Started</a></li>
+ </ul>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ <button class="hamburger" id="hamburger" aria-label="Menu">
+ <span></span><span></span><span></span>
+ </button>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+ <div class="hero-bg">
+ <div class="orb orb-1"></div>
+ <div class="orb orb-2"></div>
+ <div class="orb orb-3"></div>
+ <div class="hero-grid"></div>
+ </div>
+ <div class="hero-content">
+ 
+ <h1>
+ From <span class="gradient-text">Learning Skills</span><br>
+ to <span class="accent-text">Real Opportunities</span>
+ </h1>
+ <p class="hero-sub">
+ The problem isn't that young people don't learn... it's that they learn a lot but don't know how to turn what they've learned into a real opportunity. Chango bridges that gap.
+ </p>
+ <div class="hero-buttons">
+ <a href="journey.html" class="btn btn-primary btn-large">Start Your Journey ➜</a>
+ <a href="#journey" class="btn btn-outline btn-large">See How It Works</a>
+ </div>
+ <div class="hero-social">
+ <span class="hero-social-label">Follow Our Journey</span>
+ <span class="divider"></span>
+ <div class="social-icon-group">
+ <a href="https://lnkd.in/eKgC9ajq" target="_blank" rel="noopener" class="social-icon linkedin" aria-label="LinkedIn">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.05c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.78 2.65 4.78 6.1V24h-4v-8.5c0-2.02-.04-4.62-2.82-4.62-2.82 0-3.25 2.2-3.25 4.47V24H8V8z"/></svg>
+ </a>
+ <a href="https://chat.whatsapp.com/ImsdjravuSIAfRxk9TRonB" target="_blank" rel="noopener" class="social-icon whatsapp" aria-label="WhatsApp">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+ </a>
+ </div>
+ <span class="divider"></span>
+ </div>
+ <div class="hero-stats">
+ <div class="hero-stat">
+ <div class="number">6</div>
+ <div class="label">Journey Stages</div>
+ </div>
+ <div class="hero-stat">
+ <div class="number">1</div>
+ <div class="label">Integrated Platform</div>
+ </div>
+ <div class="hero-stat">
+ <div class="number">&infin;</div>
+ <div class="label">Opportunities</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+ <div class="container">
+ <div class="problem-grid">
+ <div class="reveal">
+ <div class="section-label"><span class="line"></span> The Problem</div>
+ <h2 class="section-title">The market doesn't lack content.<br>It lacks <span style="background:var(--gradient-3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">direction.</span></h2>
+ <p class="section-desc">
+ Users jump between YouTube, course platforms, Google, GitHub, LinkedIn, freelancing platforms, and social media. The result? A fragmented journey with no clear path from learning to income.
+ </p>
+ <div class="problem-gaps">
+ <div class="gap-item">
+ <div class="gap-num">1</div>
+ <div class="gap-text">
+ <h4>Learning Gap</h4>
+ <p>Don't know what to learn or in what order.</p>
+ </div>
+ </div>
+ <div class="gap-item">
+ <div class="gap-num">2</div>
+ <div class="gap-text">
+ <h4>Practical Gap</h4>
+ <p>Know the theory but can't build real projects.</p>
+ </div>
+ </div>
+ <div class="gap-item">
+ <div class="gap-num">3</div>
+ <div class="gap-text">
+ <h4>Proof Gap</h4>
+ <p>Have skills but no strong proof of ability.</p>
+ </div>
+ </div>
+ <div class="gap-item">
+ <div class="gap-num">4</div>
+ <div class="gap-text">
+ <h4>Career Gap</h4>
+ <p>Don't know how to present themselves to the market.</p>
+ </div>
+ </div>
+ <div class="gap-item">
+ <div class="gap-num">5</div>
+ <div class="gap-text">
+ <h4>Opportunity Gap</h4>
+ <p>Don't know how to land the first job or client.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="problem-visual reveal">
+ <div class="fragmentation-map">
+ <div class="frag-item">
+ <div class="icon">▶</div>
+ <div class="name">YouTube</div>
+ </div>
+ <div class="frag-item">
+ <div class="icon">🎓</div>
+ <div class="name">Courses</div>
+ </div>
+ <div class="frag-item">
+ <div class="icon">🔍</div>
+ <div class="name">Google</div>
+ </div>
+ <div class="frag-item">
+ 
+ <div class="icon">🐙</div>
+  <div class="name">GitHub</div>
+ </div>
+ <div class="frag-item">
+ <div class="icon">💼</div>
+ <div class="name">LinkedIn</div>
+ </div>
+ <div class="frag-item">
+ <div class="icon">💻</div>
+ <div class="name">Freelance</div>
+ </div>
+ <div class="frag-item">
+ <div class="icon">📱</div>
+ <div class="name">Social</div>
+ </div>
+ <div class="frag-item">
+ <div class="icon">📄</div>
+ <div class="name">CV</div>
+ </div>
+ <div class="frag-item" style="border-color: var(--accent); background: rgba(249,115,22,0.08);">
+ <div class="icon">❓</div>
+ <div class="name">Now What?</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey" id="journey">
+ <div class="container" style="text-align:center;">
+ <div class="section-label" style="justify-content:center;"><span class="line"></span>  The Journey</div>
+ <h2 class="section-title" style="margin:0 auto 0.5rem;">Learn &rarr; Practice &rarr; Build &rarr; Prove &rarr; Connect &rarr; <span style="background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Earn</span></h2>
+ <p class="section-desc" style="margin:0 auto;">A complete, integrated path from skill acquisition to real opportunity.</p>
+
+ <div class="journey-flow">
+ <div class="journey-step reveal">
+ 
+ <div class="step-icon">🚩</div>
+  <div class="step-title">Discover</div>
+ <div class="step-desc">Define your goal and level</div>
+ </div>
+ <div class="journey-arrow">&rarr;</div>
+ <div class="journey-step reveal">
+ 
+ <div class="step-icon">📚</div>
+  <div class="step-title">Learn</div>
+ <div class="step-desc">Acquire the required skills</div>
+ </div>
+ <div class="journey-arrow">&rarr;</div>
+ <div class="journey-step reveal">
+ 
+ <div class="step-icon">✏️</div>
+  <div class="step-title">Practice</div>
+ <div class="step-desc">Apply through exercises</div>
+ </div>
+ <div class="journey-arrow">&rarr;</div>
+ <div class="journey-step reveal">
+ 
+ <div class="step-icon">⚙️</div>
+  <div class="step-title">Build</div>
+ <div class="step-desc">Create real-world projects</div>
+ </div>
+ <div class="journey-arrow">&rarr;</div>
+ <div class="journey-step reveal">
+ 
+ <div class="step-icon">🥇</div>
+  <div class="step-title">Prove</div>
+ <div class="step-desc">Build portfolio & skill profile</div>
+ </div>
+ <div class="journey-arrow">&rarr;</div>
+ <div class="journey-step reveal">
+ 
+ <div class="step-icon">🎯</div>
+  <div class="step-title">Prepare</div>
+ <div class="step-desc">CV, Interview, Branding</div>
+ </div>
+ <div class="journey-arrow">&rarr;</div>
+ <div class="journey-step reveal">
+ 
+ <div class="step-icon">🤝</div>
+  <div class="step-title">Connect</div>
+ <div class="step-desc">Access jobs & clients</div>
+ </div>
+ <div class="journey-arrow">&rarr;</div>
+ <div class="journey-step reveal">
+ 
+ <div class="step-icon">💵</div>
+  <div class="step-title">Earn</div>
+ <div class="step-desc">Start generating income</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+ <div class="container">
+ <div style="text-align:center;">
+ <div class="section-label" style="justify-content:center;"><span class="line"></span>  What Chango Offers</div>
+ <h2 class="section-title" style="margin:0 auto 0.5rem;">Everything You Need in <span style="background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">One Platform</span></h2>
+ <p class="section-desc" style="margin:0 auto;">No more jumping between 7-10 different platforms. Chango has it all.</p>
+ </div>
+ <div class="features-grid">
+ <div class="feature-card reveal">
+ 
+ <div class="feature-icon">🧭</div>
+  <h3>Personalized Roadmaps</h3>
+ <p>Tell us your goal, level, and available time. We build a custom learning path just for you — from basics to job-ready.</p>
+ </div>
+ <div class="feature-card reveal">
+ 
+ <div class="feature-icon">🛠️</div>
+  <h3>Practical Learning</h3>
+ <p>Every stage includes Learn, Practice, Test, and Build. You don't just watch — you do. Real skills, real projects.</p>
+ </div>
+ <div class="feature-card reveal">
+ 
+ <div class="feature-icon">🖥️</div>
+  <h3>Real-World Projects</h3>
+ <p>Not another To-Do List. Build E-commerce APIs, CRM systems, Booking platforms — projects that reflect real market needs.</p>
+ </div>
+ <div class="feature-card reveal">
+ 
+ <div class="feature-icon">🏅</div>
+  <h3>Skill Verification</h3>
+ <p>Skill assessments, project evaluations, and a verified Chango Skill Profile that proves you know what you claim.</p>
+ </div>
+ <div class="feature-card reveal">
+ 
+ <div class="feature-icon">👔</div>
+  <h3>Career Preparation</h3>
+ <p>CV building, LinkedIn optimization, interview prep, personal branding, freelancing skills — owning a skill doesn't mean you can sell it.</p>
+ </div>
+ <div class="feature-card reveal">
+ 
+ <div class="feature-icon">🧑💼</div>
+  <h3>Opportunity Marketplace</h3>
+ <p>Companies post jobs, internships, and projects. Freelancers showcase skills and portfolios. Talent meets opportunity.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+ <div class="container">
+ <div style="text-align:center;">
+ <div class="section-label" style="justify-content:center;"><span class="line"></span>  Real Projects</div>
+ <h2 class="section-title" style="margin:0 auto 0.5rem;">Not Toy Projects. <span style="background:var(--gradient-3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Real Business Systems.</span></h2>
+ <p class="section-desc" style="margin:0 auto;">Build projects that reflect actual market needs and impress employers.</p>
+ </div>
+ <div class="projects-showcase">
+ <div class="project-card reveal">
+ <div class="project-preview"><img src="images/E-Commerce API.jpg" alt="E-Commerce API"></div>
+ <div class="project-info">
+ <div class="project-tag">Backend</div>
+ <h3>E-Commerce API</h3>
+ <p>Full-featured API with auth, payments, inventory, and order management.</p>
+ </div>
+ </div>
+ <div class="project-card reveal">
+ <div class="project-preview"><img src="images/Restaurant Management.png" alt="Restaurant Management"></div>
+ <div class="project-info">
+ <div class="project-tag">Full Stack</div>
+ <h3>Restaurant Management</h3>
+ <p>Orders, menu, reservations, and staff management system.</p>
+ </div>
+ </div>
+ <div class="project-card reveal">
+ <div class="project-preview"><img src="images/Customer Relations.jpg" alt="Customer Relations"></div>
+ <div class="project-info">
+ <div class="project-tag">CRM</div>
+ <h3>Customer Relations</h3>
+ <p>Lead tracking, pipeline management, and analytics dashboard.</p>
+ </div>
+ </div>
+ <div class="project-card reveal">
+ <div class="project-preview"><img src="images/Booking System.webp" alt="Booking System"></div>
+ <div class="project-info">
+ <div class="project-tag">Booking</div>
+ <h3>Booking System</h3>
+ <p>Scheduling, calendar integration, and payment processing.</p>
+ </div>
+ </div>
+ <div class="project-card reveal">
+ <div class="project-preview"><img src="images/Inventory System.webp" alt="Inventory System"></div>
+ <div class="project-info">
+ <div class="project-tag">Inventory</div>
+ <h3>Inventory System</h3>
+ <p>Stock tracking, suppliers, alerts, and reporting.</p>
+ </div>
+ </div>
+ <div class="project-card reveal">
+ <div class="project-preview"><img src="images/Marketing Dashboard.jpeg" alt="Marketing Dashboard"></div>
+ <div class="project-info">
+ <div class="project-tag">Analytics</div>
+ <h3>Marketing Dashboard</h3>
+ <p>Campaign tracking, ROI analysis, and data visualization.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how">
+ <div class="container">
+ <div style="text-align:center;">
+ <div class="section-label" style="justify-content:center;"><span class="line"></span>  How It Works</div>
+ <h2 class="section-title" style="margin:0 auto 0.5rem;">Four Steps to <span style="background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Your First Opportunity</span></h2>
+ </div>
+ <div class="steps-container">
+ <div class="step-card reveal">
+ <div class="step-number">1</div>
+ <h3>Tell Us Your Goal</h3>
+ <p>Answer a few questions about your experience, goals, and available time. We'll build your personalized roadmap.</p>
+ <div class="step-connector">&rarr;</div>
+ </div>
+ <div class="step-card reveal">
+ <div class="step-number">2</div>
+ <h3>Learn & Build</h3>
+ <p>Follow your roadmap, complete lessons, tackle challenges, and build real-world projects step by step.</p>
+ <div class="step-connector">&rarr;</div>
+ </div>
+ <div class="step-card reveal">
+ <div class="step-number">3</div>
+ <h3>Prove Your Skills</h3>
+ <p>Complete assessments, build your portfolio, and create a verified Chango Skill Profile.</p>
+ <div class="step-connector">&rarr;</div>
+ </div>
+ <div class="step-card reveal">
+ <div class="step-number">4</div>
+ <h3>Get Hired</h3>
+ <p>Access the opportunity marketplace, connect with companies, and land your first job, internship, or client.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- AI ASSISTANT -->
+<section class="ai-section" id="ai">
+ <div class="container">
+ <div class="ai-content">
+ <div class="reveal">
+ <div class="section-label"><span class="line"></span>  AI Assistant</div>
+ <h2 class="section-title">Your Personal <span style="background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Learning & Career Guide</span></h2>
+ <p class="section-desc" style="margin-bottom:2rem;">
+ An AI that's available throughout your entire journey — helping you choose a path, understand concepts, review projects, prepare for interviews, and craft winning proposals.
+ </p>
+ <div class="ai-features">
+ <div class="ai-feature">
+ 
+ <div class="aicon">🔮</div>
+  <span>Choose Your Path</span>
+ </div>
+ <div class="ai-feature">
+ 
+ <div class="aicon">💡</div>
+  <span>Explain Concepts</span>
+ </div>
+ <div class="ai-feature">
+ 
+ <div class="aicon">🔬</div>
+  <span>Review Projects</span>
+ </div>
+ <div class="ai-feature">
+ 
+ <div class="aicon">🗣️</div>
+  <span>Interview Prep</span>
+ </div>
+ <div class="ai-feature">
+ 
+ <div class="aicon">🧾</div>
+  <span>CV Analysis</span>
+ </div>
+ <div class="ai-feature">
+ 
+ <div class="aicon">✍️</div>
+  <span>Proposal Writing</span>
+ </div>
+ <div class="ai-feature">
+ 
+ <div class="aicon">📋</div>
+  <span>Job Description Analysis</span>
+ </div>
+ <div class="ai-feature">
+ 
+ <div class="aicon">⚖️</div>
+  <span>Skill Gap Analysis</span>
+ </div>
+ <div class="ai-feature">
+ 
+ <div class="aicon">📊</div>
+  <span>English Level Test</span>
+ </div>
+ </div>
+ <div class="hero-buttons" style="margin-top:2rem; justify-content:flex-start;">
+ <a href="languages/level.html" class="btn btn-primary">Discover Your English Level</a>
+ </div>
+ </div>
+ <div class="ai-visual reveal">
+ <div class="ai-bot">
+ <div class="ai-bot-header">
+ 
+<div>
+  <div class="ai-bot-avatar">🦾</div>
+  <div class="ai-bot-name">Chango AI</div>
+  <div class="ai-bot-status">● Online</div>
+  </div>
+ </div>
+ <div class="ai-chat">
+ <div class="chat-msg chat-user">I want to become a Backend Developer. Where do I start?</div>
+ <div class="chat-msg chat-bot">Great choice! Based on your experience level, I recommend starting with PHP fundamentals. Let me create a personalized roadmap for you...</div>
+ <div class="chat-msg chat-user">What project should I build for my portfolio?</div>
+ <div class="chat-msg chat-bot">For maximum impact, I suggest building an E-Commerce API. It covers auth, databases, payments, and real business logic that employers value.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- MARKETPLACE -->
+<section class="marketplace" id="marketplace">
+ <div class="container">
+ <div style="text-align:center;">
+ <div class="section-label" style="justify-content:center;"><span class="line"></span>  Opportunity Marketplace</div>
+ <h2 class="section-title" style="margin:0 auto 0.5rem;">Where <span style="background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Talent Meets Opportunity</span></h2>
+ <p class="section-desc" style="margin:0 auto;">Chango isn't just an education platform — it's a marketplace that connects skilled talent with real opportunities.</p>
+ </div>
+ <div class="marketplace-visual">
+ <div class="mp-side reveal">
+ <div class="mp-card">
+ 
+ <div class="mp-card-text">
+ <div class="mp-card-icon">🧑</div>
+  <h4>Learners & Freelancers</h4>
+ <p>Showcase verified skills, projects, and portfolio</p>
+ </div>
+ </div>
+ <div class="mp-card">
+ 
+ <div class="mp-card-text">
+ <div class="mp-card-icon">💻</div>
+  <h4>Skilled Professionals</h4>
+ <p>Demonstrate assessments and achievements</p>
+ </div>
+ </div>
+ <div class="mp-card">
+ 
+ <div class="mp-card-text">
+ <div class="mp-card-icon">✅</div>
+  <h4>Verified Talent</h4>
+ <p>Project-backed skill profiles that employers trust</p>
+ </div>
+ </div>
+ </div>
+ <div class="mp-bridge reveal">
+ <div class="mp-bridge-icon">⚡</div>
+ <div class="mp-bridge-text">CHANGO</div>
+ </div>
+ <div class="mp-side reveal">
+ <div class="mp-card right">
+ 
+ <div class="mp-card-text">
+ <div class="mp-card-icon">🏢</div>
+  <h4>Companies</h4>
+ <p>Post jobs, internships, and freelance projects</p>
+ </div>
+ </div>
+ <div class="mp-card right">
+ 
+ <div class="mp-card-text">
+ <div class="mp-card-icon">⭐</div>
+  <h4>Opportunities</h4>
+ <p>Full-time, part-time, internships, and freelance</p>
+ </div>
+ </div>
+ <div class="mp-card right">
+ 
+ <div class="mp-card-text">
+ <div class="mp-card-icon">🔗</div>
+  <h4>Direct Connections</h4>
+ <p>Pre-trained, assessed, project-backed talent</p>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+ <div class="container-center">
+ <div style="text-align:center;">
+ <div class="section-label" style="justify-content:center;"><span class="line"></span>  Business Model</div>
+ <h2 class="section-title" style="margin:0 auto 0.5rem;">Start Free, <span style="background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Upgrade When Ready</span></h2>
+ <p class="section-desc" style="margin:0 auto;">A hybrid model designed for flexibility and growth.</p>
+ </div>
+ <div class="pricing-grid" >
+ <!-- <div class="price-card reveal">
+ <h3>Free</h3>
+ <p style="color:var(--text-dim);font-size:0.9rem;">Start your journey</p>
+ <div class="price-amount">$0 <span>/ forever</span></div>
+ <ul class="price-features">
+ <li><span class="check">✓</span> Basic learning content</li>
+ <li><span class="check">✓</span> Skill assessment</li>
+ <li><span class="check">✓</span> Basic roadmap</li>
+ <li><span class="check">✓</span> Community access</li>
+ <li><span class="check">✓</span> Progress tracking</li>
+ </ul>
+ <a href="#cta" class="btn btn-outline" style="width:100%;justify-content:center;">Get Started Free</a>
+ </div> -->
+ <div class="price-card featured reveal">
+ <div class="bc-ribbon">Most Popular</div>
+ <div class="bc-icon">🚀</div>
+ <h3>Career English Bootcamp</h3>
+ <p class="bc-sub">4 weeks of focused, career-driven English training.</p>
+ <div class="price-amount" ><span class="bc-currency">EGP</span> 999 <span class="bc-per">/ 4 weeks</span></div>
+ <ul class="price-features">
+ <li><span class="check">✓</span> Weekly live sessions</li>
+ <li><span class="check">✓</span> Practice materials & resources</li>
+ <li><span class="check">✓</span> Weekly assessments</li>
+ <li><span class="check">✓</span> Final assessment & Chango Score</li>
+ <li><span class="check">✓</span> Career profile creation</li>
+ </ul>
+ <a href="https://chat.whatsapp.com/ImsdjravuSIAfRxk9TRonB" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%;justify-content:center;">Start Now ➜</a>
+ </div>
+ <!-- <div class="price-card reveal">
+ <h3>Enterprise</h3>
+ <p style="color:var(--text-dim);font-size:0.9rem;">For teams & companies</p>
+ <div class="price-amount">Custom</div>
+ <ul class="price-features">
+ <li><span class="check">✓</span> Talent access</li>
+ <li><span class="check">✓</span> Recruitment pipeline</li>
+ <li><span class="check">✓</span> Skill assessment tools</li>
+ <li><span class="check">✓</span> Corporate training</li>
+ <li><span class="check">✓</span> Custom integrations</li>
+ <li><span class="check">✓</span> Dedicated support</li>
+ </ul>
+ <a href="#cta" class="btn btn-outline" style="width:100%;justify-content:center;">Contact Sales</a>
+ </div> -->
+ </div>
+ </div>
+</section>
+
+<!-- TESTIMONIALS -->
+
+
+<!-- CTA -->
+<section class="cta" id="cta">
+ <div class="cta-box reveal">
+ <h2>Ready to Turn Your Skills Into Real Opportunities?</h2>
+ <p>Stop jumping between platforms. Start your integrated journey from learning to earning with Chango.</p>
+ <div class="cta-buttons">
+ <a href="https://chat.whatsapp.com/ImsdjravuSIAfRxk9TRonB" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-large">Get Started Free</a>
+ <a href="journey.html" class="btn btn-journey btn-large">Start Your Journey ➜</a>
+ <a href="#pricing" class="btn btn-outline btn-large">Book a Demo</a>
+ </div>
+ </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-grid">
+ <div class="footer-brand">
+ <a href="#" class="logo">
+ <div class="logo-icon"><img src="images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <p>The bridge between skills and opportunities. Learn, build, prove, and connect with real career opportunities — all in one platform.</p>
+ </div>
+ <div class="footer-col">
+ <h4>Platform</h4>
+ <a href="#features">Features</a>
+ <a href="#projects">Projects</a>
+ <a href="#ai">AI Assistant</a>
+ <a href="#pricing">Pricing</a>
+ <a href="#marketplace">Marketplace</a>
+ </div>
+ <div class="footer-col">
+ <h4>Tracks</h4>
+ <a href="#">Backend Development</a>
+ <a href="#">Frontend Development</a>
+ <a href="#">Data Analysis</a>
+ <a href="#">Digital Marketing</a>
+ <a href="#">UI/UX Design</a>
+ <a href="#">Languages</a>
+ </div>
+ <div class="footer-col">
+ <h4>Company</h4>
+ <a href="#">About Us</a>
+ <a href="#">Careers</a>
+ <a href="#">Blog</a>
+ <a href="#">Contact</a>
+ <a href="#">Privacy Policy</a>
+ </div>
+ </div>
+ <div class="footer-bottom">
+ <p>&copy; 2026 Chango. All rights reserved.</p>
+ <div class="footer-social">
+ <a href="https://lnkd.in/eKgC9ajq" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+ <!--<a href="#" aria-label="GitHub">GH</a>
+ <a href="#" aria-label="YouTube">YT</a>--> 
+ <a href="https://chat.whatsapp.com/ImsdjravuSIAfRxk9TRonB" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WS</a>
+ </div>
+ </div>
+</footer>
+
+<script>
+ // Navbar scroll
+ const navbar = document.getElementById('navbar');
+ window.addEventListener('scroll', () => {
+ navbar.classList.toggle('scrolled', window.scrollY > 50);
+ });
+
+ // Hamburger
+ const hamburger = document.getElementById('hamburger');
+ const navLinks = document.getElementById('navLinks');
+ hamburger.addEventListener('click', () => {
+ navLinks.classList.toggle('active');
+ });
+
+ // Close mobile nav on link click
+ navLinks.querySelectorAll('a').forEach(link => {
+ link.addEventListener('click', () => navLinks.classList.remove('active'));
+ });
+
+ // Scroll reveal
+ const reveals = document.querySelectorAll('.reveal');
+ const observer = new IntersectionObserver((entries) => {
+ entries.forEach((entry, i) => {
+ if (entry.isIntersecting) {
+ setTimeout(() => {
+ entry.target.classList.add('visible');
+ }, i * 80);
+ observer.unobserve(entry.target);
+ }
+ });
+ }, { threshold: 0.1 });
+
+ reveals.forEach(el => observer.observe(el));
+
+ // Smooth scroll for anchor links
+ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+ anchor.addEventListener('click', function(e) {
+ const target = document.querySelector(this.getAttribute('href'));
+ if (target) {
+ e.preventDefault();
+ target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+ }
+ });
+ });
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Gym & Fitness — Let Chango Coach Build Your Plan | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="stylesheet" href="gym-app.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <div class="nav-right">
+ <a href="../index.html" class="nav-link">Home</a>
+ <a href="../journey.html" class="nav-link">Journeys</a>
+ <a href="gym.html" class="nav-link active">Gym</a>
+ <!-- <a href="../languages/test.html" class="nav-link">Level Test</a> -->
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ </div>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<!-- HERO -->
+<section class="gym-hero">
+ <div class="hero-bg">
+ <div class="orb orb-1"></div>
+ <div class="orb orb-2"></div>
+ <div class="orb orb-3"></div>
+ <div class="hero-grid"></div>
+ </div>
+ <div class="hero-content">
+ <h1>Let Chango Coach Build Your <span class="accent-text">Plan</span></h1>
+ <p class="hero-sub">Tell us your goal, level, and available time. Get a free starter fitness plan instantly — with the exact exercise, the muscle it targets, sets × reps, and rest.</p>
+ <div class="hero-buttons">
+ <a href="#plan-builder" class="btn btn-primary btn-large">START MY PLAN </a>
+ <a href="#features" class="btn btn-outline btn-large">See How It Works</a>
+ </div>
+ <div class="hero-trust">
+ <span>⚡ Free starter plan</span>
+ <span>🌱 No experience needed</span>
+ <span>🛡️ Safe, general guidance</span>
+ </div>
+ <div class="steps-mini">
+ <div class="s"><b>🎯 Goal</b></div><div class="arrow">→</div>
+ <div class="s"><b>📊 Level</b></div><div class="arrow">→</div>
+ <div class="s"><b>📅 Days</b> </div><div class="arrow">→</div>
+ <div class="s"><b>🏠 Gym / Home</b> </div><div class="arrow">→</div>
+ <div class="s"><b>📋 Body Data</b> </div><div class="arrow">→</div>
+ <div class="s"><b>Your Plan</b> <b style="color:#FB923C;"></b></div>
+ </div>
+ </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+ <div class="container" style="max-width:1120px;margin:0 auto;">
+ <div class="section-head">
+ <div class="section-label"><span class="line"></span> What the Coach Does</div>
+ <h2 class="section-title">A Plan You Can Actually <span class="gradient-text">Understand</span></h2>
+ <p class="section-desc">Not "just do 3×12" — every exercise shows you which muscle it targets, how to perform it, and why it is in your plan. That's education, not guessing.</p>
+ </div>
+ <div class="feature-grid">
+ <div class="feature-card">
+ 
+ <div class="feature-icon">🏋️</div>
+<h3>Weekly Workout</h3>
+ <p>A full week built around your goal, level, days, and whether you train at a gym or at home. Rest days included.</p>
+ </div>
+ <div class="feature-card">
+ 
+ <div class="feature-icon">🎯</div>
+<h3>Muscle Targets</h3>
+ <p>Each exercise shows its primary muscle and secondary muscles — so you always know <b>what you're training and why</b>.</p>
+ </div>
+ <div class="feature-card">
+ 
+ <div class="feature-icon">🍽️</div>
+<h3>Nutrition Guidance</h3>
+ <p>Daily calories, protein, carbs, fats, and water based on your body data, goal, activity, and food preferences.</p>
+ </div>
+ <div class="feature-card">
+ 
+ <div class="feature-icon">🥗</div>
+<h3>Meal Builder</h3>
+ <p>Pick ingredients and get a balanced meal that fits your calorie and protein targets for each meal of the day.</p>
+ </div>
+ <div class="feature-card">
+ 
+ <div class="feature-icon">📈</div>
+<h3>Progress Tracking</h3>
+ <p>Log weight, measurements, energy, and consistency every week and watch your dashboard grow.</p>
+ </div>
+ <div class="feature-card">
+ 
+ <div class="feature-icon">🤖</div>
+<h3>AI Coach Chat</h3>
+ <p>Ask about technique, weight, recovery, or nutrition. The coach helps — but never acts like a doctor or dietitian.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- PLAN BUILDER -->
+<section class="section" id="plan-builder" style="padding-top:1rem;">
+ <div class="container" style="max-width:820px;margin:0 auto;">
+ <div class="section-head">
+ <div class="section-label"><span class="line"></span> Build My Plan</div>
+ <h2 class="section-title">Answer 5 Quick Steps — <span class="gradient-text">Get Your Free Plan</span></h2>
+ <p class="section-desc">Takes about 60 seconds. No payment, no downloads.</p>
+ </div>
+
+ <div class="wizard" id="wizard">
+ <div class="wizard-card">
+ <div class="wizard-progress">
+ <span class="wpill">Answered <b id="wnNow">0</b>/<b id="wnTotal">5</b></span>
+ <div class="wprogress-track"><div class="wprogress-fill" id="wprogressFill" style="width:0%"></div></div>
+ </div>
+
+ <div class="wstep" id="wsStep0"></div>
+ <div class="wstep" id="wsStep1"></div>
+ <div class="wstep" id="wsStep2"></div>
+ <div class="wstep" id="wsStep3"></div>
+ <div class="wstep" id="wsStep4"></div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- FLOW -->
+<section class="section" id="how">
+ <div class="container" style="max-width:1120px;margin:0 auto;">
+ <div class="section-head">
+ <div class="section-label"><span class="line"></span> The Journey</div>
+ <h2 class="section-title">From Your Goal to a <span class="gradient-text">Personalized Plan</span></h2>
+ </div>
+ <div class="flow-grid">
+ <div class="flow-card"><div class="flow-num">1</div><h4>🎯 Tell Us Your Goal</h4><p>Muscle gain, fat loss, strength, weight, or fitness.</p></div>
+ <div class="flow-card"><div class="flow-num">2</div><h4>🔍 We Assess You</h4><p>Level, training days, gym or home, and body data.</p></div>
+ <div class="flow-card"><div class="flow-num">3</div><h4>🎁 Get Your Free Plan</h4><p>Weekly workouts, muscle targets, sets × reps, rest, and nutrition guidance.</p></div>
+ <div class="flow-card"><div class="flow-num">4</div><h4>🔥 Go Full Gas</h4><p>Unlock the full 4-week plan with a real coach, gym access, and follow-up.</p></div>
+ </div>
+ </div>
+</section>
+
+<!-- MEMBER EXAMPLE -->
+<section class="section" id="example">
+ <div class="container" style="max-width:820px;margin:0 auto;">
+ <div class="section-head">
+ <div class="section-label"><span class="line"></span> Example</div>
+ <h2 class="section-title">Meet Ahmed — <span class="gradient-text">Build Muscle, 4 Days</span></h2>
+ <p class="section-desc">Ahmed chose Build Muscle, Beginner, 4 training days, at the gym. The coach generated this week for him.</p>
+ </div>
+ <div class="day-grid">
+ <div class="day-card">
+ <div class="day-head"><div><div class="day-name">DAY 1 · MON</div><div class="day-title">Chest + Triceps</div></div></div>
+ <div class="day-body">
+ <div class="ex-row">
+ <div class="ex-info"><div class="ex-name">Bench Press</div>
+ <div class="muscle-chips"><span class="m-chip primary">Chest</span><span class="m-chip secondary">Triceps</span><span class="m-chip secondary">Front Delts</span></div>
+ <div class="ex-meta"><span class="ex-m">3–4 Sets</span><span class="ex-m">8–12 Reps</span><span class="ex-m">90 sec Rest</span></div></div>
+ </div>
+ <div class="ex-row">
+ <div class="ex-info"><div class="ex-name">Incline Dumbbell Press</div>
+ <div class="muscle-chips"><span class="m-chip primary">Chest (Upper)</span><span class="m-chip secondary">Triceps</span></div>
+ <div class="ex-meta"><span class="ex-m">3 Sets</span><span class="ex-m">8–12 Reps</span><span class="ex-m">90 sec Rest</span></div></div>
+ </div>
+ <div class="ex-row">
+ <div class="ex-info"><div class="ex-name">Cable Fly</div>
+ <div class="muscle-chips"><span class="m-chip primary">Chest</span><span class="m-chip secondary">Front Delts</span></div>
+ <div class="ex-meta"><span class="ex-m">3 Sets</span><span class="ex-m">8–12 Reps</span><span class="ex-m">75 sec Rest</span></div></div>
+ </div>
+ </div>
+ </div>
+ <div class="day-card">
+ <div class="day-head"><div><div class="day-name">DAY 2 · TUE</div><div class="day-title">Back + Biceps</div></div></div>
+ <div class="day-body">
+ <div class="ex-row">
+ <div class="ex-info"><div class="ex-name">Lat Pulldown</div>
+ <div class="muscle-chips"><span class="m-chip primary">Back (Lats)</span><span class="m-chip secondary">Biceps</span></div>
+ <div class="ex-meta"><span class="ex-m">3 Sets</span><span class="ex-m">8–12 Reps</span><span class="ex-m">75 sec Rest</span></div></div>
+ </div>
+ <div class="ex-row">
+ <div class="ex-info"><div class="ex-name">One-Arm Dumbbell Row</div>
+ <div class="muscle-chips"><span class="m-chip primary">Back</span><span class="m-chip secondary">Biceps</span></div>
+ <div class="ex-meta"><span class="ex-m">3 Sets</span><span class="ex-m">8–12 Reps</span><span class="ex-m">75 sec Rest</span></div></div>
+ </div>
+ </div>
+ </div>
+ <div class="rest-card">
+ 
+ <div class="r-title">WED · Rest Day</div>
+ <div class="r-sub">Recovery is part of the plan.</div>
+ </div>
+ <div class="day-card">
+ <div class="day-head"><div><div class="day-name">DAY 4 · THU</div><div class="day-title">Legs</div></div></div>
+ <div class="day-body">
+ <div class="ex-row">
+ <div class="ex-info"><div class="ex-name">Leg Press</div>
+ <div class="muscle-chips"><span class="m-chip primary">Quads</span><span class="m-chip secondary">Glutes</span></div>
+ <div class="ex-meta"><span class="ex-m">4 Sets</span><span class="ex-m">8–12 Reps</span><span class="ex-m">90 sec Rest</span></div></div>
+ </div>
+ <div class="ex-row">
+ <div class="ex-info"><div class="ex-name">Bodyweight Squat</div>
+ <div class="muscle-chips"><span class="m-chip primary">Quads</span><span class="m-chip secondary">Glutes</span></div>
+ <div class="ex-meta"><span class="ex-m">3 Sets</span><span class="ex-m">8–12 Reps</span><span class="ex-m">75 sec Rest</span></div></div>
+ </div>
+ </div>
+ </div>
+ <div class="day-card">
+ <div class="day-head"><div><div class="day-name">DAY 5 · FRI</div><div class="day-title">Upper Body</div></div></div>
+ <div class="day-body">
+ <div class="ex-row">
+ <div class="ex-info"><div class="ex-name">Seated Dumbbell Shoulder Press</div>
+ <div class="muscle-chips"><span class="m-chip primary">Shoulders</span><span class="m-chip secondary">Triceps</span></div>
+ <div class="ex-meta"><span class="ex-m">3 Sets</span><span class="ex-m">8–12 Reps</span><span class="ex-m">90 sec Rest</span></div></div>
+ </div>
+ <div class="ex-row">
+ <div class="ex-info"><div class="ex-name">Barbell Curl</div>
+ <div class="muscle-chips"><span class="m-chip primary">Biceps</span></div>
+ <div class="ex-meta"><span class="ex-m">3 Sets</span><span class="ex-m">8–12 Reps</span><span class="ex-m">60 sec Rest</span></div></div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="disclaimer" style="max-width:100%;">
+ This starter plan is general guidance for demonstration. It does not replace an assessment by a coach, doctor, or dietitian — especially for medical conditions, allergies, or eating disorders.
+ </div>
+ </div>
+</section>
+
+<!-- SAFETY -->
+<section class="section" id="safety">
+ <div class="container" style="max-width:820px;margin:0 auto;">
+ <div class="note-box">
+ <h4>Smart &amp; Safe</h4>
+ <ul>
+ <li>The AI coach helps with training technique and general nutrition — it never acts as a doctor or a dietitian.</li>
+ <li>If you have pain, an injury, or a medical condition, the coach will always tell you to consult a professional.</li>
+ <li>Nutrition targets are general estimates. For medical conditions, allergies, or eating disorders, get a plan from a qualified specialist.</li>
+ <li>You always know what your plan includes and why — full transparency in every exercise.</li>
+ </ul>
+ </div>
+ </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+ <div class="container" style="max-width:820px;margin:0 auto;">
+ <div class="cta-box">
+ <h2>Want the Full 4-Week Plan With a <span class="accent-text">Real Coach</span>?</h2>
+ <p>Your free starter plan is the first step. Upgrade to a real coach, gym access, weekly follow-up, and progress reviews.</p>
+ <div class="hero-buttons">
+ <a href="#plan-builder" class="btn btn-journey btn-large">START MY PLAN </a>
+ <a href="https://chat.whatsapp.com/ImsdjravuSIAfRxk9TRonB" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-large">Book Free Trial </a>
+ </div>
+ </div>
+ </div>
+</section>
+
+<footer>
+ <div class="footer-inner">
+ <div class="footer-brand"><img src="../images/Logo.jpg" alt="Chango logo"> Chango — The bridge between skills and opportunities</div>
+ <div class="footer-links">
+ <a href="../index.html">Home</a>
+ <a href="../journey.html">Journeys</a>
+ <a href="gym.html">GYM</a>
+ <!-- <a href="../languages/test.html">Level Test</a> -->
+ </div>
+ </div>
+</footer>
+
+<script src="gym-data.js"></script>
+<script>
+ var state = { goal: null, level: null, days: null, place: null, gender: 'male', age: '', height: '', weight: '', activity: 'light', diet: 'none', name: '', phone: '' };
+ var currentStep = 0;
+ var totalSteps = 5;
+
+ function stepIcon(s) { return '<div class="wsnum">STEP ' + (s + 1) + '</div>'; }
+
+ function renderStep(s) {
+ var el = document.getElementById('wsStep' + s);
+ var out = '';
+ if (s === 0) {
+ out += stepIcon(s);
+ out += '<div class="ws-title">🎯 What\'s your goal?</div>';
+ out += '<div class="ws-sub">This decides your training style, sets × reps, and nutrition target.</div>';
+ out += '<div class="opt-grid stacked">';
+ GYM_GOALS.forEach(function (g, i) {
+out += '<button class="opt-card" data-goal="' + g.id + '">' +
+  '<span class="oc-txt"><b>' + g.label + '</b><span>' + g.desc + '</span></span>' +
+ '<span class="tick">✓</span></button>';
+ });
+ out += '</div>';
+ } else if (s === 1) {
+ out += stepIcon(s);
+ out += '<div class="ws-title">📊 Your experience level?</div>';
+ out += '<div class="ws-sub">We pick exercises and difficulty that fit where you are right now.</div>';
+ out += '<div class="opt-grid stacked">';
+ GYM_LEVELS.forEach(function (l, i) {
+out += '<button class="opt-card" data-level="' + l.id + '">' +
+  '<span class="oc-txt"><b>' + l.label + '</b><span>' + l.desc + '</span></span>' +
+ '<span class="tick">✓</span></button>';
+ });
+ out += '</div>';
+ } else if (s === 2) {
+ out += stepIcon(s);
+ out += '<div class="ws-title">📅 How many days can you train per week?</div>';
+ out += '<div class="ws-sub">Be honest — consistency beats intensity. You can always increase later.</div>';
+ out += '<div class="opt-grid">';
+ GYM_DAYS_OPTIONS.forEach(function (d, i) {
+out += '<button class="opt-card" data-days="' + d + '">' +
+  '<span class="oc-txt"><b>' + d + ' days</b><span>Per week</span></span>' +
+ '<span class="tick">✓</span></button>';
+ });
+ out += '</div>';
+ } else if (s === 3) {
+ out += stepIcon(s);
+ out += '<div class="ws-title">🏟️ Where do you train?</div>';
+ out += '<div class="ws-sub">We adjust every exercise to what you actually have available.</div>';
+ out += '<div class="opt-grid">';
+ GYM_PLACES.forEach(function (p, i) {
+out += '<button class="opt-card" data-place="' + p.id + '">' +
+  '<span class="oc-txt"><b>' + p.label + '</b><span>' + p.desc + '</span></span>' +
+ '<span class="tick">✓</span></button>';
+ });
+ out += '</div>';
+ } else {
+ out += stepIcon(s);
+ out += '<div class="ws-title">📋 A few basics about you</div>';
+ out += '<div class="ws-sub">Used for your nutrition targets and progress dashboard. General guidance only — never a medical prescription.</div>';
+
+ out += '<div class="mb-cat">Gender</div><div class="opt-grid" style="margin-bottom:1rem;">';
+ GYM_GENDERS.forEach(function (g) {
+out += '<button class="opt-card" data-gender="' + g.id + '">' +
+  '<span class="oc-txt"><b>' + g.label + '</b></span>' +
+ '<span class="tick">✓</span></button>';
+ });
+ out += '</div>';
+
+ out += '<div class="form-grid">';
+ out += '<div class="field"><label for="inAge">Age</label><input class="in" id="inAge" type="number" min="13" max="100" placeholder="e.g. 22"></div>';
+ out += '<div class="field"><label for="inHeight">Height (cm)</label><input class="in" id="inHeight" type="number" min="120" max="220" placeholder="e.g. 175"></div>';
+ out += '<div class="field"><label for="inWeight">Weight (kg)</label><input class="in" id="inWeight" type="number" min="30" max="250" placeholder="e.g. 78"></div>';
+
+ out += '<div class="field"><label for="inActivity">Daily activity</label><select class="in" id="inActivity">';
+ GYM_ACTIVITY.forEach(function (a) { out += '<option value="' + a.id + '">' + a.label + '</option>'; });
+ out += '</select></div>';
+
+ out += '<div class="field"><label for="inDiet">Food preferences</label><select class="in" id="inDiet">';
+ GYM_DIETS.forEach(function (d) { out += '<option value="' + d.id + '">' + d.label + '</option>'; });
+ out += '</select></div>';
+ out += '<div class="field"><label for="inName">Your name <span style="color:var(--text-dim);font-weight:400;">(optional)</span></label><input class="in" id="inName" type="text" placeholder="e.g. Ahmed" autocomplete="name"></div>';
+ out += '</div>';
+ out += '<div class="field"><label for="inPhone">Phone / WhatsApp <span style="color:var(--text-dim);font-weight:400;">(optional — for your coach)</span></label><input class="in" id="inPhone" type="tel" placeholder="e.g. +20 1xx xxxx xxx" autocomplete="tel"></div>';
+ }
+
+ el.innerHTML = out;
+ restoreSelection(s);
+ wireOptions(s);
+ }
+
+ function restoreSelection(s) {
+ if (!el(s)) return;
+ if (s === 0 && state.goal) selectOpt(el(s), state.goal, 'data-goal');
+ if (s === 1 && state.level) selectOpt(el(s), state.level, 'data-level');
+ if (s === 2 && state.days) selectOpt(el(s), String(state.days), 'data-days');
+ if (s === 3 && state.place) selectOpt(el(s), state.place, 'data-place');
+ if (s === 4) {
+ if (el(s).querySelector('[data-gender="' + state.gender + '"]')) selectOpt(el(s), state.gender, 'data-gender');
+ var age = document.getElementById('inAge'); if (age) age.value = state.age;
+ var ht = document.getElementById('inHeight'); if (ht) ht.value = state.height;
+ var wt = document.getElementById('inWeight'); if (wt) wt.value = state.weight;
+ var act = document.getElementById('inActivity'); if (act) act.value = state.activity;
+ var diet = document.getElementById('inDiet'); if (diet) diet.value = state.diet;
+ var name = document.getElementById('inName'); if (name) name.value = state.name;
+ var phone = document.getElementById('inPhone'); if (phone) phone.value = state.phone;
+ }
+ }
+
+ function el(s) { return document.getElementById('wsStep' + s); }
+
+ function selectOpt(container, value, attr) {
+ var btns = container.querySelectorAll('[class="opt-card"]');
+ var found = false;
+ btns.forEach(function (b) {
+ if (b.getAttribute(attr) === value) {
+ b.classList.add('selected');
+ found = true;
+ } else {
+ b.classList.remove('selected');
+ }
+ });
+ return found;
+ }
+
+ function wireOptions(s) {
+ var container = el(s);
+ if (!container) return;
+ container.querySelectorAll('.opt-card').forEach(function (btn) {
+ btn.addEventListener('click', function () {
+ container.querySelectorAll('.opt-card').forEach(function (b) { b.classList.remove('selected'); });
+ btn.classList.add('selected');
+ if (btn.hasAttribute('data-goal')) state.goal = btn.getAttribute('data-goal');
+ if (btn.hasAttribute('data-level')) state.level = btn.getAttribute('data-level');
+ if (btn.hasAttribute('data-days')) state.days = parseInt(btn.getAttribute('data-days'), 10);
+ if (btn.hasAttribute('data-place')) state.place = btn.getAttribute('data-place');
+ if (btn.hasAttribute('data-gender')) state.gender = btn.getAttribute('data-gender');
+ updateProgress();
+ nextStep();
+ });
+ });
+ var age = document.getElementById('inAge');
+ if (age) { age.addEventListener('input', function () { state.age = age.value; updateProgress(); }); }
+ var ht = document.getElementById('inHeight');
+ if (ht) { ht.addEventListener('input', function () { state.height = ht.value; updateProgress(); }); }
+ var wt = document.getElementById('inWeight');
+ if (wt) { wt.addEventListener('input', function () { state.weight = wt.value; updateProgress(); }); }
+ var act = document.getElementById('inActivity');
+ if (act) { act.addEventListener('change', function () { state.activity = act.value; updateProgress(); }); }
+ var diet = document.getElementById('inDiet');
+ if (diet) { diet.addEventListener('change', function () { state.diet = diet.value; updateProgress(); }); }
+ var name = document.getElementById('inName');
+ if (name) { name.addEventListener('input', function () { state.name = name.value; }); }
+ var phone = document.getElementById('inPhone');
+ if (phone) { phone.addEventListener('input', function () { state.phone = phone.value; }); }
+
+ if (s === 4 && currentStep === s) {
+ addGenerateButton();
+ }
+ }
+
+ function addGenerateButton() {
+ var container = el(4);
+ if (!container || container.querySelector('.gen-btn')) return;
+ var btn = document.createElement('div');
+ btn.className = 'wbtn-row';
+ btn.innerHTML = '<button class="wbtn-back" onclick="prevStep()">← Back</button>' +
+ '<button class="btn btn-journey btn-large gen-btn" onclick="generatePlan()">GENERATE MY PLAN </button>';
+ container.appendChild(btn);
+ }
+
+ function stepDone(s) {
+ if (s === 0) return !!state.goal;
+ if (s === 1) return !!state.level;
+ if (s === 2) return !!state.days;
+ if (s === 3) return !!state.place;
+ if (s === 4) return stepBodyOk();
+ return false;
+ }
+
+ function stepBodyOk() {
+ var age = parseInt(state.age, 10);
+ var ht = parseInt(state.height, 10);
+ var wt = parseInt(state.weight, 10);
+ return age >= 13 && age <= 100 && ht >= 120 && ht <= 220 && wt >= 30 && wt <= 250;
+ }
+
+ function updateProgress() {
+ var done = 0;
+ for (var s = 0; s < totalSteps; s++) { if (stepDone(s)) done++; }
+ document.getElementById('wnNow').textContent = done;
+ document.getElementById('wnTotal').textContent = totalSteps;
+ document.getElementById('wprogressFill').style.width = Math.round(done / totalSteps * 100) + '%';
+ }
+
+ function nextStep() {
+ if (currentStep < totalSteps - 1 && stepDone(currentStep)) {
+ currentStep++;
+ showStep();
+ }
+ }
+
+ function prevStep() {
+ if (currentStep > 0) { currentStep--; showStep(); }
+ }
+
+ function showStep() {
+ for (var s = 0; s < totalSteps; s++) {
+ el(s).classList.toggle('active', s === currentStep);
+ }
+ renderStep(currentStep);
+ if (currentStep > 0) {
+ var btns = el(currentStep).querySelectorAll('.opt-card');
+ }
+ }
+
+ var errTimer = null;
+ function showError(msg) {
+ var t = document.getElementById('errorToast');
+ document.getElementById('errorToastText').textContent = msg;
+ t.classList.add('show');
+ t.classList.remove('shake');
+ void t.offsetWidth;
+ t.classList.add('shake');
+ clearTimeout(errTimer);
+ errTimer = setTimeout(function () { t.classList.remove('show'); }, 4000);
+ }
+
+ function generatePlan() {
+ if (!state.goal) { showError('Pick your goal first.'); return; }
+ if (!state.level) { showError('Pick your experience level.'); return; }
+ if (!state.days) { showError('Pick how many days you can train.'); return; }
+ if (!state.place) { showError('Pick where you train.'); return; }
+ if (!stepBodyOk()) { showError('Please enter a valid age, height, and weight to calculate your targets.'); return; }
+
+ var profile = {
+ goal: state.goal, level: state.level, days: state.days, place: state.place,
+ gender: state.gender, age: parseInt(state.age, 10), height: parseInt(state.height, 10),
+ weight: parseInt(state.weight, 10), activity: state.activity, diet: state.diet,
+ name: state.name.trim(), phone: state.phone.trim()
+ };
+ gymSaveProfile(profile);
+ gymLeadSave(profile);
+ gymInitProgress(profile);
+ window.location.href = 'gym-plan.html';
+ }
+
+ document.getElementById('errorToast') || (function () {
+ var t = document.createElement('div');
+ t.className = 'error-toast';
+ t.id = 'errorToast';
+ t.innerHTML = '<div class="err-icon">⚠️</div><div><b>Almost there!</b><span class="err-text" id="errorToastText"></span></div>';
+ document.body.appendChild(t);
+ })();
+
+ for (var s = 0; s < totalSteps; s++) { el(s).classList.toggle('active', s === currentStep); }
+ renderStep(0); renderStep(1); renderStep(2); renderStep(3); renderStep(4);
+ updateProgress();
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

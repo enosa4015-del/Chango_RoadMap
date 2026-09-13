@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Languages | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+ :root {
+ --primary: #6C3CE1;
+ --primary-light: #8B5CF6;
+ --primary-dark: #5224B5;
+ --accent: #F97316;
+ --accent-light: #FB923C;
+ --bg-dark: #0A0A0F;
+ --bg-card: #12121A;
+ --bg-card-hover: #1A1A25;
+ --text: #F8F8FC;
+ --text-muted: #9CA3AF;
+ --text-dim: #6B7280;
+ --border: #1F1F2E;
+ --gradient-1: linear-gradient(135deg, #6C3CE1, #F97316);
+ --gradient-2: linear-gradient(135deg, #8B5CF6, #6C3CE1);
+ --gradient-3: linear-gradient(135deg, #F97316, #EF4444);
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.35);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.3);
+ --radius: 20px;}
+
+ .theme-toggle {
+ width: 42px; height: 42px; min-width: 42px; border-radius: 12px; border: 1.5px solid var(--border);
+ background: var(--bg-card); color: var(--accent-light); cursor: pointer;
+ font-size: 1.15rem; display: inline-flex; align-items: center; justify-content: center;
+ transition: all 0.25s ease;
+ }
+ .theme-toggle:hover { border-color: var(--primary); box-shadow: var(--glow-purple); transform: translateY(-2px); }
+ [data-theme="light"] {
+ --bg-dark: #F5F6FB;
+ --bg-card: #FFFFFF;
+ --bg-card-hover: #EEF1F7;
+ --text: #14141B;
+ --text-muted: #3E4757;
+ --text-dim: #79808F;
+ --border: #E4E7EF;
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.12);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.1);
+ }
+ [data-theme="light"] nav { background: rgba(255, 255, 255, 0.88); }
+ [data-theme="light"] nav.scrolled { background: rgba(255, 255, 255, 0.97); box-shadow: 0 6px 24px rgba(24, 22, 48, 0.06); }
+ [data-theme="light"] .nav-links.active { background: rgba(255, 255, 255, 0.98); }
+ [data-theme="light"] .lang-card, [data-theme="light"] .coming-soon-card {
+ box-shadow: 0 12px 34px rgba(24, 22, 48, 0.07);
+ }
+ [data-theme="light"] .lang-card:hover {
+ box-shadow: 0 18px 44px rgba(24, 22, 48, 0.12);
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', sans-serif;
+ background: var(--bg-dark);
+ color: var(--text);
+ overflow-x: hidden;
+ line-height: 1.7;
+ }
+
+ ::-webkit-scrollbar { width: 10px; }
+ ::-webkit-scrollbar-track { background: transparent; }
+ ::-webkit-scrollbar-thumb { background: rgba(148, 148, 175, 0.35); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+ ::-webkit-scrollbar-thumb:hover { background: rgba(108, 60, 225, 0.7); border: 2px solid transparent; background-clip: padding-box; }
+ html { scrollbar-width: thin; scrollbar-color: rgba(148, 148, 175, 0.35) transparent; }
+
+ /* NAV */
+ nav {
+ position: fixed;
+ top: 0;
+ left: 0;
+ right: 0;
+ z-index: 1000;
+ padding: 1rem 2rem;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ backdrop-filter: blur(20px);
+ background: rgba(10, 10, 15, 0.8);
+ border-bottom: 1px solid var(--border);
+ transition: all 0.3s ease;
+ }
+
+ nav.scrolled {
+ padding: 0.6rem 2rem;
+ background: rgba(10, 10, 15, 0.95);
+ }
+
+ .logo {
+ display: flex;
+ align-items: center;
+ gap: 0.6rem;
+ text-decoration: none;
+ }
+
+ .logo-icon {
+ width: 42px;
+ height: 42px;
+ background: var(--gradient-1);
+ border-radius: 12px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ overflow: hidden;
+ box-shadow: var(--glow-purple);
+ }
+
+ .logo-icon img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ }
+
+ .logo-text {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 1.5rem;
+ font-weight: 700;
+ background: var(--gradient-1);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ .nav-links {
+ display: flex;
+ align-items: center;
+ gap: 2rem;
+ list-style: none;
+ }
+
+ .nav-links a {
+ color: var(--text-muted);
+ text-decoration: none;
+ font-size: 0.9rem;
+ font-weight: 500;
+ transition: color 0.3s;
+ position: relative;
+ }
+
+ .nav-links a:hover { color: var(--text); }
+
+ .nav-links a::after {
+ content: '';
+ position: absolute;
+ bottom: -4px;
+ left: 0;
+ width: 0;
+ height: 2px;
+ background: var(--gradient-1);
+ border-radius: 2px;
+ transition: width 0.3s ease;
+ }
+
+ .nav-links a:hover::after { width: 100%; }
+
+ .btn {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ padding: 0.7rem 1.6rem;
+ border-radius: 12px;
+ font-weight: 700;
+ font-size: 0.9rem;
+ text-decoration: none;
+ transition: all 0.3s ease;
+ cursor: pointer;
+ border: none;
+ font-family: 'Inter', sans-serif;
+ }
+
+ .btn-primary {
+ background: var(--gradient-1);
+ color: white;
+ box-shadow: 0 4px 20px rgba(108, 60, 225, 0.4);
+ }
+
+ .btn-primary:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 8px 30px rgba(108, 60, 225, 0.6);
+ }
+
+ .hamburger {
+ display: none;
+ flex-direction: column;
+ gap: 5px;
+ cursor: pointer;
+ background: none;
+ border: none;
+ }
+
+ .hamburger span {
+ width: 25px;
+ height: 2px;
+ background: var(--text);
+ transition: 0.3s;
+ }
+
+ /* HERO */
+ .hero {
+ min-height: 100vh;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+ padding: 8rem 2rem 4rem;
+ position: relative;
+ overflow: hidden;
+ background: linear-gradient(180deg, #0A0A0F 0%, #12101F 100%);
+ }
+
+ [data-theme="light"] .hero {
+ background: linear-gradient(180deg, #F5F6FB 0%, #EEF0F8 100%);
+ }
+
+ .hero-bg {
+ position: absolute;
+ inset: 0;
+ overflow: hidden;
+ pointer-events: none;
+ }
+
+ .orb {
+ position: absolute;
+ border-radius: 50%;
+ filter: blur(120px);
+ opacity: 0.5;
+ animation: float 8s ease-in-out infinite;
+ }
+
+ .orb-1 { width: 420px; height: 420px; background: rgba(108, 60, 225, 0.55); top: -10%; left: -5%; }
+ .orb-2 { width: 380px; height: 380px; background: rgba(34, 211, 238, 0.35); bottom: -10%; right: -5%; animation-delay: 2s; }
+ .orb-3 { width: 260px; height: 260px; background: rgba(249, 115, 22, 0.3); top: 40%; left: 45%; animation-delay: 4s; }
+
+ @keyframes float {
+ 0%, 100% { transform: translateY(0); }
+ 50% { transform: translateY(-40px); }
+ }
+
+ .hero-grid {
+ position: absolute;
+ inset: 0;
+ background-image:
+ linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
+ linear-gradient(90deg, rgba(139, 92, 246, 0.06) 1px, transparent 1px);
+ background-size: 60px 60px;
+ mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ }
+
+ .hero-content {
+ position: relative;
+ z-index: 2;
+ max-width: 1000px;
+ width: 100%;
+ }
+
+ .hero-badge {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ background: rgba(139, 92, 246, 0.1);
+ border: 1px solid rgba(139, 92, 246, 0.3);
+ backdrop-filter: blur(8px);
+ color: var(--primary-light);
+ font-size: 0.85rem;
+ font-weight: 600;
+ padding: 0.5rem 1.2rem;
+ border-radius: 50px;
+ margin-bottom: 1.5rem;
+ letter-spacing: 0.3px;
+ }
+
+ [data-theme="light"] .hero-badge { background: rgba(108, 60, 225, 0.08); }
+
+ .dot {
+ width: 8px;
+ height: 8px;
+ background: var(--accent-light);
+ border-radius: 50%;
+ display: inline-block;
+ animation: pulse 1.5s infinite;
+ }
+
+ @keyframes pulse {
+ 0%, 100% { opacity: 1; transform: scale(1); }
+ 50% { opacity: 0.5; transform: scale(0.8); }
+ }
+
+ h1 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: clamp(2.6rem, 6vw, 4.2rem);
+ font-weight: 700;
+ line-height: 1.1;
+ margin-bottom: 1.2rem;
+ color: var(--text);
+ }
+
+ .gradient-text {
+ background: var(--gradient-1);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ .accent-text {
+ background: var(--gradient-3);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ .hero-sub {
+ color: var(--text-muted);
+ font-size: 1.1rem;
+ max-width: 640px;
+ margin: 0 auto 3rem;
+ }
+
+ /* LANG CARDS */
+ .lang-grid {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 1.5rem;
+ margin-top: 2rem;
+ }
+
+ .lang-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 20px;
+ padding: 2.5rem 2rem;
+ text-align: center;
+ position: relative;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ text-decoration: none;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ overflow: hidden;
+ }
+
+ .lang-card::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ height: 4px;
+ background: var(--card-gradient, var(--gradient-1));
+ opacity: 0;
+ transition: opacity 0.3s ease;
+ }
+
+ .lang-card:hover {
+ transform: translateY(-8px);
+ box-shadow: var(--glow-purple);
+ }
+
+ .lang-card:hover::before { opacity: 1; }
+
+ .lang-card.english { --card-gradient: linear-gradient(135deg, #3B82F6, #22D3EE); --card-accent: #22D3EE; }
+ .lang-card.english:hover { box-shadow: 0 0 60px rgba(34, 211, 238, 0.35); }
+ .lang-card.english .lang-btn {
+ background: rgba(34, 211, 238, 0.1);
+ color: #22D3EE;
+ border: 1px solid rgba(34, 211, 238, 0.35);
+ }
+ .lang-card.english .lang-btn:hover {
+ background: linear-gradient(135deg, #3B82F6, #22D3EE);
+ color: white;
+ box-shadow: 0 8px 24px rgba(34, 211, 238, 0.4);
+ }
+
+ .lang-card.german { --card-gradient: linear-gradient(135deg, #F59E0B, #F97316); --card-accent: #FBBF24; }
+ .lang-card.german:hover { box-shadow: 0 0 60px rgba(249, 115, 22, 0.35); }
+ .lang-card.german .lang-btn {
+ background: rgba(249, 115, 22, 0.1);
+ color: var(--accent-light);
+ border: 1px solid rgba(249, 115, 22, 0.35);
+ }
+ .lang-card.german .lang-btn:hover {
+ background: linear-gradient(135deg, #F59E0B, #F97316);
+ color: white;
+ box-shadow: 0 8px 24px rgba(249, 115, 22, 0.45);
+ }
+
+ .lang-flag {
+ width: 76px;
+ height: 76px;
+ margin: 0 auto 1.2rem;
+ border-radius: 50%;
+ background: var(--bg-card-hover);
+ border: 1px solid var(--border);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: var(--card-accent);
+ font-size: 2.2rem;
+ transition: transform 0.3s ease;
+ }
+
+ .lang-card:hover .lang-flag { transform: scale(1.08) rotate(-4deg); }
+
+ .lang-card h3 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 1.6rem;
+ font-weight: 700;
+ margin-bottom: 0.4rem;
+ color: var(--text);
+ }
+
+ .lang-name {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 1rem;
+ font-weight: 600;
+ color: var(--card-accent);
+ margin-bottom: 0.8rem;
+ }
+
+ .lang-card p {
+ color: var(--text-muted);
+ font-size: 0.9rem;
+ margin-bottom: 1.5rem;
+ flex-grow: 1;
+ }
+
+ .lang-btn {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.45rem;
+ padding: 0.65rem 1.5rem;
+ border-radius: 12px;
+ font-weight: 600;
+ font-size: 0.85rem;
+ text-decoration: none;
+ transition: all 0.3s ease;
+ border: 1px solid transparent;
+ width: 100%;
+ max-width: 260px;
+ margin-top: auto;
+ box-sizing: border-box;
+ }
+
+ [data-theme="light"] .lang-flag {
+ background: #F1F3F9;
+ border-color: var(--border);
+ }
+
+ .cta-note {
+ margin-top: 3rem;
+ color: var(--text-dim);
+ font-size: 0.95rem;
+ }
+
+ .back-home {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ margin-top: 1.5rem;
+ color: var(--text-muted);
+ text-decoration: none;
+ font-size: 0.9rem;
+ font-weight: 500;
+ transition: color 0.3s;
+ }
+
+ .back-home:hover { color: var(--text); }
+
+ .reveal {
+ opacity: 0;
+ transform: translateY(40px);
+ transition: opacity 0.7s ease, transform 0.7s ease;
+ }
+
+ .reveal.visible {
+ opacity: 1;
+ transform: translateY(0);
+ }
+
+ @media (max-width: 768px) {
+ .lang-grid { grid-template-columns: 1fr; }
+ }
+
+ @media (max-width: 600px) {
+ .nav-links {
+ position: fixed;
+ top: 0;
+ right: -100%;
+ width: 70%;
+ height: 100vh;
+ background: rgba(10, 10, 15, 0.98);
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ gap: 2rem;
+ transition: right 0.4s ease;
+ z-index: 999;
+ }
+ [data-theme="light"] .nav-links { background: rgba(255, 255, 255, 0.98); }
+ .nav-links.active { right: 0; }
+ .hamburger { display: flex; position: relative; z-index: 1001; }
+ .nav-links .btn { padding: 0.6rem 1.3rem; }
+ }
+ </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <ul class="nav-links" id="navLinks">
+ <li><a href="../index.html">Home</a></li>
+ <li><a href="../journey.html">Journeys</a></li>
+ <li><a href="test.html">Level Test</a></li>
+ <li><a href="../journey.html" class="btn btn-primary" style="padding: 0.5rem 1.2rem;">Start Your Journey</a></li>
+ </ul>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ <button class="hamburger" id="hamburger" aria-label="Menu">
+ <span></span><span></span><span></span>
+ </button>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+ <div class="hero-bg">
+ <div class="orb orb-1"></div>
+ <div class="orb orb-2"></div>
+ <div class="orb orb-3"></div>
+ <div class="hero-grid"></div>
+ </div>
+ <div class="hero-content">
+ <h1 class="reveal">
+ Choose Your <span class="gradient-text">Language</span>
+ </h1>
+ <p class="hero-sub reveal">
+ Two powerful languages. One clear path to fluency. Pick the language you want to master.
+ </p>
+ <div class="lang-grid">
+ <a href="level.html" class="lang-card english reveal">
+ <div class="lang-flag">🇬🇧</div>
+ <h3>English</h3>
+ <div class="lang-name">The Global Language</div>
+ <p>Start with a free level test to find your current English level, then follow a personalized path to fluency.</p>
+ <span class="lang-btn">Test Your Level ➜</span>
+ </a>
+ <a href="../german/german-level.html" class="lang-card german reveal">
+ <div class="lang-flag">🇩🇪</div>
+ <h3>German</h3>
+ <div class="lang-name">Die Weltsprache</div>
+ <p>Germany's door to Europe — jobs, study, and opportunity. Take a free level test and start your path to fluency.</p>
+ <span class="lang-btn">Test Your Level ➜</span>
+ </a>
+ </div>
+ <p class="cta-note reveal">
+ Not sure which path? <a href="../journey.html" style="color: var(--primary-light); text-decoration: none; font-weight: 600;">Explore all journeys</a>
+ </p>
+ <a href="../journey.html" class="back-home reveal">← Back to Journeys</a>
+ </div>
+</section>
+
+<script>
+ const navbar = document.getElementById('navbar');
+ window.addEventListener('scroll', () => {
+ navbar.classList.toggle('scrolled', window.scrollY > 50);
+ });
+
+ const hamburger = document.getElementById('hamburger');
+ const navLinks = document.getElementById('navLinks');
+ hamburger.addEventListener('click', () => {
+ navLinks.classList.toggle('active');
+ });
+
+ navLinks.querySelectorAll('a').forEach(link => {
+ link.addEventListener('click', () => navLinks.classList.remove('active'));
+ });
+
+ const reveals = document.querySelectorAll('.reveal');
+ const observer = new IntersectionObserver((entries) => {
+ entries.forEach((entry, i) => {
+ if (entry.isIntersecting) {
+ setTimeout(() => {
+ entry.target.classList.add('visible');
+ }, i * 80);
+ observer.unobserve(entry.target);
+ }
+ });
+ }, { threshold: 0.1 });
+
+ reveals.forEach(el => observer.observe(el));
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

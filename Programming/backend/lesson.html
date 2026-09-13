@@ -1,0 +1,1139 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson — Backend Roadmap | Chango</title>
+  <meta name="description" content="Backend Developer Roadmap — Learn, Practice, Build, Prove.">
+  <link rel="icon" href="../../images/Logo.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="../programming.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<nav id="navbar">
+  <a href="../../index.html" class="logo">
+    <div class="logo-icon">
+      <img src="../../images/Logo.jpg" alt="Chango logo">
+    </div>
+    <span class="logo-text">Chango</span>
+  </a>
+
+  <div class="nav-right">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <a href="../programming.html" class="nav-link">Programming</a>
+    <a href="backend.html" class="nav-link" id="navRoadmap">Backend Roadmap</a>
+
+    <button
+      class="theme-toggle"
+      id="themeToggle"
+      onclick="toggleTheme()"
+      aria-label="Toggle dark / light theme"
+      title="Toggle theme"
+    >☀️</button>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-mobile" id="navMobile">
+  <a href="../../index.html" class="nav-link">Home</a>
+  <a href="../programming.html" class="nav-link">Programming</a>
+  <a href="backend.html" class="nav-link">Backend Roadmap</a>
+</div>
+
+<script>
+  (function () {
+    var saved = 'dark';
+
+    try {
+      saved = localStorage.getItem('changoTheme') || 'dark';
+    } catch (e) {}
+
+    document.documentElement.setAttribute('data-theme', saved);
+
+    function refresh() {
+      var b = document.getElementById('themeToggle');
+
+      if (!b) return;
+
+      b.textContent =
+        document.documentElement.getAttribute('data-theme') === 'dark'
+          ? '☀️'
+          : '🌙';
+    }
+
+    window.toggleTheme = function () {
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+
+      try {
+        localStorage.setItem('changoTheme', next);
+      } catch (e) {}
+
+      document.documentElement.setAttribute('data-theme', next);
+      refresh();
+    };
+
+    refresh();
+    document.addEventListener('DOMContentLoaded', refresh);
+  })();
+
+  var navbar = document.getElementById('navbar');
+
+  window.addEventListener('scroll', function () {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  var hamburger = document.getElementById('hamburger');
+  var navMobile = document.getElementById('navMobile');
+
+  hamburger.addEventListener('click', function () {
+    navMobile.classList.toggle('active');
+  });
+
+  navMobile.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      navMobile.classList.remove('active');
+    });
+  });
+</script>
+
+<div class="side-overlay" id="sideOverlay"></div>
+
+<div class="lesson-wrap" id="lessonWrap">
+  <div class="lesson-side" id="lessonSide"></div>
+  <div class="lesson-main" id="lessonMain"></div>
+</div>
+
+<script src="backend-lessons.js"></script>
+<script src="lessons-php.js"></script>
+<script src="lessons-git.js"></script>
+<script src="lessons-sql.js"></script>
+<script src="lessons-laravel.js"></script>
+<script src="lessons-api.js"></script>
+<script src="lessons-security.js"></script>
+<script src="lessons-linux.js"></script>
+<script src="lessons-docker.js"></script>
+<script src="lessons-deployment.js"></script>
+<script src="lessons-projects.js"></script>
+<script src="lessons-jobready.js"></script>
+
+<script>
+(function () {
+
+  /* helpers */
+
+  function getParam(k) {
+    return new URLSearchParams(window.location.search).get(k);
+  }
+
+  function esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function escMin(s) {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+
+  /* syntax highlighting (plain-text code → spans) */
+
+  var HL = {
+
+    php: {
+      k: [
+        '&lt;\\?php', '\\?>', 'echo', 'print', 'if', 'elseif', 'else',
+        'for', 'foreach', 'as', 'while', 'do', 'switch', 'case', 'break',
+        'default', 'continue', 'function', 'return', 'new', 'class',
+        'extends', 'implements', 'interface', 'namespace', 'use',
+        'require_once?', 'include_once?', 'try', 'catch', 'finally',
+        'throw', 'global', 'static', 'const', 'public', 'private',
+        'protected', 'instanceof', 'true', 'false', 'null', 'isset',
+        'empty', 'unset', 'array', 'list', 'match', 'fn', 'self',
+        'parent', 'die', 'exit'
+      ],
+      v: [
+        '\\$[a-zA-Z_\\x80-\\xff][a-zA-Z0-9_\\x80-\\xff]*'
+      ],
+      s: [
+        /'(?:[^'\n\\]|\\.)*'/,
+        /"(?:[^"\n\\]|\\.)*"/
+      ],
+      c: [
+        /\/\/[^\n]*/,
+        /#[^\n]*/,
+        /\/\*[\s\S]*?\*\//
+      ]
+    },
+
+    laravel: {
+      k: [
+        '&lt;\\?php', '\\?>', 'Route', 'get', 'post', 'put', 'delete',
+        'patch', 'resource', 'name', 'middleware', 'group', 'namespace',
+        'use', 'return', 'view', 'redirect', 'back', 'where', 'prefix',
+        'controller', 'if', 'elseif', 'else', 'foreach', 'endif',
+        'endforeach', 'request', 'auth', 'public', 'private', 'protected',
+        'function', 'class', 'extends', 'new', '$this', 'model',
+        'migration', 'nullable', 'default', 'unique', 'constrained',
+        'onDelete', 'string', 'text', 'integer', 'foreignId',
+        'timestamps', 'true', 'false', 'null'
+      ],
+      v: [
+        '\\$[a-zA-Z_\\x80-\\xff][a-zA-Z0-9_\\x80-\\xff]*'
+      ],
+      s: [
+        /'(?:[^'\n\\]|\\.)*'/,
+        /"(?:[^"\n\\]|\\.)*"/
+      ],
+      c: [
+        /\/\/[^\n]*/,
+        /#\{?[^\n]*/,
+        /\/\*[\s\S]*?\*\//
+      ]
+    },
+
+    sql: {
+      k: [
+        'SELECT', 'INSERT', 'INTO', 'VALUES', 'UPDATE', 'SET', 'DELETE',
+        'FROM', 'WHERE', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'OUTER',
+        'ON', 'AND', 'OR', 'NOT', 'NULL', 'IS', 'IN', 'BETWEEN', 'LIKE',
+        'GROUP', 'BY', 'HAVING', 'ORDER', 'LIMIT', 'OFFSET', 'AS',
+        'PRIMARY', 'KEY', 'FOREIGN', 'REFERENCES', 'UNIQUE', 'INDEX',
+        'CREATE', 'TABLE', 'ALTER', 'ADD', 'DROP', 'CONSTRAINT', 'DEFAULT',
+        'AUTO_INCREMENT', 'COUNT', 'SUM', 'AVG', 'MIN', 'MAX', 'DISTINCT',
+        'VARCHAR', 'CHAR', 'INT', 'INTEGER', 'TEXT', 'DATETIME',
+        'TIMESTAMP', 'BOOLEAN', 'DATA', 'TYPE', 'CASCADE', 'RESTRICT',
+        'ENGINE', 'CHARSET', 'COLLATE', 'ASC', 'DESC', 'IF', 'EXISTS'
+      ],
+      s: [
+        /'(?:[^'\n]|'')*'/
+      ],
+      c: [
+        /--[^\n]*/,
+        /\/\*[\s\S]*?\*\//
+      ]
+    },
+
+    bash: {
+      k: [
+        'cd', 'ls', 'pwd', 'mkdir', 'rm', 'cp', 'mv', 'touch', 'cat',
+        'grep', 'sudo', 'apt', 'apt-get', 'curl', 'wget', 'chmod',
+        'chown', 'export', 'source', 'npm', 'composer', 'php', 'artisan',
+        'git', 'git clone', 'docker', 'docker-compose', 'ssh', 'scp',
+        'systemctl', 'service', 'tar', 'unzip', 'find', 'ln', 'ps',
+        'kill', 'top', 'df', 'du', 'whoami', 'tail', 'head', 'less',
+        'echo', 'exit', 'set', 'clear', 'which', 'yarn', 'node', 'mysql',
+        'true', 'false'
+      ],
+      s: [
+        /'(?:[^'\n]|'')*'/,
+        /"(?:[^"\n\\]|\\.)*"/
+      ],
+      c: [
+        /#[^\n]*/
+      ]
+    },
+
+    terminal: {
+      k: [
+        'cd', 'ls', 'pwd', 'mkdir', 'rm', 'cp', 'mv', 'touch', 'cat',
+        'grep', 'sudo', 'apt', 'curl', 'chmod', 'composer', 'php',
+        'artisan', 'git', 'docker', 'ssh', 'systemctl', 'tar', 'ps',
+        'kill', 'tail', 'echo', 'exit', 'mysql', 'node', 'npm'
+      ],
+      s: [
+        /'(?:[^'\n]|'')*'/,
+        /"(?:[^"\n\\]|\\.)*"/
+      ],
+      c: [
+        /#[^\n]*/
+      ]
+    },
+
+    docker: {
+      k: [
+        'FROM', 'RUN', 'CMD', 'COPY', 'ADD', 'EXPOSE', 'WORKDIR', 'ENV',
+        'ARG', 'ENTRYPOINT', 'VOLUME', 'LABEL', 'SHELL', 'USER', 'HOME',
+        'image:', 'build:', 'container_name:', 'ports:', 'volumes:',
+        'environment:', 'depends_on:', 'restart:', 'networks:', 'services:',
+        'version:', 'db:', 'app:', 'web:', 'nginx:', 'context:', 'dockerfile:',
+        'working_dir:', 'command:', 'mysql:', 'latest'
+      ],
+      s: [
+        /'(?:[^'\n]|'')*'/,
+        /"(?:[^"\n\\]|\\.)*"/
+      ],
+      c: [
+        /#[^\n]*/
+      ]
+    },
+
+    yaml: {
+      k: [
+        'true', 'false', 'null', 'yes', 'no'
+      ],
+      s: [
+        /'(?:[^'\n]|'')*'/,
+        /"(?:[^"\n\\]|\\.)*"/
+      ],
+      c: [
+        /#[^\n]*/
+      ]
+    },
+
+    json: {
+      k: [
+        'true', 'false', 'null'
+      ],
+      s: [
+        /"(?:[^"\\\n]|\\.)*"/
+      ],
+      c: []
+    },
+
+    ini: {
+      k: [
+        'DB_CONNECTION', 'DB_HOST', 'DB_PORT', 'DB_DATABASE',
+        'DB_USERNAME', 'DB_PASSWORD', 'APP_ENV', 'APP_DEBUG', 'APP_URL',
+        'APP_KEY', 'APP_NAME', 'CACHE_DRIVER', 'SESSION_DRIVER',
+        'QUEUE_CONNECTION', 'MAIL_MAILER', 'MAIL_HOST', 'MAIL_PORT',
+        'MAIL_USERNAME', 'MAIL_PASSWORD', 'MAIL_FROM_ADDRESS',
+        'MAIL_FROM_NAME', 'true', 'false'
+      ],
+      s: [
+        /"(?:[^"\n\\]|\\.)*"/,
+        /'(?:[^'\n]|'')*'/
+      ],
+      c: [
+        /#[^\n]*/
+      ]
+    },
+
+    phpinfo: {
+      k: [],
+      s: [],
+      c: []
+    }
+  };
+
+
+  function highlight(lang, code) {
+
+    code = escMin(code);
+
+    var cfg =
+      HL[lang] ||
+      HL[lang.toLowerCase()] ||
+      { k: [], s: [], c: [] };
+
+    if (!cfg.s.length && !cfg.c.length && !cfg.k.length) {
+      return code;
+    }
+
+    var saved = [];
+
+    function protect(re, cls) {
+      code = code.replace(re, function (m) {
+        saved.push(
+          '<span class="tok-' + cls + '">' + m + '</span>'
+        );
+
+        return '\u0000' + (saved.length - 1) + '\u0001';
+      });
+    }
+
+    cfg.s.forEach(function (re) {
+      protect(re, 's');
+    });
+
+    cfg.c.forEach(function (re) {
+      protect(re, 'c');
+    });
+
+    if (cfg.v && cfg.v.length) {
+      code = code.replace(
+        new RegExp('(' + cfg.v.join('|') + ')\\b', 'g'),
+        '<span class="tok-v">$1</span>'
+      );
+    }
+
+    if (cfg.k && cfg.k.length) {
+      code = code.replace(
+        new RegExp('\\b(' + cfg.k.join('|') + ')\\b', 'g'),
+        '<span class="tok-k">$1</span>'
+      );
+    }
+
+    code = code.replace(
+      /\b(\d+(\.\d+)?)\b/g,
+      '<span class="tok-n">$1</span>'
+    );
+
+    code = code.replace(
+      /\u0000(\d+)\u0001/g,
+      function (m, i) {
+        return saved[+i];
+      }
+    );
+
+    return code;
+  }
+
+
+  function hlOrPass(code) {
+    return /<\/?span/.test(code)
+      ? code
+      : highlight(null, code);
+  }
+
+
+  /* progress */
+
+  function getDone() {
+    try {
+      return JSON.parse(
+        localStorage.getItem('chango_lessons_done')
+      ) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function markDone(slug) {
+    var done = getDone();
+
+    if (done.indexOf(slug) === -1) {
+      done.push(slug);
+
+      try {
+        localStorage.setItem(
+          'chango_lessons_done',
+          JSON.stringify(done)
+        );
+      } catch (e) {}
+    }
+  }
+
+  function removeDone(slug) {
+    var done = getDone().filter(function (s) {
+      return s !== slug;
+    });
+
+    try {
+      localStorage.setItem(
+        'chango_lessons_done',
+        JSON.stringify(done)
+      );
+    } catch (e) {}
+  }
+
+
+  /* sidebar */
+
+  function renderSidebar(slug) {
+
+    var done = getDone();
+    var totalAvailable = 0;
+    var doneCount = 0;
+
+    SIDEBAR.forEach(function (g) {
+      if (g.status === 'available') {
+        totalAvailable += g.lessons.length;
+      }
+    });
+
+    var html =
+      '<div class="lesson-side-head"><b>Backend Roadmap</b><span class="side-progress">' +
+      done.filter(function (s) {
+        return done.indexOf(s) !== -1;
+      }).length +
+      '/' +
+      totalAvailable +
+      '</span></div>';
+
+    html +=
+      '<a class="side-link" href="backend.html" style="border:none;font-size:0.82rem;color:var(--primary-light);"><span class="st">←</span> Back to Roadmap</a>';
+
+    SIDEBAR.forEach(function (g) {
+
+      html += '<div class="side-group">';
+      html +=
+        '<div class="side-group-title">' +
+        esc(g.name) +
+        '</div>';
+
+      g.lessons.forEach(function (l) {
+
+        var isLocked =
+          g.status === 'locked' ||
+          l.slug === 'coming-soon';
+
+        var isActive = l.slug === slug;
+        var isDone = done.indexOf(l.slug) !== -1;
+
+        var cls =
+          isActive
+            ? 'active'
+            : isDone
+            ? 'done'
+            : isLocked
+            ? 'locked'
+            : '';
+
+        var icon =
+          isDone
+            ? '✓'
+            : isLocked
+            ? '🔒'
+            : isActive
+            ? '▶'
+            : '○';
+
+        var href =
+          isLocked
+            ? ''
+            : ' href="lesson.html?level=programming&lesson=' +
+              l.slug +
+              '"';
+
+        html +=
+          '<a class="side-link ' +
+          cls +
+          '"' +
+          href +
+          '><span class="st">' +
+          icon +
+          '</span>' +
+          esc(l.title) +
+          '</a>';
+      });
+
+      html += '</div>';
+    });
+
+    document.getElementById('lessonSide').innerHTML = html;
+  }
+
+
+  /* code blocks */
+
+  function renderCodeBlock(block) {
+
+    var lang = block.lang || 'php';
+
+    var html =
+      '<div class="code-block"><div class="code-head">';
+
+    html +=
+      '<span class="code-lang">' +
+      esc(lang) +
+      '</span>';
+
+    html +=
+      '<button class="code-copy" onclick="copyCode(this)">Copy</button>';
+
+    html +=
+      '</div><pre><code>' +
+      (
+        block.pre
+          ? block.code
+          : highlight(lang, block.code)
+      ) +
+      '</code></pre></div>';
+
+    return html;
+  }
+
+
+  /* explanation array */
+
+  function renderExplanation(arr) {
+
+    var html = '';
+
+    arr.forEach(function (item) {
+
+      if (item.tag === 'heading') {
+        html += '<h3>' + item.text + '</h3>';
+      } else {
+        html += '<p>' + item.text + '</p>';
+      }
+
+    });
+
+    return html;
+  }
+
+
+  /* mistakes list */
+
+  function renderMistakes(arr) {
+
+    var html =
+      '<div class="warn-box"><h3>⚠️ Common Mistake' +
+      (arr.length > 1 ? 's' : '') +
+      '</h3><ul>';
+
+    arr.forEach(function (m) {
+      html += '<li>' + m + '</li>';
+    });
+
+    html += '</ul></div>';
+
+    return html;
+  }
+
+
+  /* quiz */
+
+  function renderQuiz(quiz, slug) {
+
+    var lang = quiz.quizLang || 'php';
+
+    var html =
+      '<div class="quiz-box" id="quizBox">';
+
+    html +=
+      '<div class="quiz-q">' +
+      quiz.question +
+      '</div>';
+
+    html +=
+      '<div class="quiz-cat">' +
+      quiz.cat +
+      '</div>';
+
+    if (quiz.quizCode) {
+
+      html +=
+        '<div class="code-block" style="margin-bottom:1rem;">' +
+        '<div class="code-head">' +
+        '<span class="code-lang">' +
+        esc(lang) +
+        '</span>' +
+        '</div>' +
+        '<pre><code>' +
+        (
+          quiz.quizPre
+            ? quiz.quizCode
+            : highlight(lang, quiz.quizCode)
+        ) +
+        '</code></pre></div>';
+    }
+
+    html +=
+      '<div class="quiz-options" id="quizOptions">';
+
+    var letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+    quiz.options.forEach(function (opt, i) {
+
+      html +=
+        '<button class="quiz-option" data-idx="' +
+        i +
+        '" onclick="answerQuiz(' +
+        i +
+        ')">';
+
+      html +=
+        '<span class="ql">' +
+        letters[i] +
+        '</span>';
+
+      html +=
+        '<span>' +
+        opt +
+        '</span>';
+
+      html += '</button>';
+    });
+
+    html += '</div>';
+
+    html +=
+      '<div class="quiz-feedback" id="quizFeedback"></div>';
+
+    html += '</div>';
+
+    return html;
+  }
+
+
+  /* challenge */
+
+  function renderChallenge(c) {
+
+    var lang = c.lang || 'php';
+
+    var html =
+      '<div class="challenge-box">';
+
+    html += '<h3>🔥 Challenge</h3>';
+
+    html +=
+      '<p>' +
+      c.text +
+      '</p>';
+
+    if (c.code) {
+
+      html +=
+        '<div class="code-block"><div class="code-head">' +
+        '<span class="code-lang">' +
+        esc(lang) +
+        '</span>' +
+        '<button class="code-copy" onclick="copyCode(this)">Copy</button>' +
+        '</div><pre><code>' +
+        (
+          c.pre
+            ? c.code
+            : highlight(lang, c.code)
+        ) +
+        '</code></pre></div>';
+    }
+
+    if (c.hint) {
+
+      html +=
+        '<p><b>💡 Hint:</b> ' +
+        c.hint +
+        '</p>';
+    }
+
+    html += '</div>';
+
+    return html;
+  }
+
+
+  /* main lesson */
+
+  function renderLesson(slug) {
+
+    var l = LESSONS[slug];
+
+if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-align:center;padding:8rem 2rem;"><h1>Lesson Not Found</h1><p style="color:var(--text-muted);margin:1rem 0;">This lesson doesn\'t exist yet. You probably followed a link from the future.</p><a href="backend.html" class="btn btn-primary">← Back to Roadmap</a></div>'; return; }
+
+    var done = getDone();
+    var isDone = done.indexOf(slug) !== -1;
+
+    var html =
+      '<button class="side-drawer-btn" onclick="toggleDrawer()">☰ Menu</button>';
+
+    html += '<div class="lesson-card">';
+
+    html +=
+      '<div class="lesson-crumb"><a href="backend.html">Backend Roadmap</a> → Level ' +
+      esc(l.level) +
+      ' · ' +
+      esc(l.section) +
+      '</div>';
+
+    html +=
+      '<h1 class="lesson-title">' +
+      esc(l.title) +
+      '</h1>';
+
+    html += '<div class="lesson-tags">';
+
+    html +=
+      '<span class="lesson-tag">' +
+      esc(l.section) +
+      '</span>';
+
+    html +=
+      '<span class="lesson-tag time">⏱ ' +
+      esc(l.time) +
+      '</span>';
+
+    html +=
+      '<span class="lesson-tag diff">' +
+      esc(l.difficulty) +
+      '</span>';
+
+    html +=
+      '<span class="lesson-tag book">📖 ' +
+      esc(l.book) +
+      '</span>';
+
+    html += '</div>';
+
+    html +=
+      '<div class="fun-intro">"' +
+      l.intro +
+      '"</div>';
+
+    html += '</div>';
+
+
+    /* why box */
+
+    html +=
+      '<div class="lesson-card"><div class="why-box"><h3>💡 Why This Matters</h3><p>' +
+      l.whyMatters +
+      '</p></div>';
+
+
+    /* explanation */
+
+    html += renderExplanation(l.explanation);
+
+
+    /* code pairs */
+
+    var codePairs = [
+      {
+        code: l.code,
+        explained: l.codeExplained
+      },
+      {
+        code: l.code2,
+        explained: l.code2Explained
+      },
+      {
+        code: l.code3,
+        explained: l.code3Explained
+      },
+      {
+        code: l.code4,
+        explained: l.code4Explained
+      }
+    ];
+
+    codePairs.forEach(function (pair) {
+
+      if (!pair.code) return;
+
+      pair.code.forEach(function (block) {
+        html += renderCodeBlock(block);
+      });
+
+      if (pair.explained) {
+        html += renderExplanation(pair.explained);
+      }
+    });
+
+    html += '</div>';
+
+
+    /* mistakes */
+
+    if (l.mistakes) {
+      html +=
+        '<div class="lesson-card">' +
+        renderMistakes(l.mistakes) +
+        '</div>';
+    }
+
+
+    /* pro tip */
+
+    if (l.proTip) {
+
+      html +=
+        '<div class="lesson-card"><div class="pro-box"><h3>💡 Pro Tip</h3><p>' +
+        l.proTip +
+        '</p></div></div>';
+    }
+
+
+    /* quiz */
+
+    if (l.quiz) {
+
+      html +=
+        '<div class="lesson-card">' +
+        renderQuiz(l.quiz, slug) +
+        '</div>';
+    }
+
+
+    /* challenge */
+
+    if (l.challenge) {
+
+      html +=
+        '<div class="lesson-card">' +
+        renderChallenge(l.challenge) +
+        '</div>';
+    }
+
+
+    /* mini project */
+
+    if (l.miniProject) {
+
+      html +=
+        '<div class="lesson-card"><h3>🛠️ Mini Project: ' +
+        esc(l.miniProject.title) +
+        '</h3>';
+
+      html +=
+        '<p>' +
+        l.miniProject.text +
+        '</p>';
+
+      html += '<ol>';
+
+      l.miniProject.steps.forEach(function (s) {
+        html += '<li>' + s + '</li>';
+      });
+
+      html += '</ol></div>';
+    }
+
+
+    /* book link */
+
+    if (l.bookChapter && l.bookChapter !== '#') {
+
+      html +=
+        '<div class="lesson-card"><a class="book-link" href="' +
+        l.bookChapter +
+        '"><span style="font-size:1.4rem;">📖</span><span><b>Read this chapter in the book</b><br>Expand your understanding with the full chapter.</span></a></div>';
+    }
+
+
+    /* lesson nav */
+
+    html +=
+      '<div class="lesson-card"><div class="lesson-nav">';
+
+    if (l.prev) {
+
+      html +=
+        '<a class="btn btn-outline btn-sm" href="lesson.html?level=programming&lesson=' +
+        l.prev.slug +
+        '">← ' +
+        esc(l.prev.title) +
+        '</a>';
+
+    } else {
+
+      html += '<span></span>';
+    }
+
+    html +=
+      '<button class="btn btn-sm mark-btn ' +
+      (isDone ? 'marked' : '') +
+      '" id="markBtn" onclick="toggleMark()">' +
+      (isDone ? '✓ Understood' : 'Mark as Understood') +
+      '</button>';
+
+    if (l.next) {
+
+      html +=
+        '<a class="btn btn-primary btn-sm" href="lesson.html?level=programming&lesson=' +
+        l.next.slug +
+        '">' +
+        esc(l.next.title) +
+        ' →</a>';
+
+    } else {
+
+      html +=
+        '<a class="btn btn-primary btn-sm" href="backend.html">🎉 Level Complete →</a>';
+    }
+
+    html += '</div></div>';
+
+    document.getElementById('lessonMain').innerHTML = html;
+
+    document.title =
+      l.title +
+      ' · Backend Roadmap | Chango';
+
+    window.scrollTo(0, 0);
+  }
+
+
+  /* globals */
+
+  window.currentSlug =
+    getParam('lesson') ||
+    'what-is-programming';
+
+
+  window.copyCode = function (btn) {
+
+    var pre =
+      btn.closest('.code-block').querySelector('pre');
+
+    var text = pre.textContent;
+
+    function ok() {
+
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+
+      setTimeout(function () {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2500);
+    }
+
+    function fallback() {
+
+      var ta = document.createElement('textarea');
+
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+
+      document.body.appendChild(ta);
+
+      ta.select();
+
+      try {
+        document.execCommand('copy');
+      } catch (e) {}
+
+      document.body.removeChild(ta);
+
+      ok();
+    }
+
+    if (
+      navigator.clipboard &&
+      navigator.clipboard.writeText
+    ) {
+
+      navigator.clipboard
+        .writeText(text)
+        .then(ok)
+        .catch(fallback);
+
+    } else {
+
+      fallback();
+    }
+  };
+
+
+  window.answerQuiz = function (idx) {
+
+    var l = LESSONS[window.currentSlug];
+
+    if (!l || !l.quiz) return;
+
+    var correct =
+      l.quiz.correct === idx;
+
+    var opts =
+      document.querySelectorAll('.quiz-option');
+
+    opts.forEach(function (o) {
+
+      o.classList.add('disabled');
+
+      var oi =
+        parseInt(
+          o.getAttribute('data-idx')
+        );
+
+      if (oi === l.quiz.correct) {
+        o.classList.add('correct');
+      } else if (oi === idx && !correct) {
+        o.classList.add('wrong');
+      }
+    });
+
+    var fb =
+      document.getElementById('quizFeedback');
+
+    fb.className =
+      'quiz-feedback show ' +
+      (correct ? 'right' : 'wrong');
+
+    fb.textContent =
+      correct
+        ? l.quiz.feedback.correct
+        : l.quiz.feedback.wrong;
+  };
+
+
+  window.toggleMark = function () {
+
+    var slug = window.currentSlug;
+
+    var btn =
+      document.getElementById('markBtn');
+
+    var done = getDone();
+
+    if (done.indexOf(slug) !== -1) {
+
+      removeDone(slug);
+
+      btn.textContent =
+        'Mark as Understood';
+
+      btn.classList.remove('marked');
+
+    } else {
+
+      markDone(slug);
+
+      btn.textContent =
+        '✓ Understood';
+
+      btn.classList.add('marked');
+    }
+
+    renderSidebar(slug);
+  };
+
+
+  window.toggleDrawer = function () {
+
+    document
+      .getElementById('lessonSide')
+      .classList.toggle('open');
+
+    document
+      .getElementById('sideOverlay')
+      .classList.toggle('show');
+  };
+
+
+  document
+    .getElementById('sideOverlay')
+    .addEventListener('click', function () {
+
+      document
+        .getElementById('lessonSide')
+        .classList.remove('open');
+
+      this.classList.remove('show');
+    });
+
+
+  renderSidebar(window.currentSlug);
+  renderLesson(window.currentSlug);
+
+})();
+</script>
+
+<script
+  data-goatcounter="https://anos.goatcounter.com/count"
+  async
+  src="//gc.zgo.at/count.js"
+></script>
+
+</body>
+</html>
+```

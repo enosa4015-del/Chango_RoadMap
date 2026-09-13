@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>A2 Grundstufe Leitfaden | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+ :root {
+ --primary: #6C3CE1;
+ --primary-light: #8B5CF6;
+ --primary-dark: #5224B5;
+ --accent: #F97316;
+ --accent-light: #FB923C;
+ --bg-dark: #0A0A0F;
+ --bg-card: #12121A;
+ --bg-card-hover: #1A1A25;
+ --text: #F8F8FC;
+ --text-muted: #9CA3AF;
+ --text-dim: #6B7280;
+ --border: #1F1F2E;
+ --gradient-1: linear-gradient(135deg, #6C3CE1, #F97316);
+ --gradient-2: linear-gradient(135deg, #8B5CF6, #6C3CE1);
+ --gradient-3: linear-gradient(135deg, #F97316, #EF4444);
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.35);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.3);
+ --radius: 20px;}
+
+ .theme-toggle {
+ width: 42px; height: 42px; min-width: 42px; border-radius: 12px; border: 1.5px solid var(--border);
+ background: var(--bg-card); color: var(--accent-light); cursor: pointer;
+ font-size: 1.15rem; display: inline-flex; align-items: center; justify-content: center;
+ transition: all 0.25s ease;
+ }
+ .theme-toggle:hover { border-color: var(--primary); box-shadow: var(--glow-purple); transform: translateY(-2px); }
+ [data-theme="light"] {
+ --bg-dark: #F5F6FB;
+ --bg-card: #FFFFFF;
+ --bg-card-hover: #EEF1F7;
+ --text: #14141B;
+ --text-muted: #3E4757;
+ --text-dim: #79808F;
+ --border: #E4E7EF;
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.12);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.1);
+ }
+ [data-theme="light"] nav { background: rgba(255, 255, 255, 0.88); }
+ [data-theme="light"] nav.scrolled { background: rgba(255, 255, 255, 0.97); box-shadow: 0 6px 24px rgba(24, 22, 48, 0.06); }
+ [data-theme="light"] .nav-links.active { background: rgba(255, 255, 255, 0.98); }
+ [data-theme="light"] .btn-outline { background: #FFFFFF; }
+ [data-theme="light"] .topic-card, [data-theme="light"] .info-card, [data-theme="light"] .vocab-card,
+ [data-theme="light"] .phrase-card, [data-theme="light"] .cando-card, [data-theme="light"] .next-card, [data-theme="light"] .tip-card {
+ box-shadow: 0 12px 34px rgba(24, 22, 48, 0.07);
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', sans-serif;
+ background: var(--bg-dark);
+ color: var(--text);
+ overflow-x: hidden;
+ line-height: 1.7;
+ }
+
+ ::-webkit-scrollbar { width: 10px; }
+ ::-webkit-scrollbar-track { background: transparent; }
+ ::-webkit-scrollbar-thumb { background: rgba(148, 148, 175, 0.35); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+ ::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.7); border: 2px solid transparent; background-clip: padding-box; }
+ html { scrollbar-width: thin; scrollbar-color: rgba(148, 148, 175, 0.35) transparent; }
+
+ /* A2 theme */
+ .page {
+ --lv-accent: #3B82F6;
+ --lv-grad: linear-gradient(135deg, #3B82F6, #8B5CF6);
+ --lv-tint: rgba(59, 130, 246, 0.12);
+ --lv-border: rgba(59, 130, 246, 0.4);
+ --lv-glow-s: rgba(59, 130, 246, 0.22);
+ --lv-glow-l: rgba(59, 130, 246, 0.45);
+ }
+
+ /* NAV */
+ nav {
+ position: fixed;
+ top: 0; left: 0; right: 0;
+ z-index: 1000;
+ padding: 1rem 2rem;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ backdrop-filter: blur(20px);
+ background: rgba(10, 10, 15, 0.8);
+ border-bottom: 1px solid var(--border);
+ transition: all 0.3s ease;
+ }
+ nav.scrolled { padding: 0.6rem 2rem; background: rgba(10, 10, 15, 0.95); }
+
+ .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+ .logo-icon {
+ width: 42px; height: 42px; background: var(--gradient-1); border-radius: 12px;
+ display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: var(--glow-purple);
+ }
+ .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+ .logo-text {
+ font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700;
+ background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+ }
+
+ .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+ .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; position: relative; }
+ .nav-links a:hover { color: var(--text); }
+ .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--gradient-1); transition: width 0.3s; }
+ .nav-links a:hover::after { width: 100%; }
+
+ .btn {
+ display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+ padding: 0.7rem 1.6rem; border-radius: 12px; font-weight: 700; font-size: 0.9rem;
+ text-decoration: none; transition: all 0.3s ease; cursor: pointer;
+ border: none; font-family: 'Inter', sans-serif;
+ }
+ .btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 20px rgba(108, 60, 225, 0.4); }
+ .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108, 60, 225, 0.6); }
+ .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+ .btn-outline:hover { border-color: var(--primary); background: rgba(108, 60, 225, 0.1); }
+ .btn-large { padding: 1rem 2.2rem; font-size: 1rem; border-radius: 14px; }
+
+ .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+ .hamburger span { width: 25px; height: 2px; background: var(--text); transition: 0.3s; }
+
+ /* HERO */
+ .hero {
+ min-height: 100vh;
+ display: flex; align-items: center; justify-content: center; text-align: center;
+ padding: 8rem 2rem 4rem; position: relative; overflow: hidden;
+ }
+ .hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+ .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.5; animation: float 8s ease-in-out infinite; }
+ .orb-1 { width: 420px; height: 420px; background: var(--lv-accent); top: -10%; left: -5%; opacity: 0.4; }
+ .orb-2 { width: 380px; height: 380px; background: var(--primary); bottom: -10%; right: -5%; animation-delay: 2s; }
+ .orb-3 { width: 260px; height: 260px; background: #EC4899; top: 40%; left: 45%; animation-delay: 4s; opacity: 0.25; }
+
+ @keyframes float {
+ 0%, 100% { transform: translateY(0); }
+ 50% { transform: translateY(-40px); }
+ }
+
+ .hero-grid {
+ position: absolute; inset: 0;
+ background-image:
+ linear-gradient(rgba(59, 130, 246, 0.06) 1px, transparent 1px),
+ linear-gradient(90deg, rgba(59, 130, 246, 0.06) 1px, transparent 1px);
+ background-size: 60px 60px;
+ mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ }
+
+ .hero-content { position: relative; z-index: 2; max-width: 900px; width: 100%; }
+
+ .hero-badge {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ background: var(--lv-tint); border: 1px solid var(--lv-border);
+ backdrop-filter: blur(8px); color: var(--lv-accent);
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 0.95rem; font-weight: 700; letter-spacing: 2px;
+ padding: 0.5rem 1.4rem; border-radius: 50px; margin-bottom: 1.5rem;
+ }
+ .hero-badge .dot { width: 8px; height: 8px; background: var(--lv-accent); border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
+ @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+
+ h1 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: clamp(2.8rem, 6vw, 4.6rem); font-weight: 800; line-height: 1.1;
+ margin-bottom: 0.6rem; color: var(--text);
+ }
+ .level-name { font-size: clamp(1.4rem, 3.4vw, 2rem); color: var(--text-muted); font-weight: 600; margin-bottom: 1.2rem; }
+ .hero-sub { font-size: 1.1rem; color: var(--text-muted); max-width: 640px; margin: 0 auto 2.5rem; line-height: 1.8; }
+
+ .hero-stats { display: flex; align-items: center; justify-content: center; gap: 2.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+ .hero-stat .number {
+ font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700;
+ background: var(--lv-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+ }
+ .hero-stat .label { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+ .journey-line { height: 2px; background: var(--border); border-radius: 2px; position: relative; max-width: 640px; margin: 0 auto 0.4rem; }
+ .journey-line .fill {
+ position: absolute; top: 0; left: 0; height: 100%; border-radius: 2px;
+ background: var(--lv-grad);
+ }
+ .journey-pips { display: flex; justify-content: space-between; max-width: 640px; margin: 0.6rem auto 0; }
+ .journey-pips .pip { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; font-size: 0.72rem; color: var(--text-dim); }
+ .journey-pips .pip .cir {
+ width: 14px; height: 14px; border-radius: 50%; background: var(--bg-card);
+ border: 2px solid var(--border); transition: all 0.3s;
+ }
+ .journey-pips .pip.on .cir { background: var(--lv-grad); border-color: transparent; box-shadow: var(--lv-glow-s); }
+ .journey-pips .pip.on { color: var(--text); font-weight: 700; }
+ .journey-pips .pip.done .cir { background: var(--lv-tint); border-color: var(--lv-border); }
+
+ /* CONTENT */
+ .content { max-width: 1080px; margin: 0 auto; padding: 4rem 1.25rem 7rem; position: relative; z-index: 2; }
+
+ .section-head { text-align: center; margin-bottom: 2.5rem; }
+ .section-eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+ color: var(--lv-accent); margin-bottom: 0.8rem;
+ }
+ .section-eyebrow .line { width: 30px; height: 2px; background: var(--lv-grad); border-radius: 2px; }
+ .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 700; line-height: 1.2; }
+ .section-sub { color: var(--text-muted); font-size: 1rem; margin-top: 0.6rem; }
+
+ .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+
+ .info-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px;
+ padding: 2rem; position: relative; overflow: hidden;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .info-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--lv-grad); opacity: 0; transition: opacity 0.3s; }
+ .info-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .info-card:hover::before { opacity: 1; }
+ .info-card-icon { width: 54px; height: 54px; border-radius: 16px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+ .info-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+ .info-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; }
+
+ /* Featured photo banner */
+ .photo-banner {
+ position: relative; border-radius: 24px; overflow: hidden; margin-bottom: 3rem;
+ height: 320px; display: flex; align-items: flex-end;
+ }
+ .photo-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+ .photo-banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(4, 6, 10, 0.9)); }
+ .photo-banner .pb-text { position: relative; z-index: 2; padding: 2rem; }
+ .photo-banner .pb-text b { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: #FFFFFF; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55); }
+ .photo-banner .pb-text span { display: block; font-size: 0.9rem; color: rgba(255, 255, 255, 0.85); margin-top: 0.3rem; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5); }
+
+ /* Grammar topics */
+ .topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+ .topic-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; border-top: 3px solid var(--lv-accent);
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .topic-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .topic-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.6rem; }
+ .topic-head .t-ic { width: 40px; height: 40px; min-width: 40px; border-radius: 12px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; }
+ .topic-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; }
+ .topic-note { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1rem; line-height: 1.6; }
+ .example-box { background: var(--bg-card-hover); border: 1px solid var(--border); border-left: 3px solid var(--lv-accent); border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 0.6rem; }
+ .example-box .en { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+ .example-box .mean { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.15rem; }
+
+ /* Vocabulary */
+ .vocab-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+ .vocab-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .vocab-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .vocab-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+ .vocab-head .v-ic { font-size: 1.3rem; }
+ .vocab-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; }
+ .word-row { display: flex; flex-direction: column; padding: 0.55rem 0; border-bottom: 1px dashed var(--border); }
+ .word-row:last-child { border-bottom: none; }
+ .word-row .w {
+ font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.98rem; color: var(--lv-accent);
+ }
+ .word-row .wex { font-size: 0.8rem; color: var(--text-dim); }
+
+ /* Phrases */
+ .phrase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+ .phrase-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .phrase-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .phrase-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+ .phrase-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; }
+ .chat { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.6rem; }
+ .chat .who {
+ min-width: 26px; height: 26px; border-radius: 50%; background: var(--lv-tint);
+ color: var(--lv-accent); font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+ }
+ .chat .txt { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 14px; padding: 0.5rem 0.85rem; font-size: 0.9rem; }
+
+ /* Can-do */
+ .cando-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 3rem; }
+ .cando-card {
+ display: flex; gap: 1rem; align-items: flex-start;
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+ padding: 1.3rem; transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .cando-card:hover { transform: translateY(-3px); box-shadow: var(--lv-glow-s); }
+ .cando-ic { min-width: 46px; height: 46px; border-radius: 14px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+ .cando-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.98rem; margin-bottom: 0.3rem; }
+ .cando-en { font-size: 0.9rem; color: var(--text); font-weight: 600; }
+ .cando-mean { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+ /* Speaking */
+ .speak-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+ .speak-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; position: relative; overflow: hidden;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .speak-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .speak-num {
+ position: absolute; top: 1rem; right: 1.2rem; font-family: 'Space Grotesk', sans-serif;
+ font-size: 3rem; font-weight: 800; color: var(--lv-tint); line-height: 1; pointer-events: none;
+ }
+ .speak-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.6rem; }
+ .speak-head .s-ic { width: 40px; height: 40px; min-width: 40px; border-radius: 12px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; }
+ .speak-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; }
+ .speak-prompt { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.9rem; }
+ .model-box { background: var(--bg-card-hover); border: 1px solid var(--border); border-left: 3px solid var(--lv-accent); border-radius: 12px; padding: 0.8rem 1rem; }
+ .model-box .ml { font-size: 0.6rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--lv-accent); margin-bottom: 0.25rem; }
+ .model-box .en { font-size: 0.93rem; font-weight: 600; color: var(--text); }
+ .model-box .me { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+ /* Pronunciation */
+ .pron-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+ .sound-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .sound-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .sound-phone {
+ display: inline-block; font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 700;
+ color: var(--lv-accent); background: var(--lv-tint); border: 1px solid var(--lv-border);
+ padding: 0.2rem 0.7rem; border-radius: 8px; margin-bottom: 0.6rem;
+ }
+ .sound-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+ .sound-w { font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 0.7rem; }
+ .pair { display: flex; align-items: center; gap: 0.9rem; font-size: 0.85rem; padding: 0.45rem 0; border-bottom: 1px dashed var(--border); flex-wrap: wrap; }
+ .pair:last-child { border-bottom: none; }
+ .pair .vs { color: var(--text-dim); font-size: 0.72rem; font-weight: 700; }
+ .pair .pw { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; color: var(--text); }
+ .pair .pw em { color: var(--text-dim); font-style: normal; font-size: 0.72rem; font-weight: 600; }
+ .accent-tips { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 3rem; }
+ .accent-tips li { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 0.9rem 1.1rem 0.9rem 2.1rem; font-size: 0.9rem; color: var(--text-muted); position: relative; }
+ .accent-tips li::before { content: '🔊'; position: absolute; left: 0.8rem; top: 0.85rem; font-size: 0.95rem; }
+
+ /* Audio buttons */
+ .spk {
+ display: inline-flex; align-items: center; justify-content: center;
+ width: 26px; height: 26px; min-width: 26px; border-radius: 8px;
+ border: 1px solid var(--lv-border); background: var(--lv-tint);
+ color: var(--lv-accent); cursor: pointer; font-size: 0.85rem; line-height: 1;
+ padding: 0; transition: all 0.2s ease; font-family: inherit;
+ }
+ .spk:hover { background: var(--lv-accent); color: #fff; transform: scale(1.12); }
+ .spk.sm { width: 20px; height: 20px; min-width: 20px; border-radius: 6px; font-size: 0.72rem; }
+ .sound-phone-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+ .sound-phone-row .sound-phone { margin-bottom: 0; }
+ .sound-w { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+ .word-pill {
+ display: inline-flex; align-items: center; gap: 0.4rem;
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 30px;
+ padding: 0.25rem 0.75rem 0.25rem 0.35rem; font-size: 0.85rem; font-weight: 700; color: var(--text);
+ }
+ .word-pill .pm { color: var(--text-dim); font-weight: 600; font-size: 0.72rem; }
+
+ /* Quizzes */
+ .quiz-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 1.8rem 2rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+ }
+ .quiz-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .quiz-toolbar { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; }
+ .quiz-toolbar b { font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; }
+ .quiz-score {
+ margin-left: auto; font-size: 0.8rem; font-weight: 800; color: var(--lv-accent);
+ background: var(--lv-tint); border: 1px solid var(--lv-border);
+ padding: 0.35rem 0.95rem; border-radius: 30px; white-space: nowrap;
+ }
+ .q-block { padding: 1rem 0; }
+ .q-block + .q-block { border-top: 1px dashed var(--border); }
+ .q-text { font-weight: 800; font-size: 0.98rem; margin-bottom: 0.7rem; }
+ .q-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+ .q-opt {
+ display: flex; align-items: center; gap: 0.6rem;
+ background: var(--bg-card-hover); border: 1.5px solid var(--border); border-radius: 12px;
+ padding: 0.55rem 0.85rem; font-size: 0.9rem; font-weight: 600; color: var(--text);
+ text-align: left; cursor: pointer; transition: all 0.2s ease; font-family: inherit;
+ }
+ .q-opt:hover:not(.locked) { border-color: var(--lv-border); transform: translateY(-2px); }
+ .q-opt .q-let {
+ width: 22px; height: 22px; min-width: 22px; border-radius: 7px;
+ display: inline-flex; align-items: center; justify-content: center;
+ background: var(--lv-tint); color: var(--lv-accent);
+ font-size: 0.72rem; font-weight: 800;
+ }
+ .q-opt.ok { background: rgba(16, 185, 129, 0.12); border-color: #10B981; color: #10B981; }
+ .q-opt.ok .q-let { background: #10B981; color: #fff; }
+ .q-opt.bad { background: rgba(239, 68, 68, 0.12); border-color: #EF4444; color: #EF4444; }
+ .q-opt.bad .q-let { background: #EF4444; color: #fff; }
+ .q-opt.locked { cursor: default; }
+ .q-fb { min-height: 1.5rem; font-size: 0.9rem; margin-top: 0.6rem; font-weight: 700; }
+ .q-fb.good { color: #10B981; }
+ .q-fb.bad-fb { color: var(--text-muted); font-weight: 500; font-size: 0.84rem; }
+ .quiz-reset { margin-top: 0.4rem; }
+
+ /* Listening actions */
+ .listen-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 1rem; }
+ .btn-mini {
+ display: inline-flex; align-items: center; gap: 0.45rem;
+ padding: 0.55rem 1.15rem; border-radius: 12px; font-weight: 700; font-size: 0.85rem;
+ border: 1.5px solid var(--lv-border); background: var(--lv-tint); color: var(--lv-accent);
+ cursor: pointer; transition: all 0.25s ease; font-family: inherit;
+ }
+ .btn-mini:hover { background: var(--lv-accent); color: #fff; transform: translateY(-2px); box-shadow: var(--lv-glow-s); }
+ .listen-note { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 1rem; line-height: 1.7; }
+ .listen-transcript.hidden { display: none; }
+ .listen-card .quiz-card { margin-top: 1.5rem; }
+
+ /* Reading */
+ .story-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2rem 2rem 1.5rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+ }
+ .story-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .story-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; }
+ .story-head .st-ic { font-size: 1.5rem; }
+ .story-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; }
+ .story-text { font-size: 1.02rem; line-height: 2; color: var(--text-muted); max-width: 760px; }
+ .story-text b { color: var(--lv-accent); font-weight: 600; }
+ .story-gloss { font-size: 0.8rem; color: var(--text-dim); margin-top: 1rem; border-top: 1px dashed var(--border); padding-top: 0.8rem; }
+ .story-gloss .kg { display: inline-block; background: var(--lv-tint); border: 1px solid var(--lv-border); color: var(--lv-accent); font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 30px; margin: 0.2rem 0.15rem 0; }
+
+ /* Listening */
+ .listen-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2rem 2rem 1.5rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+ }
+ .listen-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .listen-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; }
+ .listen-head .ls-ic { font-size: 1.5rem; }
+ .listen-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; }
+ .listen-badge { margin-left: auto; font-size: 0.72rem; font-weight: 700; color: var(--lv-accent); background: var(--lv-tint); border: 1px solid var(--lv-border); padding: 0.35rem 0.8rem; border-radius: 30px; letter-spacing: 1px; white-space: nowrap; }
+ .listen-transcript { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.6rem; font-size: 1.02rem; line-height: 2; color: var(--text-muted); }
+ .listen-transcript b { color: var(--lv-accent); font-weight: 600; }
+ .listen-glance { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+ .listen-glance span { font-size: 0.78rem; font-weight: 600; color: var(--lv-accent); background: var(--lv-tint); border: 1px solid var(--lv-border); padding: 0.3rem 0.8rem; border-radius: 30px; }
+
+ /* Tips */
+ .tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
+ .tip-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+ padding: 1.3rem; text-align: center; transition: all 0.3s ease;
+ }
+ .tip-card:hover { border-color: var(--lv-border); transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .tip-ic { font-size: 1.7rem; margin-bottom: 0.6rem; }
+ .tip-card b { font-family: 'Space Grotesk', sans-serif; font-size: 0.98rem; display: block; margin-bottom: 0.4rem; }
+ .tip-card p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+
+ /* Next level */
+ .next-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden; margin-top: 2rem;
+ }
+ .next-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .next-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, var(--lv-tint), transparent 60%); pointer-events: none; }
+ .next-card > * { position: relative; z-index: 2; }
+ .next-icon { font-size: 2.6rem; margin-bottom: 1rem; }
+ .next-card .nk-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--lv-accent); margin-bottom: 0.5rem; }
+ .next-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+ .next-card p { color: var(--text-muted); font-size: 0.98rem; max-width: 620px; margin: 0 auto 1.6rem; }
+ .next-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 760px; margin: 0 auto 2rem; }
+ .next-step { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.1rem; text-align: center; transition: all 0.25s; }
+ .next-step:hover { border-color: var(--lv-border); transform: translateY(-3px); }
+ .next-step .ns-ic { font-size: 1.4rem; margin-bottom: 0.4rem; }
+ .next-step b { font-size: 0.9rem; display: block; margin-bottom: 0.3rem; }
+ .next-step span { font-size: 0.78rem; color: var(--text-muted); }
+
+ /* Career German bootcamp */
+ .bootcamp-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden; margin-top: 2rem;
+ }
+ .bootcamp-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, #F59E0B, #EF4444); }
+ .bootcamp-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.12), transparent 60%); pointer-events: none; }
+ .bootcamp-card > * { position: relative; z-index: 2; }
+ .bootcamp-icon { font-size: 2.6rem; margin-bottom: 1rem; }
+ .bootcamp-tag {
+ display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+ color: #F59E0B; margin-bottom: 0.5rem;
+ }
+ .bootcamp-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+ .bootcamp-card p { color: var(--text-muted); font-size: 0.98rem; max-width: 640px; margin: 0 auto 1.6rem; }
+ .bootcamp-feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 760px; margin: 0 auto 2rem; }
+ .bootcamp-feat { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.1rem; text-align: center; transition: all 0.25s; }
+ .bootcamp-feat:hover { border-color: rgba(245, 158, 11, 0.5); transform: translateY(-3px); }
+ .bootcamp-feat .bf-ic { font-size: 1.4rem; margin-bottom: 0.4rem; }
+ .bootcamp-feat b { font-size: 0.9rem; display: block; margin-bottom: 0.3rem; }
+ .bootcamp-feat span { font-size: 0.78rem; color: var(--text-muted); }
+ .bootcamp-cta {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ background: linear-gradient(135deg, #F59E0B, #EF4444); color: #fff;
+ padding: 1rem 2.2rem; border-radius: 14px; font-weight: 600; font-size: 1rem;
+ text-decoration: none; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4); transition: all 0.3s;
+ }
+ .bootcamp-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245, 158, 11, 0.6); }
+
+ .actions { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+
+ .cta-note { margin-top: 2rem; color: var(--text-dim); font-size: 0.95rem; text-align: center; }
+ .cta-note a { color: var(--lv-accent); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--lv-border); transition: color 0.3s; }
+ .cta-note a:hover { color: var(--primary-light); }
+
+ .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+ .reveal.visible { opacity: 1; transform: translateY(0); }
+
+ /* FOOTER */
+ footer { background: #08080D; border-top: 1px solid var(--border); padding: 4rem 2rem 2rem; }
+ .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+ .footer-bottom p { font-size: 0.82rem; color: var(--text-dim); }
+ .footer-social { display: flex; gap: 1rem; }
+ .footer-social a { width: 38px; height: 38px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-dim); text-decoration: none; transition: all 0.3s; font-size: 0.85rem; }
+ .footer-social a:hover { border-color: var(--primary); color: var(--text); }
+
+ @media (max-width: 1024px) {
+ .vocab-grid, .tips-grid, .pron-grid { grid-template-columns: repeat(2, 1fr); }
+ }
+
+ @media (max-width: 768px) {
+ .grid-2, .topic-grid, .phrase-grid, .cando-grid, .speak-grid, .accent-tips { grid-template-columns: 1fr; }
+ .vocab-grid, .tips-grid, .pron-grid { grid-template-columns: 1fr; }
+ .next-steps, .bootcamp-feats { grid-template-columns: 1fr; }
+ .hero-stats { gap: 1.5rem; }
+ .photo-banner { height: 240px; }
+ .q-opts { grid-template-columns: 1fr; }
+ .nav-links {
+ display: none;
+ position: fixed; top: 0; right: 0; width: 70%; height: 100vh;
+ background: rgba(10, 10, 15, 0.98);
+ flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+ transition: right 0.4s ease; z-index: 999;
+ }
+ [data-theme="light"] .nav-links { background: rgba(255, 255, 255, 0.98); }
+ .nav-links.active { display: flex; }
+ .hamburger { display: flex; position: relative; z-index: 1001; }
+ .nav-links .btn { padding: 0.6rem 1.3rem; }
+ }
+ </style>
+</head>
+<body class="page" id="page">
+
+<!-- NAV -->
+<nav id="navbar">
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <ul class="nav-links" id="navLinks">
+ <li><a href="../index.html">Home</a></li>
+ <li><a href="german-level.html">Stufen</a></li>
+ <li><a href="german-test.html">Stufentest</a></li>
+ <li><a href="german-test.html" class="btn btn-primary" style="padding: 0.5rem 1.2rem;">Test starten</a></li>
+ </ul>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ <button class="hamburger" id="hamburger" aria-label="Menu">
+ <span></span><span></span><span></span>
+ </button>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+ <div class="hero-bg">
+ <div class="orb orb-1"></div>
+ <div class="orb orb-2"></div>
+ <div class="orb orb-3"></div>
+ <div class="hero-grid"></div>
+ </div>
+ <div class="hero-content">
+ <h1 class="reveal">Grundstufe</h1>
+ <div class="level-name reveal">Von einzelnen Sätzen zu ganzen Gesprächen / From single phrases to full conversations</div>
+ <p class="hero-sub reveal">Handle everyday situations, use past tenses to tell stories, and describe people, places and things — real grammar with real examples, the best words to learn, and phrases you can use today.<br><br><em>Meistere Alltagssituationen, erzähle mit der Vergangenheitsform von Erlebnissen und beschreibe Menschen, Orte und Dinge — echte Grammatik mit echten Beispielen, die besten Wörter und Sätze für deinen Alltag.</em></p>
+ <div class="hero-stats reveal">
+ <div class="hero-stat"><div class="number">2 von 6</div><div class="label">Stufenposition</div></div>
+ <div class="hero-stat"><div class="number">800–1200</div><div class="label">Wörter / Words</div></div>
+ <div class="hero-stat"><div class="number">Alltag</div><div class="label">Everyday life</div></div>
+ </div>
+ <div class="journey-line reveal"><div class="fill" style="width:33.3%;"></div></div>
+ <div class="journey-pips reveal">
+ <div class="pip done"><div class="cir"></div>A1</div>
+ <div class="pip on"><div class="cir"></div>A2</div>
+ <div class="pip"><div class="cir"></div>B1</div>
+ <div class="pip"><div class="cir"></div>B2</div>
+ <div class="pip"><div class="cir"></div>C1</div>
+ <div class="pip"><div class="cir"></div>C2</div>
+ </div>
+ <div class="actions reveal">
+ <a href="german-a1.html" class="btn btn-outline btn-large">Vorherige Stufe: A1 →</a>
+ <a href="german-level-detail.html?level=B1" class="btn btn-primary btn-large">Nächste Stufe: B1 →</a>
+ </div>
+ </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🌿 Stufenleitfaden / Level Guide</div>
+ <h2 class="section-title">Alles über <span style="color:var(--lv-accent);">A2 Grundstufe</span></h2>
+ <p class="section-sub">Grammatik mit echten Beispielen, die besten Wörter, Alltagssätze und Fotos<br><em>Grammar with real examples, the best words, everyday phrases and photos</em></p>
+ </div>
+
+ <div class="grid-2">
+ <div class="info-card reveal">
+ 
+ <div class="info-card-icon">🌿</div>
+  <h3>Was macht A2 besonders?</h3>
+ <p>A2 ist die Stufe, auf der <b>echte Gespräche</b> beginnen. Du lernst das <b>Perfekt</b>, das <b>Präteritum</b>, <b>Modalverben</b> und Wechselpräpositionen — genug, um über deinen Alltag, vergangene Ereignisse und Pläne zu sprechen. Jedes Thema kommt mit echten Beispielen, damit du siehst, wie Deutsch wirklich funktioniert.</p>
+ <p style="margin-top:0.8rem;color:var(--text-dim);font-size:0.88rem;"><em>What makes A2 special? A2 is where real conversations begin. You learn the Perfekt, Präteritum, modal verbs and two-way prepositions — enough to talk about your daily life, past events and plans. Every topic comes with real examples.</em></p>
+ </div>
+ <div class="info-card reveal">
+ 
+ <div class="info-card-icon">💡</div>
+  <h3>Warum lohnt sich A2?</h3>
+ <p>A2 gibt dir die <b>echte Alltagssicherheit</b>. Wenn du diese Stufe beherrschst, hörst du auf, Wort für Wort zu übersetzen, und fängst an, Sätze natürlich zu bilden. Dieses Selbstvertrauen bringt dich zu B1, B2 und darüber hinaus — einen Schritt nach dem anderen.</p>
+ <p style="margin-top:0.8rem;color:var(--text-dim);font-size:0.88rem;"><em>Why is A2 worth it? A2 gives you real everyday language skills. When you master this level, you stop translating word by word and start building sentences naturally. That confidence takes you to B1, B2 and beyond.</em></p>
+ </div>
+ </div>
+
+ <div class="photo-banner reveal">
+ <img src="https://picsum.photos/seed/a2-german/1200/520" alt="German A2 learning in the real world" loading="lazy">
+ <div class="pb-text">
+ <b>Wo deine Reise weitergeht </b>
+ <span>Also spricht man schon ganze Sätze — und jedes Gespräch hier unten ist ein Schritt weiter.<br><em>Now you speak in full sentences — and every conversation below is another step forward.</em></span>
+ </div>
+ </div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🧠 Grammatik mit Beispielen / Grammar with examples</div>
+ <h2 class="section-title">10 Grammatikthemen <span style="color:var(--lv-accent);">Die du wirklich brauchst</span></h2>
+ <p class="section-sub">Nicht Regeln für die Prüfung — Regeln für echte Gespräche, alle mit Beispiel und Bedeutung<br><em>Not rules for the exam — rules for real conversations, each with an example and its meaning</em></p>
+ </div>
+ <div class="topic-grid" id="grammarGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🗣️ Sprechpraxis / Speaking practice</div>
+ <h2 class="section-title">Sprechaufgaben <span style="color:var(--lv-accent);">Die du heute machen kannst</span></h2>
+ <p class="section-sub">Lies die Musterantwort, dann sprich über DEIN Leben — laut<br><em>Read the model answer, then say it about YOUR life — out loud</em></p>
+ </div>
+ <div class="speak-grid" id="speakGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🔊, Aussprache & Akzent / Pronunciation & accent</div>
+ <h2 class="section-title">Laute & Akzent <span style="color:var(--lv-accent);">Für A2</span></h2>
+ <p class="section-sub">Die 9 typischen deutschen Laute, die dir am meisten helfen — mit Wortpaaren zum Üben<br><em>The German sounds that matter most at A2 — with pairs of words to practice</em></p>
+ </div>
+ <div class="pron-grid" id="pronGrid"></div>
+ <ul class="accent-tips" id="accentTips"></ul>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 📖 Lesen / Reading</div>
+ <h2 class="section-title">Eine Geschichte <span style="color:var(--lv-accent);">Für dein Niveau</span></h2>
+ <p class="section-sub">Lies sie zweimal langsam — und erzähle sie dann mit eigenen Worten nach<br><em>Read it slowly twice — then try to retell it in your own words</em></p>
+ </div>
+ <div class="story-card reveal" id="storyCard"></div>
+ <div class="quiz-card reveal" id="storyQuiz"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🎧 Hören / Listening</div>
+ <h2 class="section-title">Hören & Lernen <span style="color:var(--lv-accent);">Grammatik in echter Sprache</span></h2>
+ <p class="section-sub">Drücke Play, höre nur mit deinen Ohren und beantworte dann die Fragen<br><em>Press play, listen with your ears only, then answer the questions</em></p>
+ </div>
+ <div class="listen-card reveal" id="listenCard"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 📚 Wortschatz / Vocabulary</div>
+ <h2 class="section-title">Die besten <span style="color:var(--lv-accent);">A2-Wörter</span></h2>
+ <p class="section-sub">Häufige Wörter, die in fast jedem A2-Gespräch vorkommen<br><em>High-frequency words that appear in almost every A2 conversation</em></p>
+ </div>
+ <div class="vocab-grid" id="vocabGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 💬 Alltagssätze / Everyday phrases</div>
+ <h2 class="section-title">Kleine Dialoge <span style="color:var(--lv-accent);">Die du wirklich brauchst</span></h2>
+ <p class="section-sub">Fünf echte kleine Gespräche — lies sie laut und probiere sie dann selbst<br><em>Five real little conversations — read them aloud, then try them yourself</em></p>
+ </div>
+ <div class="phrase-grid" id="phraseGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> ✅ Can-do-Aussagen / Can-do statements</div>
+ <h2 class="section-title">Was du auf A2 <span style="color:var(--lv-accent);">sagen kannst</span></h2>
+ <p class="section-sub">Sechs Dinge, die jeder A2-Lernende können sollte — mit Mustersätzen<br><em>The six things every A2 learner should be able to do — with model sentences</em></p>
+ </div>
+ <div class="cando-grid" id="candoGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 💡 Lerntipps / Study tips</div>
+ <h2 class="section-title">6 Tipps von A2 <span style="color:var(--lv-accent);">zu B1</span></h2>
+ <p class="section-sub">Einfache tägliche Gewohnheiten, die dich schneller zum nächsten Level bringen<br><em>Simple daily habits that take you to the next level faster</em></p>
+ </div>
+ <div class="tips-grid" id="tipsGrid"></div>
+
+ <!-- <div class="bootcamp-card reveal">
+ <div class="bootcamp-icon">💼</div>
+ <div class="bootcamp-tag">Career German Bootcamp</div>
+ <h3>Dein Deutsch, Dein Zukunftsjob</h3>
+ <p>Ein strukturiertes Programm, das das Deutsch aus dieser Seite zu echten Karrierefähigkeiten macht — Bewerbungsgespräche, Lebensläufe, Deutsch im Beruf und klare professionelle Kommunikation.</p>
+ <p style="margin-top:0.5rem;color:var(--text-dim);font-size:0.9rem;"><em>One structured program that turns the German you learn here into real career skills — interviews, CVs, workplace German, and clear professional communication.</em></p>
+ <div class="bootcamp-feats">
+ <div class="bootcamp-feat"><div class="bf-ic">🗣️</div><b>Bewerbungsgespräche</b><span>Job Interviews — andworten Sie sicher auf Deutsch</span></div>
+ <div class="bootcamp-feat"><div class="bf-ic">✍️</div><b>Lebenslauf & E-Mails</b><span>CV & Emails — starke Dokumente schreiben</span></div>
+ <div class="bootcamp-feat"><div class="bf-ic">🤝</div><b>Deutsch im Beruf</b><span>Workplace German — Meetings, Telefonate & Alltag</span></div>
+ </div>
+ <div class="actions">
+ <a href="../index.html#pricing" class="btn bootcamp-cta">Bootcamp entdecken →</a>
+ <a href="german-test.html" class="btn btn-outline btn-large">Kostenlosen Test machen</a>
+ </div>
+ </div> -->
+
+ <div class="next-card reveal">
+ 
+ <div class="next-icon">🎯</div>
+  <div class="nk-label">Nächste Stufe / Next Level</div>
+ <h3>B1 Mittelstufe</h3>
+ <p>Von einfachen Beschreibungen zu eigenständigen Meinungen über die Welt um dich herum — Reisen, Arbeit und aktuelle Themen.<br><em>From simple descriptions to independently expressing opinions about the world around you — travel, work and current topics.</em></p>
+ <div class="next-steps">
+ <div class="next-step"><div class="ns-ic">🗣️</div><b>Eigene Meinungen</b><span>Own opinions — „Ich finde, dass…“</span></div>
+ <div class="next-step"><div class="ns-ic">📰</div><b>Echte Texte lesen</b><span>Read real texts — news, emails, articles</span></div>
+ <div class="next-step"><div class="ns-ic">✈️</div><b>Reisesituationen</b><span>Travel situations — „Ich hätte gern…“</span></div>
+ </div>
+ <div class="actions">
+ <a href="german-level-detail.html?level=B1" class="btn btn-primary btn-large">B1 erkunden →</a>
+ <a href="german-test.html" class="btn btn-outline btn-large">Kostenlosen Test machen</a>
+ </div>
+ </div>
+
+ <p class="cta-note reveal">Nicht sicher, welche Stufe du hast? <a href="german-test.html">Mach den Chango-Stufentest</a> — er dauert etwa 5 Minuten.<br><em>Not sure of your level? Take the Chango level test — it takes about 5 minutes.</em></p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-bottom">
+ <p>© 2026 Chango. Lerne Deutsch für die echte Welt.</p>
+ <div class="footer-social">
+ <a href="../index.html" title="Home"></a>
+ <a href="german-level.html" title="Stufen"></a>
+ <a href="german-test.html" title="Stufentest starten"></a>
+ </div>
+ </div>
+</footer>
+
+<script>
+ var TOPICS = [
+ { t: 'Past Tense (Simple Past) / Präteritum', note: 'Use the Simple Past for completed actions, especially in written German and with certain verbs (sein, haben, modal verbs). / Verwende das Präteritum für abgeschlossene Handlungen, besonders im Geschriebenen und mit sein, haben und Modalverben.', ex: [
+ { en: 'Ich ging gestern in den Park.', me: 'I went to the park yesterday.' },
+ { en: 'Er hatte keine Zeit.', me: 'He had no time.' },
+ { en: 'Wir fuhren mit dem Zug nach Berlin.', me: 'We traveled to Berlin by train.' },
+ { en: 'Sie konnte gut Deutsch.', me: 'She could speak German well.' } ] },
+ { t: 'Present Perfect / Perfekt', note: 'The Perfekt is the most common past tense in spoken German — built with haben/sein + Partizip II. / Das Perfekt ist die häufigste Vergangenheitsform im gesprochenen Deutsch — gebildet mit haben/sein + Partizip II.', ex: [
+ { en: 'Ich habe gestern Pizza gegessen.', me: 'I ate pizza yesterday.' },
+ { en: 'Sie ist nach Hause gegangen.', me: 'She went home.' },
+ { en: 'Wir haben einen Film gesehen.', me: 'We watched a movie.' },
+ { en: 'Er hat sein Handy verloren.', me: 'He lost his phone.' } ] },
+ { t: 'Modal Verbs / Modalverben', note: 'können (can), müssen (must/mast), wollen (want), sollen (should) — express ability, obligation, desire and advice. / Drücken Fähigkeit, Pflicht, Wunsch und Rat aus.', ex: [
+ { en: 'Ich kann gut kochen.', me: 'I can cook well.' },
+ { en: 'Du musst mehr üben.', me: 'You must practice more.' },
+ { en: 'Er will Arzt werden.', me: 'He wants to become a doctor.' },
+ { en: 'Ihr sollt früher aufstehen.', me: 'You should get up earlier.' } ] },
+ { t: 'Prepositions of Time & Place / Zeit- und Ortspräpositionen', note: 'in, an, auf, bei, mit, nach, seit, von, zu — the key to saying when and where. / Unverzichtbar, um zu sagen, wann und wo etwas passiert.', ex: [
+ { en: 'Ich wohne in München.', me: 'I live in Munich.' },
+ { en: 'Das Meeting ist am Montag.', me: 'The meeting is on Monday.' },
+ { en: 'Seit drei Jahren lerne ich Deutsch.', me: 'I have been learning German for three years.' },
+ { en: 'Ich gehe zu Fuß zur Arbeit.', me: 'I walk to work.' } ] },
+ { t: 'Comparative & Superlative / Komparativ & Superlativ', note: 'Form comparisons with -er (größer = bigger) and am -sten (am größten = the biggest). / Bildet Vergleiche mit -er und Superlative mit am -sten.', ex: [
+ { en: 'Berlin ist größer als München.', me: 'Berlin is bigger than Munich.' },
+ { en: 'Das ist das beste Restaurant.', me: 'That is the best restaurant.' },
+ { en: 'Mein Bruder ist älter als ich.', me: 'My brother is older than me.' },
+ { en: 'Der Winter ist am kältesten.', me: 'Winter is the coldest.' } ] },
+ { t: 'Reflexive Verbs / Reflexive Verben', note: 'Many German verbs need a reflexive pronoun (mich, dich, sich, uns, euch). Common in daily life. / Viele deutsche Verben brauchen ein Reflexivpronomen.', ex: [
+ { en: 'Ich dusche mich jeden Morgen.', me: 'I shower every morning.' },
+ { en: 'Wir freuen uns auf den Urlaub.', me: 'We are looking forward to the vacation.' },
+ { en: 'Setz dich bitte!', me: 'Please sit down!' },
+ { en: 'Er fühlt sich heute nicht gut.', me: 'He does not feel well today.' } ] },
+ { t: 'Two-way Prepositions / Wechselpräpositionen', note: 'in, an, auf, über, unter, vor, hinter, neben, zwischen — accusative for direction, dative for location. / Akkusativ für die Richtung, Dativ für den Ort.', ex: [
+ { en: 'Ich stelle die Tasse auf den Tisch. (Akk.)', me: 'I put the cup on the table. (direction)' },
+ { en: 'Die Tasse steht auf dem Tisch. (Dat.)', me: 'The cup is on the table. (location)' },
+ { en: 'Er geht in die Küche. (Akk.)', me: 'He goes into the kitchen. (direction)' },
+ { en: 'Er ist in der Küche. (Dat.)', me: 'He is in the kitchen. (location)' } ] },
+ { t: 'Conjunctions (und, aber, weil, dass) / Konjunktionen', note: 'und (and), aber (but), weil (because), dass (that) — connect sentences and express reasons. / Verbinden Sätze und drücken Gründe aus.', ex: [
+ { en: 'Ich bleibe zu Hause, weil ich krank bin.', me: 'I stay home because I am sick.' },
+ { en: 'Er sagt, dass er morgen kommt.', me: 'He says that he is coming tomorrow.' },
+ { en: 'Sie trinkt Kaffee, aber ich trinke Tee.', me: 'She drinks coffee, but I drink tea.' },
+ { en: 'Ich lerne Deutsch und Englisch.', me: 'I learn German and English.' } ] },
+ { t: 'Imperative / Imperativ', note: 'Give commands, orders or polite requests — informal (du) and formal (Sie) forms. / Befehle, Anordnungen oder höfliche Bitten — informell (du) und formell (Sie).', ex: [
+ { en: 'Komm her!', me: 'Come here!' },
+ { en: 'Öffnen Sie bitte das Fenster.', me: 'Please open the window. (formal)' },
+ { en: 'Sprechen Sie bitte langsamer!', me: 'Please speak more slowly!' },
+ { en: 'Mach die Tür zu!', me: 'Close the door! (informal)' } ] },
+ { t: 'Accusative & Dative / Akkusativ & Dativ', note: 'Accusative marks the direct object; dative marks the indirect object and follows certain prepositions. / Den, einem, einer — wer bekommt was?', ex: [
+ { en: 'Ich sehe den Hund. (Akk.)', me: 'I see the dog. (direct object)' },
+ { en: 'Ich gebe dem Mann das Buch. (Dat.)', me: 'I give the man the book. (indirect object)' },
+ { en: 'Er kauft einer Frau Blumen. (Dat.)', me: 'He buys a woman flowers.' },
+ { en: 'Wir helfen den Kindern. (Dat.)', me: 'We help the children.' } ] }
+ ];
+
+ var VOCAB = [
+ { g: 'Food & Drink / Essen & Trinken', words: [
+ { w: 'das Frühstück', ex: 'Ich esse ein warmes Frühstück. / I eat a warm breakfast.' },
+ { w: 'die Suppe', ex: 'Die Suppe ist sehr heiß. / The soup is very hot.' },
+ { w: 'das Brötchen', ex: 'Ich kaufe frische Brötchen. / I buy fresh rolls.' },
+ { w: 'der Salat', ex: 'Möchtest du einen Salat? / Would you like a salad?' },
+ { w: 'das Getränk', ex: 'Ich hätte gern ein kaltes Getränk. / I would like a cold drink.' } ] },
+ { g: 'Travel / Reisen', words: [
+ { w: 'der Flughafen', ex: 'Ich fahre zum Flughafen. / I am going to the airport.' },
+ { w: 'die Fahrkarte', ex: 'Wo kaufe ich eine Fahrkarte? / Where do I buy a ticket?' },
+ { w: 'das Hotel', ex: 'Das Hotel ist sehr sauber. / The hotel is very clean.' },
+ { w: 'die Reise', ex: 'Die Reise war wunderschön. / The trip was wonderful.' },
+ { w: 'der Koffer', ex: 'Mein Koffer ist sehr schwer. / My suitcase is very heavy.' } ] },
+ { g: 'Work & School / Arbeit & Schule', words: [
+ { w: 'die Besprechung', ex: 'Die Besprechung ist um zehn Uhr. / The meeting is at ten.' },
+ { w: 'der Arbeitsplatz', ex: 'Mein Arbeitsplatz ist klein, aber nett. / My workplace is small but nice.' },
+ { w: 'die Prüfung', ex: 'Ich habe nächste Woche eine Prüfung. / I have an exam next week.' },
+ { w: 'die Ausbildung', ex: 'Er macht eine Ausbildung zum Krankenpfleger. / He is training to be a nurse.' },
+ { w: 'der Unterricht', ex: 'Der Unterricht beginnt um acht Uhr. / Class starts at eight.' } ] },
+ { g: 'Health / Gesundheit', words: [
+ { w: 'die Kopfschmerzen', ex: 'Ich habe starke Kopfschmerzen. / I have a bad headache.' },
+ { w: 'die Medikamente', ex: 'Nimm deine Medikamente! / Take your medicine!' },
+ { w: 'der Arzt', ex: 'Ich muss zum Arzt gehen. / I have to go to the doctor.' },
+ { w: 'die Krankheit', ex: 'Die Krankheit war sehr schlimm. / The illness was very bad.' },
+ { w: 'die Apotheke', ex: 'Wo ist die nächste Apotheke? / Where is the nearest pharmacy?' } ] },
+ { g: 'Shopping / Einkaufen', words: [
+ { w: 'die Rechnung', ex: 'Kann ich die Rechnung haben? / Can I have the bill?' },
+ { w: 'das Angebot', ex: 'Das ist ein gutes Angebot. / That is a good offer.' },
+ { w: 'anprobieren', ex: 'Darf ich das anprobieren? / May I try this on?' },
+ { w: 'die Brieftasche', ex: 'Ich habe meine Brieftasche vergessen. / I forgot my wallet.' },
+ { w: 'der Rabatt', ex: 'Es gibt zwanzig Prozent Rabatt. / There is a twenty percent discount.' } ] },
+ { g: 'Weather / Wetter', words: [
+ { w: 'die Sonne', ex: 'Die Sonne scheint heute stark. / The sun is shining brightly today.' },
+ { w: 'der Regen', ex: 'Wegen des Regens bleibe ich zu Hause. / Because of the rain I stay home.' },
+ { w: 'der Wind', ex: 'Heute weht ein starker Wind. / Today there is a strong wind.' },
+ { w: 'die Wolke', ex: 'Der Himmel ist voller Wolken. / The sky is full of clouds.' },
+ { w: 'die Temperatur', ex: 'Die Temperatur liegt bei zehn Grad. / The temperature is ten degrees.' } ] },
+ { g: 'Family & Home / Familie & Zuhause', words: [
+ { w: 'die Waschmaschine', ex: 'Die Waschmaschine ist kaputt. / The washing machine is broken.' },
+ { w: 'der Kühlschrank', ex: 'Stell die Milch in den Kühlschrank. / Put the milk in the fridge.' },
+ { w: 'die Nachbarn', ex: 'Die Nachbarn sind sehr nett. / The neighbors are very nice.' },
+ { w: 'die Heizung', ex: 'Die Heizung funktioniert nicht. / The heating does not work.' },
+ { w: 'der Balkon', ex: 'Ich sitze gern auf dem Balkon. / I like sitting on the balcony.' } ] },
+ { g: 'Hobbies / Hobbys', words: [
+ { w: 'das Hobby', ex: 'Mein Hobby ist Fotografieren. / My hobby is photography.' },
+ { w: 'die Wanderung', ex: 'Am Wochenende machen wir eine Wanderung. / On the weekend we go hiking.' },
+ { w: 'der Verein', ex: 'Er ist Mitglied im Sportverein. / He is a member of a sports club.' },
+ { w: 'das Buch', ex: 'Ich lese gerade ein spannendes Buch. / I am reading an exciting book.' },
+ { w: 'die Musik', ex: 'Ich höre gern klassische Musik. / I like listening to classical music.' } ] }
+ ];
+
+ var PHRASES = [
+ { t: 'Making appointments / Termine vereinbaren', lines: [
+ { p: 'A', t: 'Hallo, ich möchte einen Termin vereinbaren.' },
+ { p: 'B', t: 'Natürlich. Wann passt es Ihnen?' },
+ { p: 'A', t: 'Geht es am Mittwoch um drei Uhr?' },
+ { p: 'B', t: 'Ja, das klappt. Ich trage Sie ein.' },
+ { p: 'A', t: 'Super, vielen Dank!' } ] },
+ { t: 'At the restaurant / Im Restaurant', lines: [
+ { p: 'A', t: 'Guten Abend! Haben Sie einen Tisch für zwei?' },
+ { p: 'B', t: 'Ja, bitte nehmen Sie Platz.' },
+ { p: 'A', t: 'Ich hätte gern das Schnitzel mit Kartoffeln.' },
+ { p: 'B', t: 'Und was möchten Sie trinken?' },
+ { p: 'A', t: 'Ein Wasser, bitte. Danke!' } ] },
+ { t: 'Shopping / Einkaufen', lines: [
+ { p: 'A', t: 'Kann ich Ihnen helfen?' },
+ { p: 'B', t: 'Ja, ich suche eine neue Jacke.' },
+ { p: 'A', t: 'In welcher Größe?' },
+ { p: 'B', t: 'Größe M, bitte. Darf ich das anprobieren?' },
+ { p: 'A', t: 'Die Umkleidekabine ist dort drüben.' } ] },
+ { t: 'Asking for directions / Nach dem Weg fragen', lines: [
+ { p: 'A', t: 'Entschuldigung, wo ist der nächste Bahnhof?' },
+ { p: 'B', t: 'Gehen Sie geradeaus, dann links an der Ampel.' },
+ { p: 'A', t: 'Ist es weit von hier?' },
+ { p: 'B', t: 'Nein, nur fünf Minuten zu Fuß.' },
+ { p: 'A', t: 'Vielen Dank für Ihre Hilfe!' } ] },
+ { t: 'On the phone / Am Telefon', lines: [
+ { p: 'A', t: 'Hallo, hier spricht Anna Schmidt.' },
+ { p: 'B', t: 'Guten Tag, Frau Schmidt. Hier ist Herr Müller.' },
+ { p: 'A', t: 'Ja, worum geht es?' },
+ { p: 'B', t: 'Ich wollte fragen, ob Sie morgen Zeit haben.' },
+ { p: 'A', t: 'Ja, am besten nachmittags. Ist zwei Uhr gut?' },
+ { p: 'B', t: 'Perfekt, bis morgen!' } ] }
+ ];
+
+ var CANDO = [
+ { t: 'Describe your daily routine / Den Tagesablauf beschreiben', en: 'Ich stehe um sechs Uhr auf, dusche und frühstücke.', me: 'I get up at six, shower and have breakfast.' },
+ { t: 'Talk about past events / Über vergangene Ereignisse sprechen', en: 'Letztes Wochenende war ich im Kino.', me: 'Last weekend I went to the cinema.' },
+ { t: 'Make simple plans / Einfache Pläne machen', en: 'Nächstes Jahr möchte ich nach Italien reisen.', me: 'Next year I want to travel to Italy.' },
+ { t: 'Understand short messages / Kurze Nachrichten verstehen', en: 'Ich habe eine E-Mail von meinem Chef bekommen.', me: 'I received an email from my boss.' },
+ { t: 'Write simple emails / Einfache E-Mails schreiben', en: 'Sehr geehrter Herr Müller, ich möchte einen Termin…', me: 'Dear Mr. Müller, I would like to make an appointment…' },
+ { t: 'Order food and drinks / Essen und Getränke bestellen', en: 'Ich hätte gern eine Suppe und einen Kaffee, bitte.', me: 'I would like a soup and a coffee, please.' }
+ ];
+
+ var TIPS = [
+ { t: 'Lerne Wörter in Sätzen / Learn words in sentences', p: 'Lerne nie ein Wort allein. Lerne „Ich gehe zur Arbeit“, nicht nur „Arbeit“. / Never memorize a word alone.' },
+ { t: 'Sprich 10 Minuten mit dir selbst / Talk to yourself', p: 'Beschreibe, was du siehst: „Das ist mein Zimmer. Das Fenster ist offen.“ / Describe what you see.' },
+ { t: 'Schau einfache Videos / Watch simple videos', p: 'Beginne mit der Tagesschau in einfacher Sprache oder Kinderprogrammen. / Start with slow, simple German.' },
+ { t: 'Beschrifte dein Zuhause / Label your home', p: 'Klebe kleine Zettel auf Tür, Tisch, Kühlschrank und Bett — auf Deutsch. / Put small notes in German around your home.' },
+ { t: 'Schreibe 3 Sätze am Tag / Write 3 sentences a day', p: '„Heute habe ich um sieben Uhr aufgestanden. Ich fühle mich gut.“ / Write something about your day.' },
+ { t: 'Wiederhole jeden Morgen / Repeat every morning', p: 'Schaue dir jeden Morgen die Wörter von gestern an. Wiederholung macht sie fest. / Review yesterday’s words daily.' }
+ ];
+
+ var SPEAKING = [
+ { t: 'Describe your day / Den Tag beschreiben', prompt: 'Erzähle, wie dein Tag aussieht. / Say what your day looks like.', model: 'Ich stehe um sechs Uhr auf. Ich frühstücke Brot mit Käse. Dann fahre ich mit dem Bus zur Arbeit.', me: 'I get up at six. I have bread with cheese for breakfast. Then I go to work by bus.' },
+ { t: 'Talk about your last weekend / Vom letzten Wochenende erzählen', prompt: 'Erzähle, was du letztes Wochenende gemacht hast. / Say what you did last weekend.', model: 'Letztes Wochenende war ich mit Freunden im Restaurant. Wir haben Pizza gegessen und viel gelacht.', me: 'Last weekend I went to a restaurant with friends. We ate pizza and laughed a lot.' },
+ { t: 'Describe your family / Die Familie beschreiben', prompt: 'Erzähle von deiner Familie. / Tell about your family.', model: 'Meine Familie ist nicht sehr groß. Ich habe einen Bruder und eine Schwester. Mein Vater ist Lehrer.', me: 'My family is not very big. I have a brother and a sister. My father is a teacher.' },
+ { t: 'Order at a restaurant / Im Restaurant bestellen', prompt: 'Bestelle ein Essen und ein Getränk. / Order a meal and a drink.', model: 'Guten Tag! Ich hätte gern das Schnitzel mit Kartoffeln und ein Wasser, bitte.', me: 'Good day! I would like the schnitzel with potatoes and a water, please.' },
+ { t: 'Make an appointment / Einen Termin vereinbaren', prompt: 'Vereinbare einen Arzttermin. / Make a doctor’s appointment.', model: 'Guten Morgen! Ich möchte einen Termin für nächste Woche vereinbaren. Geht es am Dienstag?', me: 'Good morning! I would like to make an appointment for next week. Is Tuesday possible?' }
+ ];
+
+ var SOUNDS = [
+ { s: 'ä', read: 'Käse — open a sound like English “bed”', w: [
+ { w: 'Käse', p: 'cheese' }, { w: 'Mädchen', p: 'girl' }, { w: 'spät', p: 'late' } ],
+ tip: 'Öffne den Mund etwas weiter als beim „e“ — es liegt zwischen „e“ und „a“. / Open your mouth a bit more than for “e”.',
+ pairs: [ [{ w: 'Käse', p: 'cheese' }, { w: 'kesse', p: 'cheeky' }], [{ w: 'schön', p: 'beautiful' }, { w: 'schon', p: 'already' }] ] },
+ { s: 'ö', read: 'schön — round your lips and say “e”', w: [
+ { w: 'schön', p: 'beautiful' }, { w: 'hören', p: 'to hear' }, { w: 'Goethe', p: 'Goethe' } ],
+ tip: 'Runde die Lippen wie bei „o“ und sage gleichzeitig „e“. / Round your lips as for “o” but say “e”.',
+ pairs: [ [{ w: 'schön', p: 'beautiful' }, { w: 'Sohn', p: 'son' }], [{ w: 'Höhle', p: 'cave' }, { w: 'Halle', p: 'hall' }] ] },
+ { s: 'ü', read: 'grün — round your lips and say “i”', w: [
+ { w: 'grün', p: 'green' }, { w: 'Müller', p: 'Miller' }, { w: 'über', p: 'over' } ],
+ tip: 'Runde die Lippen wie bei „u“ und sage gleichzeitig „i“. / Round your lips as for “u” but say “i”.',
+ pairs: [ [{ w: 'grün', p: 'green' }, { w: 'Gruß', p: 'greeting' }], [{ w: 'müde', p: 'tired' }, { w: 'Miete', p: 'rent' }] ] },
+ { s: 'ch', read: 'ich / Bach — the German ch sound', w: [
+ { w: 'ich', p: 'I' }, { w: 'Bach', p: 'stream' }, { w: 'spricht', p: 'speaks' } ],
+ tip: 'Nach i/e ein weiches „ch“ vorn im Mund, nach a/o/u ein tieferes „ach“. / After i/e it is soft; after a/o/u it is deeper.',
+ pairs: [ [{ w: 'ich', p: 'I' }, { w: 'bis', p: 'until' }], [{ w: 'Buch', p: 'book' }, { w: 'Busch', p: 'bush' }] ] },
+ { s: 'sch', read: 'Schule — the “sh” sound', w: [
+ { w: 'Schule', p: 'school' }, { w: 'Schuh', p: 'shoe' }, { w: 'Fisch', p: 'fish' } ],
+ tip: 'Runde die Lippen und stoße die Luft weich aus — wie das englische „sh“. / Round your lips and push air out gently.',
+ pairs: [ [{ w: 'Schule', p: 'school' }, { w: 'Kuhle', p: 'pit' }], [{ w: 'Still', p: 'style' }, { w: 'Stil', p: 'style' }] ] },
+ { s: 'ei', read: 'mein — like the English “eye”', w: [
+ { w: 'mein', p: 'my' }, { w: 'Zeit', p: 'time' }, { w: 'heiß', p: 'hot' } ],
+ tip: 'Beginnt mit „a“ und gleitet zu „i“ — wie schnell „eye“ sagen. / Start with “a” and glide to “i”.',
+ pairs: [ [{ w: 'mein', p: 'my' }, { w: 'Miete', p: 'rent' }], [{ w: 'kein', p: 'no' }, { w: 'Knie', p: 'knee' }] ] },
+ { s: 'ie', read: 'Liebe — a long “ee” sound', w: [
+ { w: 'Liebe', p: 'love' }, { w: 'vier', p: 'four' }, { w: 'Fliege', p: 'fly' } ],
+ tip: 'ie = langes „i“ (wie „ee“). Ein kurzes „i“ klingt wie in „bin“. / ie is a long “ee”; a single i is short.',
+ pairs: [ [{ w: 'Liebe', p: 'love' }, { w: 'Lippe', p: 'lip' }], [{ w: 'Tier', p: 'animal' }, { w: 'Tipp', p: 'tip' }] ] },
+ { s: 'eu / äu', read: 'heute — like the “oy” in “boy”', w: [
+ { w: 'heute', p: 'today' }, { w: 'Häuser', p: 'houses' }, { w: 'freundlich', p: 'friendly' } ],
+ tip: 'Beginnt mit „o“ und gleitet zu „u“ — wie „oy“. / Start with “o” and glide to “u”.',
+ pairs: [ [{ w: 'Heute', p: 'today' }, { w: 'Häute', p: 'skins' }], [{ w: 'teu', p: 'dear' }, { w: 'tou', p: 'tour' }] ] },
+ { s: 'r', read: 'rot — the German R', w: [
+ { w: 'rot', p: 'red' }, { w: 'Rad', p: 'wheel' }, { w: 'Ruhe', p: 'rest' } ],
+ tip: 'Das deutsche R ist ein Kehlkopfgeräusch. Am Wortende klingt es wie ein kurzes „a“. / The German R is a throat sound; at word endings it sounds like a short “a”.',
+ pairs: [ [{ w: 'rot', p: 'red' }, { w: 'tot', p: 'dead' }], [{ w: 'Reis', p: 'rice' }, { w: 'leise', p: 'quiet' }] ] }
+ ];
+
+ var ACCENT = [
+ 'Wortakzent — meist ist die erste Silbe am stärksten: „KOM-ma“, „HUN-de“, „VER-ste-hen“. / The first syllable is usually strongest.',
+ 'Fragen gehen nach oben — deine Stimme steigt am Ende: „Kommst du morgen?“ / Your voice rises at the end of questions.',
+ 'Betone die wichtigen Wörter: „Ich WILL ein KAFFEE, bitte.“ / Emphasize the important words in the sentence.',
+ 'Sprich zuerst langsam. Die Geschwindigkeit kommt mit der Zeit — die Genauigkeit kommt nicht zurück. / Speak slowly first; accuracy does not come back later.'
+ ];
+
+ var STORY = {
+ title: 'Ein Tag in Berlin / A Day in Berlin',
+ para: '<b>Lukas</b> wohnt in <b>Berlin</b>.<br><br>Letzten Montag <b>hat</b> er einen neuen Schüler in seiner Klasse <b>gesehen</b>. Der Schüler heißt <b>Yusuf</b> und kommt aus der <b>Türkei</b>. „<b>Freut mich</b>!“ hat Yusuf gesagt. „Ich <b>lerne seit drei Monaten Deutsch</b>.“<br><br>Lukas <b>hat</b> gelächelt: „<b>Willkommen</b> in unserer Klasse! Ich <b>helfe</b> dir gern.“ Danach <b>sind</b> sie zusammen in die <b>Mensa</b> <b>gegangen</b> und <b>haben</b> eine Pizza <b>gegessen</b>.<br><br>Am <b>Nachmittag</b> <b>haben</b> sie Fußball <b>gespielt</b>. Yusuf <b>hat</b> ein <b>Tor geschossen</b> — „Toll!“ <b>hat</b> Lukas gerufen. „<b>Wir sind jetzt Freunde</b>!“',
+ words: ['der neue Schüler', 'Freut mich', 'seit drei Monaten', 'die Mensa', 'helfen', 'der Nachmittag', 'ein Tor schießen', 'Freunde'],
+ note: 'Grammatik: Perfekt (hat gesehen, hat gesagt, haben gegessen), Perfekt mit sein (sind gegangen), „seit“ + Dativ, reflexiv „freut mich“. / Grammar: Perfekt, Perfekt with sein, “seit” + dative, reflexive “freut mich”.',
+ qa: [['Wo wohnt Lukas? (Where does Lukas live?)', 'In Berlin.'], ['Aus welchem Land kommt Yusuf? (Where is Yusuf from?)', 'Aus der Türkei.'], ['Seit wie vielen Monaten lernt Yusuf Deutsch? (How long has Yusuf been learning German?)', 'Seit drei Monaten.'], ['Was haben sie am Nachmittag gemacht? (What did they do in the afternoon?)', 'Sie haben Fußball gespielt.']]
+ };
+
+ var LISTEN = {
+ title: 'Mein Wochenende / My Weekend',
+ trans: '<b>Mein Name ist Anna</b>. <b>Letztes Wochenende</b> war ich bei meiner Familie in Hamburg. Ich <b>bin</b> am Freitagabend <b>mit dem Zug gefahren</b>.<br><br>Am Samstag <b>habe ich</b> mit meiner Mutter <b>einen Kuchen gebacken</b>. Der Kuchen <b>hat</b> sehr <b>gut geschmeckt</b>!<br><br>Am Sonntag <b>sind wir</b> im Park <b>spazieren gegangen</b>. Das Wetter <b>war</b> super — <b>die Sonne hat geschienen</b>.<br><br>Am Abend <b>habe ich</b> mein Zimmer <b>aufgeräumt</b>, und jetzt <b>ist es</b> sehr <b>sauber</b>. Es <b>war</b> ein <b>tolles Wochenende</b>!',
+ glance: ['Perfekt mit haben: habe gebacken, habe aufgeräumt, haben gespielt', 'Perfekt mit sein: bin gefahren, sind gegangen', 'Präteritum: war, war', 'Zeitwörter: letztes Wochenende, am Samstag, am Sonntag'],
+ qa: [['Wohin ist Anna gefahren? (Where did Anna go?)', 'Nach Hamburg.'], ['Was hat Anna mit ihrer Mutter gemacht? (What did Anna do with her mother?)', 'Sie haben einen Kuchen gebacken.'], ['Was haben sie am Sonntag gemacht? (What did they do on Sunday?)', 'Sie sind im Park spazieren gegangen.'], ['Wie war das Wochenende? (How was the weekend?)', 'Es war toll.']]
+ };
+
+ var QUIZ_STORY = [
+ { q: 'Wo wohnt Lukas? / Where does Lukas live?', opts: ['In München', 'In Berlin', 'In Hamburg'], a: 1 },
+ { q: 'Aus welchem Land kommt Yusuf? / Where is Yusuf from?', opts: ['Griechenland', 'Spanien', 'der Türkei'], a: 2 },
+ { q: 'Seit wie vielen Monaten lernt Yusuf Deutsch? / How long has Yusuf been learning German?', opts: ['Einen Monat', 'Drei Monate', 'Sechs Monate'], a: 1 },
+ { q: 'Was haben sie am Nachmittag gemacht? / What did they do in the afternoon?', opts: ['Fußball gespielt', 'Ein Buch gelesen', 'Geschlafen'], a: 0 }
+ ];
+
+ var QUIZ_LISTEN = [
+ { q: 'Wohin ist Anna gefahren? / Where did Anna go?', opts: ['Nach München', 'Nach Hamburg', 'Nach Berlin'], a: 1 },
+ { q: 'Was hat Anna mit ihrer Mutter gemacht? / What did Anna do with her mother?', opts: ['Einen Film gesehen', 'Gekocht', 'Einen Kuchen gebacken'], a: 2 },
+ { q: 'Was haben sie am Sonntag gemacht? / What did they do on Sunday?', opts: ['Im Park spazieren gegangen', 'Fußball gespielt', 'Eingekauft'], a: 0 },
+ { q: 'Wie war das Wochenende? / How was the weekend?', opts: ['Schlecht', 'Langweilig', 'Toll'], a: 2 }
+ ];
+
+function renderSpeaking() {
+ var el = document.getElementById('speakGrid');
+ el.innerHTML = SPEAKING.map(function (sp, i) {
+ return '<div class="speak-card"><div class="speak-num">' + (i + 1) + '</div><div class="speak-head"><span class="s-ic">🗣️</span><h3>' + sp.t + '</h3></div><p class="speak-prompt">' + spk(deFirst(sp.prompt), 1) + ' ' + sp.prompt + '</p><div class="model-box"><div class="ml">Musterantwort / Model answer</div><div class="en">' + spk(sp.model, 1) + ' ' + sp.model + '</div><div class="me">' + sp.me + '</div></div></div>';
+ }).join('');
+ }
+
+ function renderSounds() {
+ var el = document.getElementById('pronGrid');
+ el.innerHTML = SOUNDS.map(function (s) {
+ var pills = s.w.map(function (wd) {
+ return '<span class="word-pill"><button type="button" class="spk" onclick="speak(\'' + wd.w + '\')">🔊</button> ' + wd.w + '<span class="pm">' + wd.p + '</span></span>';
+ }).join('');
+ var pairs = s.pairs.map(function (pr) {
+ return '<div class="pair"><span class="pw">' + pr[0].w + ' <button type="button" class="spk" onclick="speak(\'' + pr[0].w + '\')">🔊</button> <em>' + pr[0].p + '</em></span><span class="vs">vs</span><span class="pw">' + pr[1].w + ' <button type="button" class="spk" onclick="speak(\'' + pr[1].w + '\')">🔊</button> <em>' + pr[1].p + '</em></span></div>';
+ }).join('');
+ return '<div class="sound-card"><div class="sound-phone-row"><span class="sound-phone">' + s.s + '</span><button type="button" class="spk" onclick="speak(\'' + s.read + '\')">🔊</button></div><div class="sound-w">' + pills + '</div><p>' + spk(deFirst(s.tip), 1) + ' ' + s.tip + '</p>' + pairs + '</div>';
+ }).join('');
+ var tips = document.getElementById('accentTips');
+ tips.innerHTML = ACCENT.map(function (t) { return '<li>' + spk(deFirst(t), 1) + ' ' + t + '</li>'; }).join('');
+ }
+
+ function renderStory() {
+ var el = document.getElementById('storyCard');
+ var chips = STORY.words.map(function (w) { return '<span class="kg">' + spk(w, 1) + ' ' + w + '</span>'; }).join('');
+ el.innerHTML = '<div class="story-head"><span class="st-ic">📖</span><h3>' + STORY.title + '</h3>' + spkL(STORY.para, 'Vorlesen') + '</div><div class="story-text">' + STORY.para + '</div><div class="story-gloss"><b>Wörter zum Lernen / Story words:</b><div>' + chips + '</div><div style="margin-top:0.6rem;">' + STORY.note + '</div></div>';
+ }
+
+ function renderListen() {
+ var el = document.getElementById('listenCard');
+ if (!el) return;
+ var glance = LISTEN.glance.map(function (g) { return '<span>' + spk(g, 1) + ' ' + g + '</span>'; }).join('');
+ el.innerHTML = '<div class="listen-head"><span class="ls-ic">🎧</span><h3>' + LISTEN.title + '</h3><span class="listen-badge">LISTENING TEST</span></div>'
+ + '<div class="listen-actions"><button type="button" class="btn-mini" onclick="playListen(this)">🔊 Audio abspielen</button><button type="button" class="btn-mini" onclick="stopSpeak(this)">⏹ Stopp</button><button type="button" class="btn-mini" onclick="toggleTranscript(this)">Text anzeigen</button></div>'
+ + '<p class="listen-note">Der Text ist absichtlich versteckt. Spiele das Audio ab und versuche, es nur mit deinen Ohren zu verstehen — dann beantworte die Fragen unten. Danach kannst du den Text ansehen.<br><br><em>The text is hidden on purpose. Play the audio and try to understand it with your ears only — then answer the questions below. When you finish, you can check the text.</em></p>'
+ + '<div class="listen-transcript hidden" id="listenTrans">' + LISTEN.trans + '</div>'
+ + '<div class="listen-glance">' + glance + '</div>'
+ + '<div class="quiz-card" id="listenQuiz"></div>';
+ renderQuiz('listenQuiz', QUIZ_LISTEN, 'listenScore');
+ }
+
+ function pickVoice() {
+ try {
+ var voices = window.speechSynthesis.getVoices();
+ var prefs = ['Google Deutsch', 'Microsoft Conrad - German (Germany)', 'Microsoft Steffi - German (Germany)', 'Microsoft Hedda - German (Germany)', 'Google UK English Female', 'Google UK English Male', 'Microsoft Zira - English (United States)', 'Microsoft David - English (United States)', 'Samantha'];
+ for (var i = 0; i < prefs.length; i++) {
+ for (var j = 0; j < voices.length; j++) {
+ if (voices[j].name === prefs[i]) return voices[j];
+ }
+ }
+ for (var k = 0; k < voices.length; k++) {
+ if ((voices[k].lang || '').toLowerCase().indexOf('de') === 0) return voices[k];
+ }
+ for (var m = 0; m < voices.length; m++) {
+ if ((voices[m].lang || '').toLowerCase().indexOf('en') === 0) return voices[m];
+ }
+ for (var n = 0; n < voices.length; n++) {
+ if (voices[n].lang && voices[n].lang.toLowerCase().indexOf('de') !== -1) return voices[n];
+ }
+ } catch (e) {}
+ return null;
+ }
+
+ function resetBusyButtons() {
+ var btns = document.querySelectorAll('button[data-playing]');
+ for (var i = 0; i < btns.length; i++) {
+ var label = btns[i].getAttribute('data-playing');
+ btns[i].textContent = label;
+ btns[i].removeAttribute('data-playing');
+ btns[i].disabled = false;
+ }
+ }
+
+ function stopSpeak(btn) {
+ try { if ('speechSynthesis' in window && window.speechSynthesis.cancel) window.speechSynthesis.cancel(); } catch (e) {}
+ resetBusyButtons();
+ }
+
+ function speak(text, after) {
+ try {
+ if (!('speechSynthesis' in window)) { alert('Dein Browser unterstützt keine Sprachausgabe. Versuche Chrome, Edge oder Safari.'); return; }
+ resetBusyButtons();
+ window.speechSynthesis.cancel();
+ var u = new SpeechSynthesisUtterance(text);
+ u.lang = 'de-DE';
+ u.rate = 0.9;
+ var v = pickVoice();
+ if (v) u.voice = v;
+ u.onend = function () { if (after) after(); };
+ u.onerror = function () { if (after) after(); };
+ window.speechSynthesis.speak(u);
+ } catch (e) { resetBusyButtons(); if (after) after(); }
+ }
+
+ function gtxt(t){var d=document.createElement('div');d.innerHTML=t;return(d.textContent||d.innerText||'').replace(/\s+/g,' ').trim()}
+ function deLast(s){s=String(s);var i=s.lastIndexOf(' / ');return i>-1?s.substring(i+3):s}
+ function deFirst(s){s=String(s);var i=s.indexOf(' / ');return i>-1?s.substring(0,i).trim():s}
+ function spk(t,s){t=gtxt(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,"\\'").replace(/\\/g,'\\\\');return'<button type="button" class="spk'+(s?' sm':'')+'" aria-label="Play" onclick="speak(\''+t+'\')">🔊</button>'}
+ function spkL(t,l){t=gtxt(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,"\\'").replace(/\\/g,'\\\\');return'<button type="button" class="btn-mini" onclick="speak(\''+t+'\')">🔊 '+l+'</button>'}
+
+ function playListen(btn) {
+ if (btn.getAttribute('data-playing') !== null) { stopSpeak(); return; }
+ var text = LISTEN.trans.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+ var old = btn.textContent;
+ btn.setAttribute('data-playing', old);
+ btn.textContent = '⏸ Wird abgespielt…';
+ btn.disabled = true;
+ speak(text, function () {
+ var label = btn.getAttribute('data-playing');
+ if (label !== null) {
+ btn.textContent = label;
+ btn.removeAttribute('data-playing');
+ btn.disabled = false;
+ }
+ });
+ }
+
+ function toggleTranscript(btn) {
+ var t = document.getElementById('listenTrans');
+ if (!t) return;
+ var isHidden = t.classList.contains('hidden');
+ t.classList.toggle('hidden');
+ btn.textContent = isHidden ? 'Text verstecken' : 'Text anzeigen';
+ }
+
+ var PRAISE = ['Ausgezeichnet! Richtig!', 'Fantastisch — das stimmt!', 'Gut gemacht!', 'Perfekte Antwort!', 'Genau richtig!'];
+
+ function renderQuiz(cid, list, sid) {
+ var el = document.getElementById(cid);
+ if (!el) return;
+ window.QUIZZES = window.QUIZZES || {};
+ window.QUIZZES[cid] = { list: list, score: 0, used: {}, sid: sid };
+ var qs = list.map(function (qi, i) {
+ var opts = qi.opts.map(function (o, oi) {
+ return '<button type="button" class="q-opt" onclick="answerQuiz(\'' + cid + '\',' + i + ',' + oi + ',this)"><span class="q-let">' + String.fromCharCode(65 + oi) + '</span>' + o + '</button>';
+ }).join('');
+ return '<div class="q-block" id="' + cid + '-q' + i + '"><div class="q-text">' + (i + 1) + '. ' + spk(deFirst(qi.q), 1) + ' ' + qi.q + '</div><div class="q-opts">' + opts + '</div><div class="q-fb"></div></div>';
+ }).join('');
+ el.innerHTML = '<div class="quiz-toolbar"><span style="font-size:1.15rem;"></span><b>Prüfe dein Verständnis</b><span class="quiz-score" id="' + sid + '">Punkte: 0 / ' + list.length + '</span></div>' + qs + '<button type="button" class="btn-mini quiz-reset" onclick="resetQuiz(\'' + cid + '\',\'' + sid + '\')">↺ Noch einmal versuchen</button>';
+ }
+
+ function answerQuiz(cid, qi, oi, btn) {
+ var quiz = window.QUIZZES && window.QUIZZES[cid];
+ if (!quiz) return;
+ var key = 'q' + qi;
+ if (quiz.used[key]) return;
+ var q = quiz.list[qi];
+ var btns = btn.parentNode.querySelectorAll('.q-opt');
+ var fbs = document.getElementById(cid + '-q' + qi).querySelector('.q-fb');
+ for (var i = 0; i < btns.length; i++) {
+ btns[i].classList.add('locked');
+ if (i === q.a) btns[i].classList.add('ok');
+ else if (i === oi) btns[i].classList.add('bad');
+ }
+ if (oi === q.a) {
+ quiz.score++;
+ fbs.textContent = PRAISE[Math.floor(Math.random() * PRAISE.length)];
+ fbs.className = 'q-fb good';
+ } else {
+ fbs.textContent = 'Fast — die richtige Antwort ist ' + String.fromCharCode(65 + q.a) + ': ' + q.opts[q.a];
+ fbs.className = 'q-fb bad-fb';
+ }
+ quiz.used[key] = true;
+ var scoreEl = document.getElementById(quiz.sid);
+ if (scoreEl) scoreEl.textContent = 'Punkte: ' + quiz.score + ' / ' + quiz.list.length;
+ if (Object.keys(quiz.used).length === quiz.list.length) {
+ var msg = quiz.score === quiz.list.length
+ ? '🏆 Perfekt! ' + quiz.score + ' / ' + quiz.list.length + ' — starke Leistung!'
+ : 'Fertig! Punkte: ' + quiz.score + ' / ' + quiz.list.length + '. Tippe „Noch einmal versuchen“, um besser zu werden.';
+ setTimeout(function () { alert(msg); }, 250);
+ }
+ }
+
+ function resetQuiz(cid, sid) {
+ var quiz = window.QUIZZES && window.QUIZZES[cid];
+ if (!quiz) return;
+ quiz.score = 0;
+ quiz.used = {};
+ var els = document.querySelectorAll('#' + cid + ' .q-opt');
+ for (var i = 0; i < els.length; i++) els[i].classList.remove('ok', 'bad', 'locked');
+ var fbs = document.querySelectorAll('#' + cid + ' .q-fb');
+ for (var j = 0; j < fbs.length; j++) { fbs[j].textContent = ''; fbs[j].className = 'q-fb'; }
+ var scoreEl = document.getElementById(sid);
+ if (scoreEl) scoreEl.textContent = 'Punkte: 0 / ' + quiz.list.length;
+ }
+
+ function renderTopics() {
+ var el = document.getElementById('grammarGrid');
+ el.innerHTML = TOPICS.map(function (t) {
+ var exs = t.ex.map(function (e) {
+ return '<div class="example-box"><div class="en">' + spk(e.en, 1) + ' ' + e.en + '</div><div class="mean">' + e.me + '</div></div>';
+ }).join('');
+ return '<div class="topic-card"><div class="topic-head"><span class="t-ic">🧠</span><h3>' + t.t + '</h3></div><p class="topic-note">' + t.note + '</p>' + exs + '</div>';
+ }).join('');
+ }
+
+ function renderVocab() {
+ var el = document.getElementById('vocabGrid');
+ el.innerHTML = VOCAB.map(function (g) {
+ var rows = g.words.map(function (w) {
+ return '<div class="word-row"><span class="w">' + spk(w.w, 1) + ' ' + w.w + '</span><span class="wex">' + spk(deFirst(w.ex), 1) + ' ' + w.ex + '</span></div>';
+ }).join('');
+ return '<div class="vocab-card"><div class="vocab-head"><span class="v-ic">📚</span><h3>' + g.g + '</h3></div>' + rows + '</div>';
+ }).join('');
+ }
+
+ function renderPhrases() {
+ var el = document.getElementById('phraseGrid');
+ el.innerHTML = PHRASES.map(function (d) {
+ var lines = d.lines.map(function (l) {
+ return '<div class="chat"><div class="who">' + l.p + '</div><div class="txt">' + spk(l.t, 1) + ' ' + l.t + '</div></div>';
+ }).join('');
+ return '<div class="phrase-card"><div class="phrase-head"><h3>💬 ' + d.t + '</h3></div>' + lines + '</div>';
+ }).join('');
+ }
+
+ function renderCanDo() {
+ var el = document.getElementById('candoGrid');
+ el.innerHTML = CANDO.map(function (c) {
+ return '<div class="cando-card"><div class="cando-ic">✅</div><div><div class="cando-title">' + c.t + '</div><div class="cando-en">' + spk(c.en, 1) + ' ' + c.en + '</div><div class="cando-mean">' + c.me + '</div></div></div>';
+ }).join('');
+ }
+
+ function renderTips() {
+ var el = document.getElementById('tipsGrid');
+ el.innerHTML = TIPS.map(function (t) {
+ return '<div class="tip-card"><div class="tip-ic">💡</div><b>' + spk(deFirst(t.t), 1) + ' ' + t.t + '</b><p>' + spk(deFirst(t.p), 1) + ' ' + t.p + '</p></div>';
+ }).join('');
+ }
+
+ renderTopics();
+ renderSpeaking();
+ renderSounds();
+ renderStory();
+ renderQuiz('storyQuiz', QUIZ_STORY, 'storyScore');
+ renderListen();
+ renderVocab();
+ renderPhrases();
+ renderCanDo();
+ renderTips();
+
+ const navbar = document.getElementById('navbar');
+ window.addEventListener('scroll', () => {
+ navbar.classList.toggle('scrolled', window.scrollY > 50);
+ });
+
+ const hamburger = document.getElementById('hamburger');
+ const navLinks = document.getElementById('navLinks');
+ hamburger.addEventListener('click', () => {
+ navLinks.classList.toggle('active');
+ });
+ navLinks.querySelectorAll('a').forEach(link => {
+ link.addEventListener('click', () => navLinks.classList.remove('active'));
+ });
+
+ const reveals = document.querySelectorAll('.reveal');
+ const observer = new IntersectionObserver((entries) => {
+ entries.forEach((entry, i) => {
+ if (entry.isIntersecting) {
+ setTimeout(() => entry.target.classList.add('visible'), i * 80);
+ observer.unobserve(entry.target);
+ }
+ });
+ }, { threshold: 0.1 });
+ reveals.forEach(el => observer.observe(el));
+ setTimeout(() => document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')), 1500);
+ try { if (window.speechSynthesis && window.speechSynthesis.getVoices) window.speechSynthesis.getVoices(); } catch (e) {}
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

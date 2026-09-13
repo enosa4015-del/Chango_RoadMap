@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Your Result | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="stylesheet" href="../css/app.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <div class="nav-right">
+ <a href="../index.html" class="nav-link">Home</a>
+ <a href="level.html" class="nav-link">Levels</a>
+ <a href="test.html" class="nav-link">Test</a>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ </div>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ var cur = document.documentElement.getAttribute('data-theme');
+ b.textContent = cur === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<main class="page" id="resultView">
+
+ <div class="section-label" style="margin:0 0 1rem;">
+ <div class="section-step" style="background:var(--gradient-1);">✓</div>
+ <div>
+ <div class="section-title">Your Test Result</div>
+ <div class="section-sub">Your Chango AI Assessment is ready</div>
+ </div>
+ <div class="section-line"></div>
+ </div>
+
+ <div class="result-card">
+ 
+ <div class="score-ring">
+ <svg width="170" height="170" viewBox="0 0 170 170">
+ <defs>
+ <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+ <stop offset="0%" stop-color="#6C3CE1" />
+ <stop offset="100%" stop-color="#F97316" />
+ </linearGradient>
+ </defs>
+ <circle class="track" cx="85" cy="85" r="72" fill="none" stroke-width="12" />
+ <circle class="value" id="ringValue" cx="85" cy="85" r="72" fill="none" stroke-width="12" stroke-dasharray="452.4" stroke-dashoffset="452.4" />
+ </svg>
+ <div class="score-inner">
+ <div class="pct" id="scorePct">0%</div>
+ <div class="of">of 100</div>
+ </div>
+ </div>
+ <button class="level-badge" id="levelBadge" onclick="openLevelModal()" title="Click to see what this level means">CEFR A1</button>
+ <div class="level-hint">Click your level to see exactly what it means &amp; what to learn next</div>
+ <div class="result-title" id="resultTitle">Your Level: <span class="gradient-text">Beginner</span></div>
+ <p class="result-desc" id="resultDesc"></p>
+ <div class="stat-chips" id="statChips"></div>
+ <div class="ai-report">
+ <div class="ai-report-head">
+ <div class="mini-avatar"></div>
+ <div>
+ <b>Chango AI Agent Report</b><br>
+ <span class="online">● Analysis complete</span>
+ </div>
+ </div>
+ <p id="reportText"></p>
+ <ul id="reportList"></ul>
+ </div>
+ <div class="mistakes-box">
+ <button class="mistakes-toggle" onclick="toggleMistakes()">
+ <span>Review Your Mistakes</span>
+ <span class="mt-count" id="mistakesCount">0</span>
+ <span class="mt-arrow">▾</span>
+ </button>
+ <div class="mistakes-list" id="mistakesList"></div>
+ </div>
+ <div class="result-actions">
+ <button class="btn btn-primary btn-large" onclick="location.href=levelPage(result.level)">Continue &amp; See What's Next</button>
+ <button class="btn btn-outline btn-large" onclick="location.href=levelPage(result.level)">What Is This Level?</button>
+ <button class="btn btn-outline btn-large" onclick="location.href='test.html'">Retake Test</button>
+ </div>
+ <p class="result-note">AI estimate of your current CEFR level. For an official certificate, join the Chango English Bootcamp.</p>
+ </div>
+</main>
+
+<div class="overlay" id="levelModal" onclick="if(event.target===this)closeLevelModal()">
+ <div class="result-card level-modal-card">
+ 
+ <div class="level-badge" id="lmBadge" style="cursor:default;">CEFR A1</div>
+ <div class="result-title" id="lmTitle">Your Level</div>
+ <p class="result-desc" id="lmDesc"></p>
+ <div class="lm-instructions">
+ <div class="lm-instructions-title">What you can do at this level</div>
+ <ul id="lmList"></ul>
+ </div>
+ <div class="lm-block">
+ <div class="lm-block-title">Your study focus</div>
+ <ul id="lmFocus"></ul>
+ </div>
+ <div class="lm-next" id="lmNext"></div>
+ <div class="result-actions" style="margin-top:1.2rem;">
+ <button class="btn btn-primary btn-large" onclick="closeLevelModal()">Got It</button>
+ <a href="level.html" class="btn btn-outline btn-large">See All Levels</a>
+ <a href="level-detail.html" class="btn btn-outline btn-large" id="lmFullGuide">Open Full Level Guide</a>
+ </div>
+ </div>
+</div>
+
+<script src="../js/app-data.js"></script>
+<script>
+ let result = null;
+ try { result = JSON.parse(localStorage.getItem('changoResult')); } catch (e) { result = null; }
+
+ if (!result || !result.level) {
+ window.location.href = 'test.html';
+ }
+
+ function pct(stat) {
+ if (!stat || !stat.total) return 0;
+ return Math.round(stat.right / stat.total * 100);
+ }
+
+ function renderResult() {
+ const degree = result.degree;
+ const level = result.level;
+ const info = LEVEL_INFO[level];
+ const mcq = result.mcq || { readingRight: 0, catStats: {} };
+ const essay = result.essay || { empty: true, count: 0 };
+
+ const chipData = [
+ { label: 'Your Score', value: degree + '%' },
+ { label: 'Grammar', value: pct(mcq.catStats['Grammar']) + '%' },
+ { label: 'Vocabulary', value: pct(mcq.catStats['Vocabulary']) + '%' },
+ { label: 'Reading', value: (mcq.readingRight || 0) + '/3' },
+ { label: 'Essay', value: essay.empty ? '—' : essay.count + ' words' }
+ ];
+
+ const chipsEl = document.getElementById('statChips');
+ chipsEl.innerHTML = '';
+ chipData.forEach(c => {
+ const div = document.createElement('div');
+ div.className = 'stat-chip';
+ div.innerHTML = '<b>' + c.value + '</b>' + c.label;
+ chipsEl.appendChild(div);
+ });
+
+ document.getElementById('scorePct').textContent = '0%';
+ document.getElementById('levelBadge').textContent = 'CEFR ' + level;
+ document.getElementById('levelBadge').style.color = info.ring;
+ document.getElementById('levelBadge').style.borderColor = info.ring;
+ document.getElementById('resultTitle').innerHTML = 'Your Level: <span class="gradient-text">' + info.title + '</span>';
+ document.getElementById('resultDesc').textContent = info.desc;
+
+ document.getElementById('reportText').textContent = degree >= 75
+ ? 'Strong result. Your answers show consistent, accurate English across grammar, vocabulary and reading — and your writing confirms it.'
+ : degree >= 45
+ ? 'Solid result. You handle everyday English well. Focus on the level just above yours to move up quickly.'
+ : 'You are building your foundation. Keep practising grammar, vocabulary and reading and you will move up fast.';
+
+ const essayInfo = essay.empty
+ ? 'No essay was submitted — your level is based on the questions and reading only.'
+ : 'Essay: ' + essay.count + ' words, ' + (essay.sentences || 0) + ' sentences, ' + (essay.advanced || 0) + ' advanced words found (writing level ' + essay.essayLevel + ').';
+
+ const listEl = document.getElementById('reportList');
+ listEl.innerHTML = '';
+ [
+ 'Your degree is ' + degree + ' out of 100 — you got ' + mcq.correct + ' correct out of ' + mcq.total + ' questions.',
+ 'Grammar & vocabulary: ' + pct(mcq.catStats['Grammar']) + '% and ' + pct(mcq.catStats['Vocabulary']) + '% correct.',
+ 'Reading: ' + (mcq.readingRight || 0) + ' of 3 correct on the "' + (result.readingTitle || 'reading') + '" passage.',
+ essayInfo,
+ 'AI agent decision: your degree was cross-checked with your reading and essay — your best level is ' + level + '.',
+ 'Click on your level above to see what it means and what to learn next.',
+ 'Open "Review Your Mistakes" below to see exactly which questions you missed and the correct answers.'
+ ].forEach(item => {
+ const li = document.createElement('li');
+ li.textContent = item;
+ listEl.appendChild(li);
+ });
+
+ buildMistakes();
+
+ const pctEl = document.getElementById('scorePct');
+ const ringEl = document.getElementById('ringValue');
+ const C = 452.4;
+ let start = null;
+ const dur = 800;
+ requestAnimationFrame(function animate(ts) {
+ if (!start) start = ts;
+ const t = Math.min((ts - start) / dur, 1);
+ const eased = 1 - Math.pow(1 - t, 3);
+ const val = Math.round(degree * eased);
+ pctEl.textContent = val + '%';
+ ringEl.style.strokeDashoffset = C - C * (val / 100);
+ if (t < 1) requestAnimationFrame(animate);
+ });
+ }
+
+ function buildMistakes() {
+ const items = result.mistakes || [];
+ document.getElementById('mistakesCount').textContent = items.length;
+
+ const listEl = document.getElementById('mistakesList');
+ listEl.innerHTML = '';
+
+ if (!items.length) {
+ const div = document.createElement('div');
+ div.className = 'mistakes-empty';
+ div.textContent = 'Perfect score — you missed nothing!';
+ listEl.appendChild(div);
+ return;
+ }
+
+ items.forEach(it => {
+ const div = document.createElement('div');
+ div.className = 'mistake-item';
+ div.innerHTML = '' +
+ '<div class="mi-meta">' + it.section + '</div>' +
+ '<div class="mi-q">' + it.q + '</div>' +
+ '<div class="mi-row mi-wrong"><span class="mark">✕</span> Your answer: ' + it.yours + '</div>' +
+ '<div class="mi-row mi-right"><span class="mark">✓</span> Correct: ' + it.correct + '</div>';
+ listEl.appendChild(div);
+ });
+ }
+
+ function toggleMistakes() {
+ const btn = event.target.closest('.mistakes-toggle');
+ btn.classList.toggle('open');
+ document.getElementById('mistakesList').classList.toggle('open');
+ }
+
+ function levelPage(l) {
+ if (l === 'A1') return 'a1.html';
+ if (l === 'A2') return 'a2.html';
+ return 'level-detail.html?level=' + l;
+ }
+
+ function openLevelModal() {
+ const info = LEVEL_INFO[result.level];
+ document.getElementById('lmBadge').textContent = 'CEFR ' + result.level;
+ document.getElementById('lmBadge').style.color = info.ring;
+ document.getElementById('lmBadge').style.borderColor = info.ring;
+ document.getElementById('lmFullGuide').href = levelPage(result.level);
+ document.getElementById('lmTitle').innerHTML = info.title + ' Level';
+ document.getElementById('lmDesc').textContent = info.desc;
+
+ const listEl = document.getElementById('lmList');
+ listEl.innerHTML = '';
+ info.skills.forEach(s => {
+ const li = document.createElement('li');
+ li.textContent = s;
+ listEl.appendChild(li);
+ });
+
+ const focusEl = document.getElementById('lmFocus');
+ focusEl.innerHTML = '';
+ info.focus.forEach(f => {
+ const li = document.createElement('li');
+ li.textContent = f;
+ focusEl.appendChild(li);
+ });
+
+ const rank = LEVEL_RANK[result.level];
+ const next = rank < 6 ? LEVEL_INFO[LEVELS_ASC[rank]] : null;
+ document.getElementById('lmNext').innerHTML = next
+ ? '<div class="up">🚀</div><div><b>Next level: ' + LEVELS_ASC[rank] + ' — ' + next.title + '</b><span>' + info.next + '</span></div>'
+ : '<div class="up">🏆</div><div><b>' + info.next + '</b><span>Keep practising to stay sharp.</span></div>';
+
+ document.getElementById('levelModal').classList.add('show');
+ }
+
+ function closeLevelModal() {
+ document.getElementById('levelModal').classList.remove('show');
+ }
+
+ if (result && result.level) renderResult();
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

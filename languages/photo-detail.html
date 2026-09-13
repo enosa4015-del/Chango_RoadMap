@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Photo Story | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+ :root {
+ --primary: #6C3CE1;
+ --primary-light: #8B5CF6;
+ --primary-dark: #5224B5;
+ --accent: #F97316;
+ --accent-light: #FB923C;
+ --bg-dark: #0A0A0F;
+ --bg-card: #12121A;
+ --bg-card-hover: #1A1A25;
+ --text: #F8F8FC;
+ --text-muted: #9CA3AF;
+ --text-dim: #6B7280;
+ --border: #1F1F2E;
+ --gradient-1: linear-gradient(135deg, #6C3CE1, #F97316);
+ --gradient-2: linear-gradient(135deg, #8B5CF6, #6C3CE1);
+ --gradient-3: linear-gradient(135deg, #F97316, #EF4444);
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.35);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.3);
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.35);
+ --radius: 20px;}
+ .theme-toggle {
+ width: 42px; height: 42px; min-width: 42px; border-radius: 12px; border: 1.5px solid var(--border);
+ background: var(--bg-card); color: var(--accent-light); cursor: pointer;
+ font-size: 1.15rem; display: inline-flex; align-items: center; justify-content: center;
+ transition: all 0.25s ease;
+ }
+ .theme-toggle:hover { border-color: var(--primary); box-shadow: var(--glow-purple); transform: translateY(-2px); }
+ [data-theme="light"] {
+ --bg-dark: #F5F6FB;
+ --bg-card: #FFFFFF;
+ --bg-card-hover: #EEF1F7;
+ --text: #14141B;
+ --text-muted: #3E4757;
+ --text-dim: #79808F;
+ --border: #E4E7EF;
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.12);
+ }
+ [data-theme="light"] nav { background: rgba(255, 255, 255, 0.88); }
+ [data-theme="light"] nav.scrolled { background: rgba(255, 255, 255, 0.97); box-shadow: 0 6px 24px rgba(24, 22, 48, 0.06); }
+ [data-theme="light"] .nav-links.active { background: rgba(255, 255, 255, 0.98); }
+ [data-theme="light"] .btn-outline { background: #FFFFFF; }
+ [data-theme="light"] .info-card, [data-theme="light"] .story-card, [data-theme="light"] .quiz-card {
+ box-shadow: 0 12px 34px rgba(24, 22, 48, 0.07);
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', sans-serif;
+ background: var(--bg-dark);
+ color: var(--text);
+ overflow-x: hidden;
+ line-height: 1.7;
+ }
+
+ ::-webkit-scrollbar { width: 10px; }
+ ::-webkit-scrollbar-track { background: transparent; }
+ ::-webkit-scrollbar-thumb { background: rgba(148, 148, 175, 0.35); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+ html { scrollbar-width: thin; scrollbar-color: rgba(148, 148, 175, 0.35) transparent; }
+
+ .page { --lv-accent: #10B981; --lv-grad: linear-gradient(135deg, #10B981, #3B82F6); --lv-tint: rgba(16,185,129,0.12); --lv-border: rgba(16,185,129,0.4); --lv-glow-s: rgba(16,185,129,0.22); --lv-glow-l: rgba(16,185,129,0.45); }
+
+ /* NAV */
+ nav {
+ position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+ padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+ backdrop-filter: blur(20px); background: rgba(10, 10, 15, 0.8);
+ border-bottom: 1px solid var(--border); transition: all 0.3s ease;
+ }
+ nav.scrolled { padding: 0.6rem 2rem; background: rgba(10, 10, 15, 0.95); }
+ .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+ .logo-icon { width: 42px; height: 42px; background: var(--gradient-1); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: var(--glow-purple); }
+ .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+ .logo-text { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+ .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+ .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; position: relative; }
+ .nav-links a:hover { color: var(--text); }
+ .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--gradient-1); transition: width 0.3s; }
+ .nav-links a:hover::after { width: 100%; }
+ .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: 12px; font-weight: 700; font-size: 0.9rem; text-decoration: none; transition: all 0.3s ease; cursor: pointer; border: none; font-family: 'Inter', sans-serif; }
+ .btn-primary { background: var(--lv-grad); color: white; box-shadow: 0 4px 20px var(--lv-glow-s); }
+ .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--lv-glow-s); }
+ .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+ .btn-outline:hover { border-color: var(--lv-accent); background: var(--lv-tint); }
+ .btn-large { padding: 1rem 2.2rem; font-size: 1rem; border-radius: 14px; }
+ .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+ .hamburger span { width: 25px; height: 2px; background: var(--text); transition: 0.3s; }
+
+ /* HERO */
+ .hero { padding: 7rem 2rem 3rem; text-align: center; position: relative; overflow: hidden; }
+ .hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+ .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.5; animation: float 8s ease-in-out infinite; }
+ .orb-1 { width: 420px; height: 420px; background: var(--lv-accent); top: -10%; left: -5%; opacity: 0.4; }
+ .orb-2 { width: 380px; height: 380px; background: var(--primary); bottom: -10%; right: -5%; animation-delay: 2s; }
+ @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-40px); } }
+ .hero-content { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; }
+ .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--lv-tint); border: 1px solid var(--lv-border); backdrop-filter: blur(8px); color: var(--lv-accent); font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 700; letter-spacing: 2px; padding: 0.5rem 1.4rem; border-radius: 50px; margin-bottom: 1.2rem; }
+ .hero-badge .dot { width: 8px; height: 8px; background: var(--lv-accent); border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
+ @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+ h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4.5vw, 3.4rem); font-weight: 800; line-height: 1.15; color: var(--text); }
+ .hero-sub { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; margin: 0.8rem auto 0; line-height: 1.8; }
+
+ /* CONTENT */
+ .content { max-width: 1080px; margin: 0 auto; padding: 2.5rem 1.25rem 5.5rem; position: relative; z-index: 2; }
+ .section-head { text-align: center; margin-bottom: 2rem; }
+ .section-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--lv-accent); margin-bottom: 0.7rem; }
+ .section-eyebrow .line { width: 30px; height: 2px; background: var(--lv-grad); border-radius: 2px; }
+ .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.6rem, 3.2vw, 2.3rem); font-weight: 700; line-height: 1.2; }
+ .section-sub { color: var(--text-muted); font-size: 0.98rem; margin-top: 0.6rem; }
+
+ .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+ .info-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px; padding: 2rem; position: relative; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+ .info-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--lv-grad); opacity: 0; transition: opacity 0.3s; }
+ .info-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .info-card:hover::before { opacity: 1; }
+ .info-card-icon { width: 54px; height: 54px; border-radius: 16px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+ .info-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+ .info-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; }
+ .info-card p b { color: var(--lv-accent); }
+
+ /* Photo banner */
+ .photo-banner { position: relative; border-radius: 24px; overflow: hidden; margin-bottom: 3rem; height: 340px; display: flex; align-items: flex-end; }
+ .photo-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+ .photo-banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(4, 6, 10, 0.9)); }
+ .photo-banner .pb-text { position: relative; z-index: 2; padding: 2rem; }
+ .photo-banner .pb-text b { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: #FFFFFF; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55); }
+ .photo-banner .pb-text span { display: block; font-size: 0.9rem; color: rgba(255, 255, 255, 0.85); margin-top: 0.3rem; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5); }
+
+ /* Story */
+ .story-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 2rem 2rem 1.5rem; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
+ .story-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .story-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; flex-wrap: wrap; }
+ .story-head .st-ic { font-size: 1.5rem; }
+ .story-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; }
+ .story-actions { margin-left: auto; display: flex; gap: 0.6rem; }
+ .story-text { font-size: 1.02rem; line-height: 2; color: var(--text-muted); max-width: 820px; }
+ .story-text b { color: var(--lv-accent); font-weight: 600; }
+ .story-gloss { font-size: 0.8rem; color: var(--text-dim); margin-top: 1.2rem; border-top: 1px dashed var(--border); padding-top: 0.9rem; }
+ .story-gloss .kg { display: inline-block; background: var(--lv-tint); border: 1px solid var(--lv-border); color: var(--lv-accent); font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 30px; margin: 0.2rem 0.15rem 0; }
+
+ /* Audio + pills */
+ .spk { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; min-width: 26px; border-radius: 8px; border: 1px solid var(--lv-border); background: var(--lv-tint); color: var(--lv-accent); cursor: pointer; font-size: 0.85rem; line-height: 1; padding: 0; transition: all 0.2s ease; font-family: inherit; }
+ .spk:hover { background: var(--lv-accent); color: #fff; transform: scale(1.12); }
+ .btn-mini { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.55rem 1.15rem; border-radius: 12px; font-weight: 700; font-size: 0.85rem; border: 1.5px solid var(--lv-border); background: var(--lv-tint); color: var(--lv-accent); cursor: pointer; transition: all 0.25s ease; font-family: inherit; }
+ .btn-mini:hover { background: var(--lv-accent); color: #fff; transform: translateY(-2px); box-shadow: var(--lv-glow-s); }
+ .kw-wrap { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.4rem; }
+ .word-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 30px; padding: 0.3rem 0.85rem 0.3rem 0.4rem; font-size: 0.88rem; font-weight: 700; color: var(--text); }
+ .word-pill .pm { color: var(--text-dim); font-weight: 600; font-size: 0.74rem; }
+
+ /* Quizzes */
+ .quiz-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 1.8rem 2rem; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
+ .quiz-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .quiz-toolbar { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; }
+ .quiz-toolbar b { font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; }
+ .quiz-score { margin-left: auto; font-size: 0.8rem; font-weight: 800; color: var(--lv-accent); background: var(--lv-tint); border: 1px solid var(--lv-border); padding: 0.35rem 0.95rem; border-radius: 30px; white-space: nowrap; }
+ .q-block { padding: 1rem 0; }
+ .q-block + .q-block { border-top: 1px dashed var(--border); }
+ .q-text { font-weight: 800; font-size: 0.98rem; margin-bottom: 0.7rem; }
+ .q-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+ .q-opt { display: flex; align-items: center; gap: 0.6rem; background: var(--bg-card-hover); border: 1.5px solid var(--border); border-radius: 12px; padding: 0.55rem 0.85rem; font-size: 0.9rem; font-weight: 600; color: var(--text); text-align: left; cursor: pointer; transition: all 0.2s ease; font-family: inherit; }
+ .q-opt:hover:not(.locked) { border-color: var(--lv-border); transform: translateY(-2px); }
+ .q-opt .q-let { width: 22px; height: 22px; min-width: 22px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center; background: var(--lv-tint); color: var(--lv-accent); font-size: 0.72rem; font-weight: 800; }
+ .q-opt.ok { background: rgba(16, 185, 129, 0.12); border-color: #10B981; color: #10B981; }
+ .q-opt.ok .q-let { background: #10B981; color: #fff; }
+ .q-opt.bad { background: rgba(239, 68, 68, 0.12); border-color: #EF4444; color: #EF4444; }
+ .q-opt.bad .q-let { background: #EF4444; color: #fff; }
+ .q-opt.locked { cursor: default; }
+ .q-fb { min-height: 1.5rem; font-size: 0.9rem; margin-top: 0.6rem; font-weight: 700; }
+ .q-fb.good { color: #10B981; }
+ .q-fb.bad-fb { color: var(--text-muted); font-weight: 500; font-size: 0.84rem; }
+ .quiz-reset { margin-top: 0.4rem; }
+
+ .actions { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+ .cta-note { margin-top: 2rem; color: var(--text-dim); font-size: 0.95rem; text-align: center; }
+ .cta-note a { color: var(--lv-accent); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--lv-border); transition: color 0.3s; }
+ .cta-note a:hover { color: var(--primary-light); }
+
+ .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+ .reveal.visible { opacity: 1; transform: translateY(0); }
+
+ /* FOOTER */
+ footer { background: #08080D; border-top: 1px solid var(--border); padding: 4rem 2rem 2rem; }
+ .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+ .footer-bottom p { font-size: 0.82rem; color: var(--text-dim); }
+ .footer-social { display: flex; gap: 1rem; }
+ .footer-social a { width: 38px; height: 38px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-dim); text-decoration: none; transition: all 0.3s; font-size: 0.85rem; }
+ .footer-social a:hover { border-color: var(--primary); color: var(--text); }
+
+ @media (max-width: 900px) {
+ .grid-2 { grid-template-columns: 1fr; }
+ .photo-banner { height: 240px; }
+ }
+ @media (max-width: 768px) {
+ .q-opts { grid-template-columns: 1fr; }
+ .story-actions { margin-left: 0; }
+ .nav-links { display: none; position: fixed; top: 0; right: 0; width: 70%; height: 100vh; background: rgba(10, 10, 15, 0.98); flex-direction: column; justify-content: center; align-items: center; gap: 2rem; transition: right 0.4s ease; z-index: 999; }
+ [data-theme="light"] .nav-links { background: rgba(255, 255, 255, 0.98); }
+ .nav-links.active { display: flex; }
+ .hamburger { display: flex; position: relative; z-index: 1001; }
+ .nav-links .btn { padding: 0.6rem 1.3rem; }
+ }
+ </style>
+</head>
+<body class="page" id="page">
+
+<!-- NAV -->
+<nav id="navbar">
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <ul class="nav-links" id="navLinks">
+ <li><a href="../index.html">Home</a></li>
+ <li><a href="level.html">Levels</a></li>
+ <li><a href="test.html">Level Test</a></li>
+ <li><a href="test.html" class="btn btn-primary" style="padding: 0.5rem 1.2rem;">Take the Test</a></li>
+ </ul>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ <button class="hamburger" id="hamburger" aria-label="Menu">
+ <span></span><span></span><span></span>
+ </button>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+ <div class="hero-bg">
+ <div class="orb orb-1"></div>
+ <div class="orb orb-2"></div>
+ </div>
+ <div class="hero-content">
+ <h1 class="reveal" id="heroTitle">Photo Story</h1>
+ <p class="hero-sub reveal" id="heroSub">Read, understand and answer</p>
+ </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+ <div class="photo-banner reveal">
+ <img id="bannerImg" src="" alt="Photo story" loading="lazy">
+ <div class="pb-text">
+ <b id="bannerCap">Photo</b>
+ <span id="bannerNote">Explore the story behind this picture</span>
+ </div>
+ </div>
+
+ <div class="grid-2">
+ <div class="info-card reveal" id="whatCard">
+ 
+ <div class="info-card-icon">🧐</div>
+  <h3>What is in this picture?</h3>
+ <p id="whatText">Describing the scene…</p>
+ </div>
+ <div class="info-card reveal" id="whyCard">
+ 
+ <div class="info-card-icon">💬</div>
+  <h3>English in this story</h3>
+ <p id="whyText">Grammar hidden in the story…</p>
+ </div>
+ </div>
+
+ <div class="info-card reveal" style="margin-bottom:3rem;">
+ 
+ <div class="info-card-icon">🔑</div>
+  <h3>Key words to keep</h3>
+ <p style="margin-bottom:0.4rem;">Tap 🔊 to hear each word, then use them in your own sentences today.</p>
+ <div class="kw-wrap" id="kwWrap"></div>
+ </div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 📖 Practice reading</div>
+ <h2 class="section-title">Read the Story <span style="color:var(--lv-accent);">Understand It</span></h2>
+ <p class="section-sub">Read it twice — once to understand, once out loud. Then answer the questions.</p>
+ </div>
+ <div class="story-card reveal" id="storyCard"></div>
+
+ <div class="quiz-card reveal" id="photoQuiz"></div>
+
+ <div class="actions reveal">
+ <a id="backBtn" href="level.html" class="btn btn-outline btn-large">← Back to the level</a>
+ <a id="nextBtn" href="#" class="btn btn-primary btn-large">Next photo →</a>
+ <a href="test.html" class="btn btn-outline btn-large">Take the Free Test</a>
+ </div>
+
+ <p class="cta-note reveal">Not sure of your level? <a href="test.html">Take the Chango level test</a> — it takes about 5 minutes.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-bottom">
+ <p>© 2026 Chango. Learn English for the real world.</p>
+ <div class="footer-social">
+ <a href="../index.html" title="Home"></a>
+ <a href="level.html" title="Levels"></a>
+ <a href="test.html" title="Take the test"></a>
+ </div>
+ </div>
+</footer>
+
+<script>
+ var LEVELS = {
+ 'A1': { label: 'Beginner', accent: '#10B981', grad2: '#3B82F6', rgb: '16,185,129' },
+ 'A2': { label: 'Elementary', accent: '#3B82F6', grad2: '#8B5CF6', rgb: '59,130,246' }
+ };
+
+ var PAGES = {
+ 'A1': [
+ {
+ seed: 'a1-greet', cap: 'Greetings — the first words to learn', note: 'Say “hello” wherever you go',
+ desc: 'Two people meet for the first time. They say “hello”, ask “how are you?”, and introduce themselves with a smile. Greetings are the very first English words anyone learns — and the ones you use most.',
+ grammar: 'Look for the verb “to be” (I am, I’m fine) and the present simple questions (How are you? What is your name?). Question words make every first conversation easy.',
+ story: '<b>Layla is at the door</b> of her new school. She sees a girl. “Hello! How are you?” Layla says. “I’m fine, thank you. And you?” the girl answers. “Very well, thanks. <b>Nice to meet you</b>!” They smile together.<br><br>“What is your name?” Layla asks. “My name is Noor. And you?” “I’m Layla. <b>I am from Egypt.</b> Where are you from?” “I’m from Morocco,” Noor says. They talk all the way to the classroom. Now Layla has a <b>new friend</b>.',
+ words: [
+ { w: 'hello', p: 'مرحباً' }, { w: 'how are you', p: 'كيف حالك' }, { w: 'nice to meet you', p: 'سعيد بلقائك' }, { w: 'goodbye', p: 'وداعاً' }
+ ],
+ quiz: [
+ { q: 'Where is Layla?', opts: ['At her new school', 'At the café', 'At the park'], a: 0 },
+ { q: 'What does Layla say first?', opts: ['Goodbye', 'Hello! How are you?', 'Thank you'], a: 1 },
+ { q: 'The girl says she is …', opts: ['tired', 'hungry', 'fine'], a: 2 },
+ { q: 'At the end, Layla has …', opts: ['a new friend', 'a new job', 'a new bag'], a: 0 }
+ ]
+ },
+ {
+ seed: 'a1-coffee', cap: 'Order with confidence at a café', note: '“A coffee, please.”',
+ desc: 'A waiter takes an order at a café. The customer asks for a coffee, chooses small or large, and pays. Ordering food is one of the first real things you do in English when you travel.',
+ grammar: 'Notice “Can I have…?” for polite requests, “How much is it?” for prices, and the plural “three dollars”. The word “please” turns any order into politeness.',
+ story: 'Omar walks into a café. “<b>Good morning!</b> Can I have a coffee, please?” he says. “Of course. Small or large?” asks the waiter. “Large, please. <b>How much is it?</b>” “It’s three dollars.”<br><br>Omar gives the money. The waiter brings the coffee quickly. “<b>Thank you very much!</b>” Omar says. He sits by the window and drinks his coffee. “Soon I will try tea next,” he thinks, and smiles.',
+ words: [
+ { w: 'coffee', p: 'قهوة' }, { w: 'please', p: 'من فضلك' }, { w: 'small / large', p: 'صغير / كبير' }, { w: 'how much', p: 'كم الثمن' }
+ ],
+ quiz: [
+ { q: 'What does Omar order?', opts: ['Tea', 'A coffee', 'Juice'], a: 1 },
+ { q: 'He wants a … coffee.', opts: ['small', 'large', 'cold'], a: 1 },
+ { q: 'The coffee costs …', opts: ['two dollars', 'five dollars', 'three dollars'], a: 2 },
+ { q: 'The waiter is …', opts: ['kind and quick', 'angry', 'asleep'], a: 0 }
+ ]
+ },
+ {
+ seed: 'a1-family', cap: 'Talk about the people you love', note: 'My family and friends',
+ desc: 'A family sits together at home — a mother, a father, a brother and a sister. Talking about your family is one of the easiest, happiest ways to practise English with anyone, anywhere.',
+ grammar: 'This story uses the verb “to be” (is, are), possessives (her, his, our) and present simple (works, live). “This is my mother.” is your first family sentence.',
+ story: 'Sara has a <b>big family</b>. There is her mother, her father, two brothers and Sara. <b>Her mother is a teacher.</b> <b>Her father works in a bank.</b> <b>Her brothers are students</b>.<br><br>“This is my family,” Sara tells her friend Noor. “We live in a small house. On Fridays, we have <b>lunch together</b>. My mother cook the best food!” “You are lucky!” Noor says. “Yes, <b>I love my family very much</b>,” Sara answers.',
+ words: [
+ { w: 'mother', p: 'أم' }, { w: 'father', p: 'أب' }, { w: 'brother', p: 'أخ' }, { w: 'family', p: 'عائلة' }
+ ],
+ quiz: [
+ { q: 'Sara has … brothers.', opts: ['two', 'one', 'three'], a: 0 },
+ { q: 'Her mother is a …', opts: ['doctor', 'teacher', 'cook'], a: 1 },
+ { q: 'Her father works in a …', opts: ['school', 'bank', 'hospital'], a: 1 },
+ { q: 'On Fridays the family …', opts: ['works', 'has lunch together', 'travels'], a: 1 }
+ ]
+ },
+ {
+ seed: 'a1-city', cap: 'Find your way in any city', note: '“Where is…? It’s next to…”',
+ desc: 'A busy street with shops, a bank and a school. A visitor asks “Where is…?” and someone answers “It’s next to…”. Prepositions of place get you everywhere.',
+ grammar: 'The key structures are “Where is…?” questions and prepositions of place: next to, near, in, on. Practise with your own street: “The bank is next to the school.”',
+ story: 'Ali is <b>new in the city</b>. He needs money, so he looks for a bank. He stops a man and asks, “Excuse me, <b>where is the bank?</b>”<br><br>“It’s <b>next to the school</b>,” the man says. “Is it far from here?” Ali asks. “No, it is <b>very near</b>. Two minutes <b>on foot</b>.” “Thank you so much!” Ali says. He finds the bank easily. “English is <b>useful</b>!” he thinks, and walks in.',
+ words: [
+ { w: 'where is', p: 'أين' }, { w: 'next to', p: 'بجوار' }, { w: 'far', p: 'بعيد' }, { w: 'on foot', p: 'مشياً' }
+ ],
+ quiz: [
+ { q: 'What does Ali need?', opts: ['A supermarket', 'A bank', 'A museum'], a: 1 },
+ { q: 'The bank is …', opts: ['next to the school', 'behind the park', 'inside the mall'], a: 0 },
+ { q: 'Is the bank far?', opts: ['Yes, very far', 'No, it is near', 'It is closed'], a: 1 },
+ { q: 'Who helps Ali?', opts: ['A man', 'A waiter', 'A doctor'], a: 0 }
+ ]
+ },
+ {
+ seed: 'a1-watch', cap: 'Learn with films and shows', note: 'Watch with simple subtitles',
+ desc: 'A child watches a simple cartoon with subtitles. Watching shows in English trains your ear with slow, clear words — one of the most fun ways to learn at A1.',
+ grammar: 'The story uses present simple habits (watches, learns), the possessive (my favorite way) and comparatives of preference. “Every day I learn five new words.”',
+ story: 'Tom watches a <b>children’s show</b> every evening. The people in the show speak slowly and clearly. Tom turns on <b>English subtitles</b>. He reads and listens at the same time.<br><br>“This is <b>my favorite way to learn</b>,” he says. “Every day I learn <b>five new words</b>.” His father smiles. “Keep going, Tom. <b>You are doing great!</b>” And Tom keeps watching, little lesson by little lesson.',
+ words: [
+ { w: 'watches', p: 'يشاهد' }, { w: 'show', p: 'برنامج' }, { w: 'subtitles', p: 'ترجمة' }, { w: 'favorite', p: 'مفضل' }
+ ],
+ quiz: [
+ { q: 'When does Tom watch TV?', opts: ['In the afternoon', 'Every evening', 'On Friday'], a: 1 },
+ { q: 'The people in the show speak …', opts: ['slowly and clearly', 'very fast', 'in Arabic'], a: 0 },
+ { q: 'Tom turns on …', opts: ['the music', 'English subtitles', 'the news'], a: 1 },
+ { q: 'Tom learns … new words a day.', opts: ['two', 'ten', 'five'], a: 2 }
+ ]
+ },
+ {
+ seed: 'a1-notebook', cap: 'Keep a small A1 notebook', note: '5 new words a day',
+ desc: 'A small notebook full of new English words and sentences. Writing just five words a day with an example sentence is the secret of fast beginners.',
+ grammar: 'Notice the present simple (writes, reads, knows) and numbers (five, one hundred and fifty). Writing sentences, not single words, makes words stick.',
+ story: 'Hana has a <b>small notebook</b>. Every morning she writes <b>five new words</b> in English. She writes each word in a sentence: “The coffee is hot.”<br><br>At night she reads the notebook again. “<b>Repeating is the secret</b>,” she says. After one month, she knows <b>one hundred and fifty words</b>! “This notebook is small, but it is <b>my best teacher</b>,” she laughs.',
+ words: [
+ { w: 'notebook', p: 'دفتر ملاحظات' }, { w: 'word', p: 'كلمة' }, { w: 'sentence', p: 'جملة' }, { w: 'repeat', p: 'يكرر' }
+ ],
+ quiz: [
+ { q: 'What does Hana write every morning?', opts: ['Five new words', 'A story', 'A letter'], a: 0 },
+ { q: 'She writes each word in a …', opts: ['sentence', 'song', 'picture'], a: 0 },
+ { q: 'When does she read the notebook again?', opts: ['In the morning', 'At night', 'On Sunday'], a: 1 },
+ { q: 'After one month she knows …', opts: ['100 words', '150 words', '50 words'], a: 1 }
+ ]
+ }
+ ],
+ 'A2': [
+ {
+ seed: 'a2-restaurant', cap: 'Order a meal like a local', note: '“Could I see the menu, please?”',
+ desc: 'A waiter brings the menu and the food. You ask “Could I see the menu, please?”, choose your meal and enjoy. Eating out in English becomes easy — and delicious.',
+ grammar: 'Look for polite forms with “Could I…?”, past simple (went, ordered) and the article “a / the”. Politeness opens every restaurant door.',
+ story: 'Last Friday, <b>Maya went</b> to a new restaurant with her husband. The waiter smiled. “Good evening!” he said. “<b>Could I see the menu, please?</b>” asked Maya.<br><br>“Of course. Would you like something to drink?” “Yes, <b>some orange juice</b>, please.” They ordered pasta and salad. The food <b>arrived</b> fast and it was <b>delicious</b>. “This restaurant is excellent. <b>Let’s come here again</b>!” Maya said. And they did — the very next week.',
+ words: [
+ { w: 'menu', p: 'قائمة الطعام' }, { w: 'order', p: 'يطلب' }, { w: 'delicious', p: 'لذيذ' }, { w: 'waiter', p: 'النادل' }
+ ],
+ quiz: [
+ { q: 'When did they go to the restaurant?', opts: ['Last Friday', 'This morning', 'Yesterday'], a: 0 },
+ { q: 'Maya asked for the …', opts: ['bill', 'menu', 'table'], a: 1 },
+ { q: 'She ordered some …', opts: ['orange juice', 'milk', 'tea'], a: 0 },
+ { q: 'They decided to …', opts: ['come again next week', 'stay home', 'eat outside'], a: 0 }
+ ]
+ },
+ {
+ seed: 'a2-travel', cap: 'Travel with confidence', note: 'Tickets, hotels and airports',
+ desc: 'An airport scene — a passport, a ticket and a bag. You check your flight, find your gate and board. Travel English opens the whole world.',
+ grammar: 'The story uses past simple (planned, checked), the future “will” and numbers (gate twelve). Questions like “Where is gate twelve?” work in every airport.',
+ story: 'Aya planned a trip to Rome for <b>a whole year</b>. On the day, she checked her <b>passport</b>, her <b>ticket</b> and her bag.<br><br>At the airport, she asked, “Excuse me, <b>where is gate twelve?</b>” A friendly worker said, “Turn left and go straight.” The flight was on time.<br><br>“<b>I can’t believe it — this is my first trip alone!</b>” Aya said to herself. “I will send a postcard home tomorrow.” The plane rose in the sky, and Aya smiled.',
+ words: [
+ { w: 'ticket', p: 'تذكرة' }, { w: 'passport', p: 'جواز سفر' }, { w: 'flight', p: 'رحلة جوية' }, { w: 'gate', p: 'بوابة' }
+ ],
+ quiz: [
+ { q: 'Aya planned the trip for …', opts: ['a week', 'a year', 'a month'], a: 1 },
+ { q: 'At the airport she asked for …', opts: ['gate twelve', 'the shop', 'a taxi'], a: 0 },
+ { q: 'The flight was …', opts: ['late', 'cancelled', 'on time'], a: 2 },
+ { q: 'This is her … trip alone.', opts: ['third', 'first', 'fifth'], a: 1 }
+ ]
+ },
+ {
+ seed: 'a2-directions', cap: 'Never get lost again', note: '“Turn left at the bank”',
+ desc: 'A person asks for directions with a map. “Go straight, then turn left.” Giving directions helps you — and helps other people too.',
+ grammar: 'Imperatives for directions (go straight, turn left), prepositions of place (at the bank) and time (about five minutes). This is exactly how English travels.',
+ story: 'An <b>old man</b> stopped Sami in the street. “Excuse me, <b>how do I get to the station?</b>” he asked.<br><br>Sami smiled and answered, “Go straight, then <b>turn left at the bank</b>. It takes about <b>five minutes on foot</b>.” “Thank you so much!” the man said, and walked away quickly.<br><br>Sami felt <b>proud</b>. “My English is useful now,” he thought. “I <b>helped someone</b> in a new city — just like people helped me.”',
+ words: [
+ { w: 'go straight', p: 'اسر على طول' }, { w: 'turn left', p: 'انعطف يساراً' }, { w: 'on foot', p: 'مشياً' }, { w: 'station', p: 'محطة' }
+ ],
+ quiz: [
+ { q: 'Who asked for directions?', opts: ['A tour guide', 'An old man', 'A driver'], a: 1 },
+ { q: 'Sami told him to …', opts: ['turn right at the bank', 'go straight then turn left', 'take the bus'], a: 1 },
+ { q: 'The station is about …', opts: ['five minutes on foot', 'two hours away', 'behind him'], a: 0 },
+ { q: 'After helping, Sami felt …', opts: ['tired', 'proud', 'worried'], a: 1 }
+ ]
+ },
+ {
+ seed: 'a2-past', cap: 'Share your memories', note: '“Last summer I went…”',
+ desc: 'People look at photos of last summer and tell their stories. “Last summer I went to the beach.” The past simple turns memories into beautiful English.',
+ grammar: 'Past simple verbs are everywhere here: went, swam, built, took, laughed. Time words (last summer) and “again and again” carry the story.',
+ story: 'Last summer, <b>Omar went to the beach</b> with his family. They <b>swam</b> in the water and <b>built</b> a big sandcastle. His sister <b>took</b> photos all day.<br><br>“Look! This is us at the beach,” she says now, opening the album. “We <b>laughed so much</b>.”<br><br>Every time they look at the photos, they <b>tell the story again and again</b>. “Next summer we will <b>build a bigger castle</b>!” Omar promises.',
+ words: [
+ { w: 'last summer', p: 'الصيف الماضي' }, { w: 'went', p: 'ذهب' }, { w: 'beach', p: 'شاطئ' }, { w: 'photos', p: 'صور' }
+ ],
+ quiz: [
+ { q: 'Where did Omar go last summer?', opts: ['To the mountains', 'To the beach', 'To the city'], a: 1 },
+ { q: 'They built a …', opts: ['sandcastle', 'boat', 'fire'], a: 0 },
+ { q: 'Who took photos?', opts: ['His father', 'His sister', 'Omar'], a: 1 },
+ { q: 'Next summer they will …', opts: ['build a bigger castle', 'fly to Paris', 'stay home'], a: 0 }
+ ]
+ },
+ {
+ seed: 'a2-job', cap: 'Grow at work', note: 'Meetings, emails and interviews',
+ desc: 'A meeting room with a laptop and coffee. People talk so they can reach their goals with more confidence. Office English pushes your career forward.',
+ grammar: 'The story uses “Could you…?” requests, past simple (started, wrote, asked) and time phrases (by Friday, in October). These are the sentences you need in any job.',
+ story: 'Karim <b>started a new job in October</b>. On the first day, his manager said, “<b>Could you send me the report by Friday?</b>”<br><br>Karim wrote the email carefully. Later, he asked a colleague, “Excuse me, what does this word mean?” She explained kindly.<br><br>By December, Karim could <b>join meetings easily</b>. He answered questions and made suggestions. “<b>Practice every day pays off</b>,” he told his family proudly.',
+ words: [
+ { w: 'job', p: 'وظيفة' }, { w: 'meeting', p: 'اجتماع' }, { w: 'report', p: 'تقرير' }, { w: 'colleague', p: 'زميل' }
+ ],
+ quiz: [
+ { q: 'When did Karim start his job?', opts: ['In October', 'In January', 'In summer'], a: 0 },
+ { q: 'His manager asked for …', opts: ['coffee', 'a report by Friday', 'a holiday'], a: 1 },
+ { q: 'Karim asked about …', opts: ['a word’s meaning', 'the price', 'the weather'], a: 0 },
+ { q: 'By December he could …', opts: ['join meetings easily', 'quit his job', 'work at night'], a: 0 }
+ ]
+ },
+ {
+ seed: 'a2-friends', cap: 'Make plans with friends', note: '“Let’s… / Why don’t we…”',
+ desc: 'Friends look at a calendar and plan the weekend. “Why don’t we go for a walk? — Good idea!” Making plans uses the future and suggestions — real friendships are built on it.',
+ grammar: 'Suggestions with “Why don’t we…?”, “Let’s…”, the future “will be”, and “I’m going to bring”. Plans sound friendly with these three patterns.',
+ story: 'On Friday, Adam called his friend Lina. “Let’s do something this weekend!” he said.<br><br>“<b>Why don’t we go to the beach on Saturday?</b>” Lina asked.<br><br>“That sounds great! But the weather — let me check.” A pause. “It will be sunny!”<br><br>“Perfect. I’m going to bring the food, and <b>you bring the music</b>,” Adam said. They were both excited. The plan was ready, and Sunday felt very far away.',
+ words: [
+ { w: 'let’s', p: 'هيا بنا' }, { w: 'why don’t we', p: 'لماذا لا' }, { w: 'weekend', p: 'عطلة نهاية الأسبوع' }, { w: 'sunny', p: 'مشمس' }
+ ],
+ quiz: [
+ { q: 'When did Adam call Lina?', opts: ['On Friday', 'On Saturday', 'On Sunday'], a: 0 },
+ { q: 'They plan to go …', opts: ['to the cinema', 'to the beach', 'to a café'], a: 1 },
+ { q: 'Lina says the weather will be …', opts: ['rainy', 'sunny', 'cold'], a: 1 },
+ { q: 'Adam will bring …', opts: ['the food', 'the music', 'the tickets'], a: 0 }
+ ]
+ }
+ ]
+ };
+
+ var params = (function () {
+ var qs = location.search.replace('?', '').split('&');
+ var out = {};
+ for (var i = 0; i < qs.length; i++) {
+ var p = qs[i].split('=');
+ if (p[0]) out[decodeURIComponent(p[0])] = decodeURIComponent(p[1] || '');
+ }
+ return out;
+ })();
+
+ var level = LEVELS[params.level] ? params.level : 'A1';
+ var pid = parseInt(params.pid || '0', 10);
+ var list = PAGES[level] || [];
+ if (!list[pid]) pid = 0;
+ var entry = list[pid];
+
+ var lv = LEVELS[level];
+ var pageEl = document.getElementById('page');
+ pageEl.style.setProperty('--lv-accent', lv.accent);
+ pageEl.style.setProperty('--lv-grad', 'linear-gradient(135deg, ' + lv.accent + ', ' + lv.grad2 + ')');
+ pageEl.style.setProperty('--lv-tint', 'rgba(' + lv.rgb + ', 0.12)');
+ pageEl.style.setProperty('--lv-border', 'rgba(' + lv.rgb + ', 0.4)');
+ pageEl.style.setProperty('--lv-glow-s', 'rgba(' + lv.rgb + ', 0.22)');
+ pageEl.style.setProperty('--lv-glow-l', 'rgba(' + lv.rgb + ', 0.45)');
+
+ document.title = entry.cap + ' | Chango';
+ var heroBadgeEl = document.getElementById('heroBadge');
+ if (heroBadgeEl) heroBadgeEl.textContent = level + ' · PHOTO STORY';
+ document.getElementById('heroTitle').textContent = entry.cap;
+ document.getElementById('heroSub').textContent = entry.note + ' — tap 🔊, read, and answer the questions below.';
+ document.getElementById('bannerImg').src = 'https://picsum.photos/seed/' + entry.seed + '/1200/560';
+ document.getElementById('bannerImg').alt = entry.cap;
+ document.getElementById('bannerCap').textContent = entry.cap;
+ document.getElementById('bannerNote').textContent = entry.note;
+ document.getElementById('whatText').innerHTML = entry.desc;
+ document.getElementById('whyText').innerHTML = entry.grammar;
+
+ var kwWrap = document.getElementById('kwWrap');
+ kwWrap.innerHTML = entry.words.map(function (w) {
+ return '<span class="word-pill"><button type="button" class="spk" onclick="speak(\'' + w.w + '\')">🔊</button> ' + w.w + '<span class="pm">' + w.p + '</span></span>';
+ }).join('');
+
+ document.getElementById('storyCard').innerHTML =
+ '<div class="story-head"><span class="st-ic">📖</span><h3>' + entry.cap + '</h3><div class="story-actions">'
+ + '<button type="button" class="btn-mini" onclick="readStory(this)">🔊 Read it aloud</button>'
+ + '<button type="button" class="btn-mini" onclick="stopSpeak(this)">⏹ Stop</button></div></div>'
+ + '<div class="story-text">' + entry.story + '</div>'
+ + '<div class="story-gloss"><b>Words from the story:</b><div>' + entry.words.map(function (w) {
+ return '<span class="kg">' + w.w + ' · ' + w.p + '</span>';
+ }).join('') + '</div></div>';
+
+ var backBtn = document.getElementById('backBtn');
+ backBtn.href = level.toLowerCase() + '.html';
+ backBtn.textContent = '← Back to ' + level;
+ var nextBtn = document.getElementById('nextBtn');
+ var nextPid = pid + 1 < list.length ? pid + 1 : 0;
+ nextBtn.href = 'photo-detail.html?level=' + level + '&pid=' + nextPid;
+ nextBtn.textContent = 'Next photo →';
+
+ var PRAISE = ['Excellent! Correct!', 'Amazing — that’s right!', 'Well done!', 'Perfect answer!', 'Exactly right!'];
+
+ function pickVoice() {
+ try {
+ var voices = window.speechSynthesis.getVoices();
+ var prefs = ['Google US English', 'Microsoft David - English (United States)', 'Microsoft Mark - English (United States)', 'Microsoft Zira - English (United States)', 'Samantha', 'Microsoft Aria - English (United States)', 'Microsoft Jenny - English (United States)', 'Microsoft Guy - English (United States)', 'Google UK English Female', 'Google UK English Male'];
+ for (var i = 0; i < prefs.length; i++) {
+ for (var j = 0; j < voices.length; j++) { if (voices[j].name === prefs[i]) return voices[j]; }
+ }
+ for (var k = 0; k < voices.length; k++) { if ((voices[k].lang || '').toLowerCase().indexOf('en-us') === 0) return voices[k]; }
+ for (var m = 0; m < voices.length; m++) { if ((voices[m].lang || '').toLowerCase().indexOf('en') === 0) return voices[m]; }
+ } catch (e) {}
+ return null;
+ }
+
+ function resetBusyButtons() {
+ var btns = document.querySelectorAll('button[data-playing]');
+ for (var i = 0; i < btns.length; i++) {
+ var label = btns[i].getAttribute('data-playing');
+ btns[i].textContent = label;
+ btns[i].removeAttribute('data-playing');
+ btns[i].disabled = false;
+ }
+ }
+
+ function stopSpeak(btn) {
+ try { if ('speechSynthesis' in window && window.speechSynthesis.cancel) window.speechSynthesis.cancel(); } catch (e) {}
+ resetBusyButtons();
+ }
+
+ function speak(text, after) {
+ try {
+ if (!('speechSynthesis' in window)) { alert('Your browser does not support text-to-speech. Try Chrome, Edge or Safari.'); return; }
+ resetBusyButtons();
+ window.speechSynthesis.cancel();
+ var u = new SpeechSynthesisUtterance(text);
+ u.lang = 'en-US';
+ u.rate = 0.9;
+ var v = pickVoice();
+ if (v) u.voice = v;
+ u.onend = function () { if (after) after(); };
+ u.onerror = function () { if (after) after(); };
+ window.speechSynthesis.speak(u);
+ } catch (e) { resetBusyButtons(); if (after) after(); }
+ }
+
+ function readStory(btn) {
+ if (btn.getAttribute('data-playing') !== null) { stopSpeak(); return; }
+ var text = entry.story.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+ var old = btn.textContent;
+ btn.setAttribute('data-playing', old);
+ btn.textContent = '⏸ Reading…';
+ btn.disabled = true;
+ speak(text, function () {
+ var label = btn.getAttribute('data-playing');
+ if (label !== null) { btn.textContent = label; btn.removeAttribute('data-playing'); btn.disabled = false; }
+ });
+ }
+
+ window.renderQuiz = function (cid, list, sid) {
+ var el = document.getElementById(cid);
+ if (!el) return;
+ window.QUIZZES = window.QUIZZES || {};
+ window.QUIZZES[cid] = { list: list, score: 0, used: {}, sid: sid };
+ var qs = list.map(function (qi, i) {
+ var opts = qi.opts.map(function (o, oi) {
+ return '<button type="button" class="q-opt" onclick="answerQuiz(\'' + cid + '\',' + i + ',' + oi + ',this)"><span class="q-let">' + String.fromCharCode(65 + oi) + '</span>' + o + '</button>';
+ }).join('');
+ return '<div class="q-block" id="' + cid + '-q' + i + '"><div class="q-text">' + (i + 1) + '. ' + qi.q + '</div><div class="q-opts">' + opts + '</div><div class="q-fb"></div></div>';
+ }).join('');
+ el.innerHTML = '<div class="quiz-toolbar"><span style="font-size:1.15rem;"></span><b>Comprehension check</b><span class="quiz-score" id="' + sid + '">Score: 0 / ' + list.length + '</span></div>' + qs + '<button type="button" class="btn-mini quiz-reset" onclick="resetQuiz(\'' + cid + '\',\'' + sid + '\')">↺ Try again</button>';
+ };
+
+ window.answerQuiz = function (cid, qi, oi, btn) {
+ var quiz = window.QUIZZES && window.QUIZZES[cid];
+ if (!quiz) return;
+ var key = 'q' + qi;
+ if (quiz.used[key]) return;
+ var q = quiz.list[qi];
+ var btns = btn.parentNode.querySelectorAll('.q-opt');
+ var fbs = document.getElementById(cid + '-q' + qi).querySelector('.q-fb');
+ for (var i = 0; i < btns.length; i++) {
+ btns[i].classList.add('locked');
+ if (i === q.a) btns[i].classList.add('ok');
+ else if (i === oi) btns[i].classList.add('bad');
+ }
+ if (oi === q.a) {
+ quiz.score++;
+ fbs.textContent = PRAISE[Math.floor(Math.random() * PRAISE.length)];
+ fbs.className = 'q-fb good';
+ } else {
+ fbs.textContent = 'Not quite — the correct answer is ' + String.fromCharCode(65 + q.a) + ': ' + q.opts[q.a];
+ fbs.className = 'q-fb bad-fb';
+ }
+ quiz.used[key] = true;
+ var scoreEl = document.getElementById(quiz.sid);
+ if (scoreEl) scoreEl.textContent = 'Score: ' + quiz.score + ' / ' + quiz.list.length;
+ if (Object.keys(quiz.used).length === quiz.list.length) {
+ var msg = quiz.score === quiz.list.length
+ ? '🏆 Perfect! ' + quiz.score + ' / ' + quiz.list.length + ' — amazing job!'
+ : 'You finished! Score: ' + quiz.score + ' / ' + quiz.list.length + '. Tap “Try again” to improve.';
+ setTimeout(function () { alert(msg); }, 250);
+ }
+ };
+
+ window.resetQuiz = function (cid, sid) {
+ var quiz = window.QUIZZES && window.QUIZZES[cid];
+ if (!quiz) return;
+ quiz.score = 0;
+ quiz.used = {};
+ var els = document.querySelectorAll('#' + cid + ' .q-opt');
+ for (var i = 0; i < els.length; i++) els[i].classList.remove('ok', 'bad', 'locked');
+ var fbs = document.querySelectorAll('#' + cid + ' .q-fb');
+ for (var j = 0; j < fbs.length; j++) { fbs[j].textContent = ''; fbs[j].className = 'q-fb'; }
+ var scoreEl = document.getElementById(sid);
+ if (scoreEl) scoreEl.textContent = 'Score: 0 / ' + quiz.list.length;
+ };
+
+ renderQuiz('photoQuiz', entry.quiz, 'photoScore');
+ try { if (window.speechSynthesis && window.speechSynthesis.getVoices) window.speechSynthesis.getVoices(); } catch (e) {}
+
+ const navbar = document.getElementById('navbar');
+ window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 50); });
+ const hamburger = document.getElementById('hamburger');
+ const navLinks = document.getElementById('navLinks');
+ hamburger.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+ navLinks.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => navLinks.classList.remove('active')); });
+
+ const reveals = document.querySelectorAll('.reveal');
+ const observer = new IntersectionObserver((entries) => {
+ entries.forEach((entry2, i) => {
+ if (entry2.isIntersecting) {
+ setTimeout(() => entry2.target.classList.add('visible'), i * 80);
+ observer.unobserve(entry2.target);
+ }
+ });
+ }, { threshold: 0.1 });
+ reveals.forEach(el => observer.observe(el));
+ setTimeout(() => document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')), 1200);
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Dein Ergebnis | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="stylesheet" href="../css/app.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <div class="nav-right">
+ <a href="../index.html" class="nav-link">Home</a>
+ <a href="german-level.html" class="nav-link">Stufen</a>
+ <a href="german-test.html" class="nav-link">Test</a>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ </div>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ var cur = document.documentElement.getAttribute('data-theme');
+ b.textContent = cur === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<main class="page" id="resultView">
+
+ <div class="section-label" style="margin:0 0 1rem;">
+ <div class="section-step" style="background:var(--gradient-1);">✓</div>
+ <div>
+ <div class="section-title">Dein Testergebnis</div>
+ <div class="section-sub">Deine Chango KI-Bewertung ist bereit</div>
+ </div>
+ <div class="section-line"></div>
+ </div>
+
+ <div class="result-card">
+ 
+ <div class="score-ring">
+ <svg width="170" height="170" viewBox="0 0 170 170">
+ <defs>
+ <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+ <stop offset="0%" stop-color="#6C3CE1" />
+ <stop offset="100%" stop-color="#F97316" />
+ </linearGradient>
+ </defs>
+ <circle class="track" cx="85" cy="85" r="72" fill="none" stroke-width="12" />
+ <circle class="value" id="ringValue" cx="85" cy="85" r="72" fill="none" stroke-width="12" stroke-dasharray="452.4" stroke-dashoffset="452.4" />
+ </svg>
+ <div class="score-inner">
+ <div class="pct" id="scorePct">0%</div>
+ <div class="of">of 100</div>
+ </div>
+ </div>
+ <button class="level-badge" id="levelBadge" onclick="openLevelModal()" title="Klicke auf deine Stufe, um zu sehen, was das bedeutet">CEFR A1</button>
+ <div class="level-hint">Klicke auf deine Stufe, um zu sehen, was das bedeutet &amp; was du als Nächstes lernen solltest</div>
+ <div class="result-title" id="resultTitle">Dein Niveau: <span class="gradient-text">Anfänger</span></div>
+ <p class="result-desc" id="resultDesc"></p>
+ <div class="stat-chips" id="statChips"></div>
+ <div class="ai-report">
+ <div class="ai-report-head">
+ <div class="mini-avatar"></div>
+ <div>
+ <b>Chango KI-Agenten-Bericht</b><br>
+ <span class="online">● Analyse abgeschlossen</span>
+ </div>
+ </div>
+ <p id="reportText"></p>
+ <ul id="reportList"></ul>
+ </div>
+ <div class="mistakes-box">
+ <button class="mistakes-toggle" onclick="toggleMistakes()">
+ <span>Fehler überprüfen</span>
+ <span class="mt-count" id="mistakesCount">0</span>
+ <span class="mt-arrow">▾</span>
+ </button>
+ <div class="mistakes-list" id="mistakesList"></div>
+ </div>
+ <div class="result-actions">
+ <button class="btn btn-primary btn-large" onclick="location.href=levelPage(result.level)">Weiter &amp; Sehen, was als Nächstes kommt</button>
+ <button class="btn btn-outline btn-large" onclick="location.href=levelPage(result.level)">Was ist diese Stufe?</button>
+ <button class="btn btn-outline btn-large" onclick="location.href='german-test.html'">Erneut versuchen</button>
+ </div>
+ <p class="result-note">KI-Schätzung deines aktuellen CEFR-Niveaus. Für ein offizielles Zertifikat, nimm am Chango Deutsch-Bootcamp teil.</p>
+ </div>
+</main>
+
+<div class="overlay" id="levelModal" onclick="if(event.target===this)closeLevelModal()">
+ <div class="result-card level-modal-card">
+ 
+ <div class="level-badge" id="lmBadge" style="cursor:default;">CEFR A1</div>
+ <div class="result-title" id="lmTitle">Dein Niveau</div>
+ <p class="result-desc" id="lmDesc"></p>
+ <div class="lm-instructions">
+ <div class="lm-instructions-title">Was du auf diesem Niveau kannst</div>
+ <ul id="lmList"></ul>
+ </div>
+ <div class="lm-block">
+ <div class="lm-block-title">Dein Lernfokus</div>
+ <ul id="lmFocus"></ul>
+ </div>
+ <div class="lm-next" id="lmNext"></div>
+ <div class="result-actions" style="margin-top:1.2rem;">
+ <button class="btn btn-primary btn-large" onclick="closeLevelModal()">Verstanden</button>
+ <a href="german-level.html" class="btn btn-outline btn-large">Alle Stufen ansehen</a>
+ <a href="german-level-detail.html" class="btn btn-outline btn-large" id="lmFullGuide">Vollständigen Stufenleitfaden öffnen</a>
+ </div>
+ </div>
+</div>
+
+<script src="german-test-data.js"></script>
+<script>
+ let result = null;
+ try { result = JSON.parse(localStorage.getItem('changoResult')); } catch (e) { result = null; }
+
+ if (!result || !result.level) {
+ window.location.href = 'german-test.html';
+ }
+
+ function pct(stat) {
+ if (!stat || !stat.total) return 0;
+ return Math.round(stat.right / stat.total * 100);
+ }
+
+ function renderResult() {
+ const degree = result.degree;
+ const level = result.level;
+ const info = LEVEL_INFO[level];
+ const mcq = result.mcq || { readingRight: 0, catStats: {} };
+ const essay = result.essay || { empty: true, count: 0 };
+
+ const chipData = [
+ { label: 'Dein Ergebnis', value: degree + '%' },
+ { label: 'Grammatik', value: pct(mcq.catStats['Grammar']) + '%' },
+ { label: 'Wortschatz', value: pct(mcq.catStats['Vocabulary']) + '%' },
+ { label: 'Lesen', value: (mcq.readingRight || 0) + '/3' },
+ { label: 'Aufsatz', value: essay.empty ? '—' : essay.count + ' Wörter' }
+ ];
+
+ const chipsEl = document.getElementById('statChips');
+ chipsEl.innerHTML = '';
+ chipData.forEach(c => {
+ const div = document.createElement('div');
+ div.className = 'stat-chip';
+ div.innerHTML = '<b>' + c.value + '</b>' + c.label;
+ chipsEl.appendChild(div);
+ });
+
+ document.getElementById('scorePct').textContent = '0%';
+ document.getElementById('levelBadge').textContent = 'CEFR ' + level;
+ document.getElementById('levelBadge').style.color = info.ring;
+ document.getElementById('levelBadge').style.borderColor = info.ring;
+ document.getElementById('resultTitle').innerHTML = 'Dein Niveau: <span class="gradient-text">' + info.title + '</span>';
+ document.getElementById('resultDesc').textContent = info.desc;
+
+ document.getElementById('reportText').textContent = degree >= 75
+ ? 'Starkes Ergebnis. Deine Antworten zeigen konsistentes, genaues Deutsch in Grammatik, Wortschatz und Lesen — und dein Schreiben bestätigt das.'
+ : degree >= 45
+ ? 'Solides Ergebnis. Du meisterst den Alltag gut. Konzentriere dich auf die nächste Stufe, um schneller voranzukommen.'
+ : 'Du baust dein Fundament auf. Übe weiter Grammatik, Wortschatz und Lesen, und du wirst schnell vorankommen.';
+
+ const essayInfo = essay.empty
+ ? 'Kein Aufsatz abgegeben — dein Niveau basiert nur auf den Fragen und dem Lesen.'
+ : 'Aufsatz: ' + essay.count + ' Wörter, ' + (essay.sentences || 0) + ' Sätze, ' + (essay.advanced || 0) + ' fortgeschrittene Wörter erkannt (Schreibniveau ' + essay.essayLevel + ').';
+
+ const listEl = document.getElementById('reportList');
+ listEl.innerHTML = '';
+ [
+ 'Dein Abschluss ist ' + degree + ' von 100 — du hast ' + mcq.correct + ' von ' + mcq.total + ' Fragen richtig beantwortet.',
+ 'Grammatik & Wortschatz: ' + pct(mcq.catStats['Grammar']) + '% und ' + pct(mcq.catStats['Vocabulary']) + '% richtig.',
+ 'Lesen: ' + (mcq.readingRight || 0) + ' von 3 richtig beim Text „' + (result.readingTitle || 'Lesetext') + '".',
+ essayInfo,
+ 'KI-Agent-Entscheidung: Dein Abschluss wurde mit deinem Leseverständnis und Aufsatz überprüft — dein bestes Niveau ist ' + level + '.',
+ 'Klicke oben auf deine Stufe, um zu sehen, was das bedeutet und was du als Nächstes lernen solltest.',
+ 'Öffne unten „Fehler überprüfen", um zu sehen, welche Fragen du falsch hattest und was die richtigen Antworten sind.'
+ ].forEach(item => {
+ const li = document.createElement('li');
+ li.textContent = item;
+ listEl.appendChild(li);
+ });
+
+ buildMistakes();
+
+ const pctEl = document.getElementById('scorePct');
+ const ringEl = document.getElementById('ringValue');
+ const C = 452.4;
+ let start = null;
+ const dur = 800;
+ requestAnimationFrame(function animate(ts) {
+ if (!start) start = ts;
+ const t = Math.min((ts - start) / dur, 1);
+ const eased = 1 - Math.pow(1 - t, 3);
+ const val = Math.round(degree * eased);
+ pctEl.textContent = val + '%';
+ ringEl.style.strokeDashoffset = C - C * (val / 100);
+ if (t < 1) requestAnimationFrame(animate);
+ });
+ }
+
+ function buildMistakes() {
+ const items = result.mistakes || [];
+ document.getElementById('mistakesCount').textContent = items.length;
+
+ const listEl = document.getElementById('mistakesList');
+ listEl.innerHTML = '';
+
+ if (!items.length) {
+ const div = document.createElement('div');
+ div.className = 'mistakes-empty';
+ div.textContent = 'Perfektes Ergebnis — du hast nichts falsch gemacht!';
+ listEl.appendChild(div);
+ return;
+ }
+
+ items.forEach(it => {
+ const div = document.createElement('div');
+ div.className = 'mistake-item';
+ div.innerHTML = '' +
+ '<div class="mi-meta">' + it.section + '</div>' +
+ '<div class="mi-q">' + it.q + '</div>' +
+ '<div class="mi-row mi-wrong"><span class="mark">✕</span> Deine Antwort: ' + it.yours + '</div>' +
+ '<div class="mi-row mi-right"><span class="mark">✓</span> Richtig: ' + it.correct + '</div>';
+ listEl.appendChild(div);
+ });
+ }
+
+ function toggleMistakes() {
+ const btn = event.target.closest('.mistakes-toggle');
+ btn.classList.toggle('open');
+ document.getElementById('mistakesList').classList.toggle('open');
+ }
+
+ function levelPage(l) {
+ if (l === 'A1') return 'german-a1.html';
+ if (l === 'A2') return 'german-a2.html';
+ return 'german-level-detail.html?level=' + l;
+ }
+
+ function openLevelModal() {
+ const info = LEVEL_INFO[result.level];
+ document.getElementById('lmBadge').textContent = 'CEFR ' + result.level;
+ document.getElementById('lmBadge').style.color = info.ring;
+ document.getElementById('lmBadge').style.borderColor = info.ring;
+ document.getElementById('lmFullGuide').href = levelPage(result.level);
+ document.getElementById('lmTitle').innerHTML = info.title + ' Level';
+ document.getElementById('lmDesc').textContent = info.desc;
+
+ const listEl = document.getElementById('lmList');
+ listEl.innerHTML = '';
+ info.skills.forEach(s => {
+ const li = document.createElement('li');
+ li.textContent = s;
+ listEl.appendChild(li);
+ });
+
+ const focusEl = document.getElementById('lmFocus');
+ focusEl.innerHTML = '';
+ info.focus.forEach(f => {
+ const li = document.createElement('li');
+ li.textContent = f;
+ focusEl.appendChild(li);
+ });
+
+ const rank = LEVEL_RANK[result.level];
+ const next = rank < 6 ? LEVEL_INFO[LEVELS_ASC[rank]] : null;
+ document.getElementById('lmNext').innerHTML = next
+ ? '<div class="up">🚀</div><div><b>Nächste Stufe: ' + LEVELS_ASC[rank] + ' — ' + next.title + '</b><span>' + info.next + '</span></div>'
+ : '<div class="up">🏆</div><div><b>' + info.next + '</b><span>Übe weiter, um scharf zu bleiben.</span></div>';
+
+ document.getElementById('levelModal').classList.add('show');
+ }
+
+ function closeLevelModal() {
+ document.getElementById('levelModal').classList.remove('show');
+ }
+
+ if (result && result.level) renderResult();
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

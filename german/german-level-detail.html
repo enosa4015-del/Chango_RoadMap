@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Deutschniveau-Leitfaden | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+ :root {
+ --primary: #6C3CE1;
+ --primary-light: #8B5CF6;
+ --primary-dark: #5224B5;
+ --accent: #F97316;
+ --accent-light: #FB923C;
+ --bg-dark: #0A0A0F;
+ --bg-card: #12121A;
+ --bg-card-hover: #1A1A25;
+ --text: #F8F8FC;
+ --text-muted: #9CA3AF;
+ --text-dim: #6B7280;
+ --border: #1F1F2E;
+ --gradient-1: linear-gradient(135deg, #6C3CE1, #F97316);
+ --gradient-2: linear-gradient(135deg, #8B5CF6, #6C3CE1);
+ --gradient-3: linear-gradient(135deg, #F97316, #EF4444);
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.35);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.3);
+ --radius: 20px;}
+
+ .theme-toggle {
+ width: 42px; height: 42px; min-width: 42px; border-radius: 12px; border: 1.5px solid var(--border);
+ background: var(--bg-card); color: var(--accent-light); cursor: pointer;
+ font-size: 1.15rem; display: inline-flex; align-items: center; justify-content: center;
+ transition: all 0.25s ease;
+ }
+ .theme-toggle:hover { border-color: var(--primary); box-shadow: var(--glow-purple); transform: translateY(-2px); }
+ [data-theme="light"] {
+ --bg-dark: #F5F6FB;
+ --bg-card: #FFFFFF;
+ --bg-card-hover: #EEF1F7;
+ --text: #14141B;
+ --text-muted: #3E4757;
+ --text-dim: #79808F;
+ --border: #E4E7EF;
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.12);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.1);
+ }
+ [data-theme="light"] nav { background: rgba(255, 255, 255, 0.88); }
+ [data-theme="light"] nav.scrolled { background: rgba(255, 255, 255, 0.97); box-shadow: 0 6px 24px rgba(24, 22, 48, 0.06); }
+ [data-theme="light"] .nav-links.active { background: rgba(255, 255, 255, 0.98); }
+ [data-theme="light"] .btn-outline { background: #FFFFFF; }
+ [data-theme="light"] .detail-card, [data-theme="light"] .info-card, [data-theme="light"] .next-card {
+ box-shadow: 0 12px 34px rgba(24, 22, 48, 0.07);
+ }
+ [data-theme="light"] .detail-card:hover, [data-theme="light"] .info-card:hover, [data-theme="light"] .next-card:hover {
+ box-shadow: 0 18px 44px rgba(24, 22, 48, 0.12);
+ }
+ [data-theme="light"] .journey-line { background: #E4E7EF; }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', sans-serif;
+ background: var(--bg-dark);
+ color: var(--text);
+ overflow-x: hidden;
+ line-height: 1.7;
+ }
+
+ ::-webkit-scrollbar { width: 10px; }
+ ::-webkit-scrollbar-track { background: transparent; }
+ ::-webkit-scrollbar-thumb { background: rgba(148, 148, 175, 0.35); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+ ::-webkit-scrollbar-thumb:hover { background: rgba(108, 60, 225, 0.7); border: 2px solid transparent; background-clip: padding-box; }
+ html { scrollbar-width: thin; scrollbar-color: rgba(148, 148, 175, 0.35) transparent; }
+
+ /* theme vars set per level via JS */
+ .page {
+ --lv-accent: #8B5CF6;
+ --lv-grad: linear-gradient(135deg, #8B5CF6, #6C3CE1);
+ --lv-tint: rgba(139, 92, 246, 0.12);
+ --lv-border: rgba(139, 92, 246, 0.4);
+ --lv-glow-s: rgba(139, 92, 246, 0.22);
+ --lv-glow-l: rgba(139, 92, 246, 0.45);
+ }
+
+ /* NAV */
+ nav {
+ position: fixed;
+ top: 0; left: 0; right: 0;
+ z-index: 1000;
+ padding: 1rem 2rem;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ backdrop-filter: blur(20px);
+ background: rgba(10, 10, 15, 0.8);
+ border-bottom: 1px solid var(--border);
+ transition: all 0.3s ease;
+ }
+ nav.scrolled { padding: 0.6rem 2rem; background: rgba(10, 10, 15, 0.95); }
+
+ .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+ .logo-icon {
+ width: 42px; height: 42px; background: var(--gradient-1); border-radius: 12px;
+ display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: var(--glow-purple);
+ }
+ .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+ .logo-text {
+ font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700;
+ background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+ }
+
+ .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+ .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; position: relative; }
+ .nav-links a:hover { color: var(--text); }
+ .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--gradient-1); transition: width 0.3s; }
+ .nav-links a:hover::after { width: 100%; }
+
+ .btn {
+ display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+ padding: 0.7rem 1.6rem; border-radius: 12px; font-weight: 700; font-size: 0.9rem;
+ text-decoration: none; transition: all 0.3s ease; cursor: pointer;
+ border: none; font-family: 'Inter', sans-serif;
+ }
+ .btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 20px rgba(108, 60, 225, 0.4); }
+ .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108, 60, 225, 0.6); }
+ .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+ .btn-outline:hover { border-color: var(--primary); background: rgba(108, 60, 225, 0.1); }
+ .btn-large { padding: 1rem 2.2rem; font-size: 1rem; border-radius: 14px; }
+
+ .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+ .hamburger span { width: 25px; height: 2px; background: var(--text); transition: 0.3s; }
+
+ /* HERO */
+ .hero {
+ min-height: 100vh;
+ display: flex; align-items: center; justify-content: center; text-align: center;
+ padding: 8rem 2rem 4rem; position: relative; overflow: hidden;
+ }
+ .hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+ .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.5; animation: float 8s ease-in-out infinite; }
+ .orb-1 { width: 420px; height: 420px; background: var(--lv-accent); top: -10%; left: -5%; opacity: 0.4; }
+ .orb-2 { width: 380px; height: 380px; background: var(--primary); bottom: -10%; right: -5%; animation-delay: 2s; }
+ .orb-3 { width: 260px; height: 260px; background: #EC4899; top: 40%; left: 45%; animation-delay: 4s; opacity: 0.25; }
+
+ @keyframes float {
+ 0%, 100% { transform: translateY(0); }
+ 50% { transform: translateY(-40px); }
+ }
+
+ .hero-grid {
+ position: absolute; inset: 0;
+ background-image:
+ linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
+ linear-gradient(90deg, rgba(139, 92, 246, 0.06) 1px, transparent 1px);
+ background-size: 60px 60px;
+ mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ }
+
+ .hero-content { position: relative; z-index: 2; max-width: 900px; width: 100%; }
+
+ .hero-badge {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ background: var(--lv-tint); border: 1px solid var(--lv-border);
+ backdrop-filter: blur(8px); color: var(--lv-accent);
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 0.95rem; font-weight: 700; letter-spacing: 2px;
+ padding: 0.5rem 1.4rem; border-radius: 50px; margin-bottom: 1.5rem;
+ }
+ .hero-badge .dot { width: 8px; height: 8px; background: var(--lv-accent); border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
+ @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+
+ h1 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: clamp(2.8rem, 6vw, 4.6rem); font-weight: 800; line-height: 1.1;
+ margin-bottom: 0.6rem; color: var(--text);
+ }
+ .level-name { font-size: clamp(1.4rem, 3.4vw, 2rem); color: var(--text-muted); font-weight: 600; margin-bottom: 1.2rem; }
+ .hero-sub { font-size: 1.1rem; color: var(--text-muted); max-width: 640px; margin: 0 auto 2.5rem; line-height: 1.8; }
+
+ .hero-stats { display: flex; align-items: center; justify-content: center; gap: 2.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+ .hero-stat .number {
+ font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700;
+ background: var(--lv-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+ }
+ .hero-stat .label { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+ .journey-line { height: 2px; background: var(--border); border-radius: 2px; position: relative; max-width: 640px; margin: 0 auto 2.5rem; }
+ .journey-line .fill {
+ position: absolute; top: 0; left: 0; height: 100%; border-radius: 2px;
+ background: var(--lv-grad); transition: width 0.8s ease;
+ }
+ .journey-pips { display: flex; justify-content: space-between; max-width: 640px; margin: 0.6rem auto 0; }
+ .journey-pips .pip { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; font-size: 0.72rem; color: var(--text-dim); }
+ .journey-pips .pip .cir {
+ width: 14px; height: 14px; border-radius: 50%; background: var(--bg-card);
+ border: 2px solid var(--border); transition: all 0.3s;
+ }
+ .journey-pips .pip.on .cir { background: var(--lv-grad); border-color: transparent; box-shadow: var(--lv-glow-s); }
+ .journey-pips .pip.on { color: var(--text); font-weight: 700; }
+
+ /* CONTENT */
+ .content { max-width: 1000px; margin: 0 auto; padding: 4rem 1.25rem 7rem; position: relative; z-index: 2; }
+
+ .section-head { text-align: center; margin-bottom: 2.5rem; }
+ .section-eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+ color: var(--lv-accent); margin-bottom: 0.8rem;
+ }
+ .section-eyebrow .line { width: 30px; height: 2px; background: var(--lv-grad); border-radius: 2px; }
+ .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 700; line-height: 1.2; }
+ .section-sub { color: var(--text-muted); font-size: 1rem; margin-top: 0.6rem; }
+
+ .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+
+ .info-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px;
+ padding: 2rem; position: relative; overflow: hidden;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .info-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--lv-grad); opacity: 0; transition: opacity 0.3s; }
+ .info-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .info-card:hover::before { opacity: 1; }
+ .info-card-icon { width: 54px; height: 54px; border-radius: 16px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+ .info-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+ .info-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; }
+
+ .detail-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px;
+ padding: 2rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+ }
+ .detail-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
+ .detail-card h3 .ic { width: 38px; height: 38px; min-width: 38px; border-radius: 12px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: inline-flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+
+ ul.checks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem 1.4rem; }
+ ul.checks.two-col li { list-style: none; position: relative; padding-left: 1.6rem; font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+ ul.checks.two-col li::before { content: ''; position: absolute; left: 0; top: 0; color: var(--lv-accent); font-weight: 800; }
+
+ .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.4rem; }
+ .chip { font-size: 0.83rem; font-weight: 600; color: var(--text-muted); background: var(--bg-card-hover); border: 1px solid var(--border); padding: 0.45rem 0.95rem; border-radius: 30px; transition: all 0.25s; }
+ .chip:hover { border-color: var(--lv-border); color: var(--lv-accent); background: var(--lv-tint); }
+
+ .example-box { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.2rem 1.4rem; margin-bottom: 0.9rem; }
+ .example-box .en { font-size: 1rem; font-weight: 600; color: var(--text); }
+ .example-box .mean { font-size: 0.85rem; color: var(--text-dim); margin-top: 0.25rem; }
+
+ .next-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden; margin-top: 2rem;
+ }
+ .next-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .next-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, var(--lv-tint), transparent 60%); pointer-events: none; }
+ .next-card > * { position: relative; z-index: 2; }
+ .next-icon { font-size: 2.6rem; margin-bottom: 1rem; }
+ .next-card .nk-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--lv-accent); margin-bottom: 0.5rem; }
+ .next-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+ .next-card p { color: var(--text-muted); font-size: 0.98rem; max-width: 620px; margin: 0 auto 1.6rem; }
+
+ .next-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 760px; margin: 0 auto 2rem; }
+ .next-step { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.1rem; text-align: center; transition: all 0.25s; }
+ .next-step:hover { border-color: var(--lv-border); transform: translateY(-3px); }
+ .next-step .ns-ic { font-size: 1.4rem; margin-bottom: 0.4rem; }
+ .next-step b { font-size: 0.9rem; display: block; margin-bottom: 0.3rem; }
+ .next-step span { font-size: 0.8rem; color: var(--text-muted); }
+
+ .actions { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+
+ .cta-note { margin-top: 2rem; color: var(--text-dim); font-size: 0.95rem; text-align: center; }
+ .cta-note a { color: var(--lv-accent); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--lv-border); transition: color 0.3s; }
+ .cta-note a:hover { color: var(--primary-light); }
+
+ .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+ .reveal.visible { opacity: 1; transform: translateY(0); }
+
+ /* FOOTER */
+ footer { background: #08080D; border-top: 1px solid var(--border); padding: 4rem 2rem 2rem; }
+ .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+ .footer-bottom p { font-size: 0.82rem; color: var(--text-dim); }
+ .footer-social { display: flex; gap: 1rem; }
+ .footer-social a { width: 38px; height: 38px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-dim); text-decoration: none; transition: all 0.3s; font-size: 0.85rem; }
+ .footer-social a:hover { border-color: var(--primary); color: var(--text); }
+
+ @media (max-width: 768px) {
+ .grid-2 { grid-template-columns: 1fr; }
+ ul.checks { grid-template-columns: 1fr; }
+ .next-steps { grid-template-columns: 1fr; }
+ .hero-stats { gap: 1.5rem; }
+ .nav-links {
+ display: none;
+ position: fixed; top: 0; right: 0; width: 70%; height: 100vh;
+ background: rgba(10, 10, 15, 0.98);
+ flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+ transition: right 0.4s ease; z-index: 999;
+ }
+ [data-theme="light"] .nav-links { background: rgba(255, 255, 255, 0.98); }
+ .nav-links.active { display: flex; }
+ .hamburger { display: flex; position: relative; z-index: 1001; }
+ .nav-links .btn { padding: 0.6rem 1.3rem; }
+ }
+ </style>
+</head>
+<body class="page" id="page">
+
+<!-- NAV -->
+<nav id="navbar">
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <ul class="nav-links" id="navLinks">
+ <li><a href="../index.html">Home</a></li>
+ <li><a href="german-level.html">Stufen</a></li>
+ <li><a href="german-test.html">Stufentest</a></li>
+ <li><a href="german-test.html" class="btn btn-primary" style="padding: 0.5rem 1.2rem;">Test starten</a></li>
+ </ul>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Dunkel / hell umschalten" title="Theme umschalten">☀️</button>
+ <button class="hamburger" id="hamburger" aria-label="Menü">
+ <span></span><span></span><span></span>
+ </button>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+ <div class="hero-bg">
+ <div class="orb orb-1"></div>
+ <div class="orb orb-2"></div>
+ <div class="orb orb-3"></div>
+ <div class="hero-grid"></div>
+ </div>
+ <div class="hero-content">
+ <h1 class="reveal" id="heroTitle">Mittelstufe</h1>
+ <div class="level-name reveal" id="heroTagline">Selbstvertrauen, deine Welt auszudrücken</div>
+ <p class="hero-sub reveal" id="heroSub">Alles, was du über diese Stufe wissen musst — was sie bedeutet, warum sie wichtig ist, was sie enthält und wie genau du die nächste erreichst.</p>
+ <div class="hero-stats reveal" id="heroStats"></div>
+ <div class="journey-line reveal"><div class="fill" id="journeyFill"></div></div>
+ <div class="journey-pips reveal" id="journeyPips"></div>
+ <div class="actions reveal">
+ <a href="german-test.html" class="btn btn-primary btn-large">Kostenlosen Stufentest starten</a>
+ <a href="german-level.html" class="btn btn-outline btn-large">Alle Stufen</a>
+ </div>
+ </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Stufenleitfaden</div>
+ <h2 class="section-title">Alles über <span id="secTitle">B1 Mittelstufe</span></h2>
+ <p class="section-sub" id="secSub">Dein kompletter Fahrplan für diese Stufe</p>
+ </div>
+
+ <div class="grid-2">
+ <div class="info-card reveal">
+ 
+ <div class="info-card-icon">ℹ️</div>
+  <h3>Was ist diese Stufe?</h3>
+ <p id="blockWhat"></p>
+ </div>
+ <div class="info-card reveal">
+ 
+ <div class="info-card-icon">💡</div>
+  <h3>Warum du sie anstreben solltest</h3>
+ <p id="blockWhy"></p>
+ </div>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">📦</span> Was diese Stufe enthält</h3>
+ <ul class="checks two-col" id="blockContains"></ul>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">📚</span> Themen, die du lernst</h3>
+ <div class="chips" id="blockTopics"></div>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">🎯</span> Worauf du dich konzentrieren musst</h3>
+ <ul class="checks two-col" id="blockFocus"></ul>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">🗣️</span> Was du auf dieser Stufe sagen kannst</h3>
+ <div id="blockExamples"></div>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">🧑🏫</span> Empfehlungen deines Coaches</h3>
+ <ul class="checks two-col" id="blockTips"></ul>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">✨</span> Die besten Ressourcen</h3>
+ <div class="chips" id="blockResources"></div>
+ </div>
+
+ <div class="next-card reveal">
+ 
+ <div class="next-icon">🚀</div>
+  <div class="nk-label" id="nextLabel">Nächste Stufe</div>
+ <h3 id="nextTitle">B2 Obere Mittelstufe</h3>
+ <p id="nextDesc">Komplexe Themen flüssig diskutieren, klar argumentieren und gut strukturierte professionelle Texte schreiben.</p>
+ <div class="next-steps">
+ <div class="next-step"><b>Schritt 1</b><span id="step1">Fortgeschrittene Grammatik meistern</span></div>
+ <div class="next-step"><b>Schritt 2</b><span id="step2">Redewendungen und Kollokationen lernen</span></div>
+ <div class="next-step"><b>Schritt 3</b><span id="step3">Täglich anspruchsvolles Deutsch hören</span></div>
+ </div>
+ <div class="actions">
+ <a href="german-level-detail.html?level=B2" class="btn btn-primary btn-large" id="nextCta">Nächste Stufe: B2 →</a>
+ <a href="german-level.html" class="btn btn-outline btn-large">Alle Stufen ansehen</a>
+ </div>
+ <p class="cta-note">Du kennst deine Stufe noch nicht? <a href="german-test.html">Mach den Chango-Stufentest</a> — er dauert etwa 5 Minuten.</p>
+ </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-bottom">
+ <p>&copy; 2026 Chango. Lerne Deutsch für die echte Welt.</p>
+ <div class="footer-social">
+ <a href="../index.html" title="Home"></a>
+ <a href="german-level.html" title="Stufen"></a>
+ <a href="german-test.html" title="Stufentest starten"></a>
+ </div>
+ </div>
+</footer>
+
+<script>
+ var LEVEL_DETAILS = {
+ B1: {
+ title: 'Mittelstufe', icon: '🎯', accent: '#8B5CF6',
+ grad: 'linear-gradient(135deg, #8B5CF6, #6C3CE1)',
+ tint: 'rgba(139, 92, 246, 0.12)', border: 'rgba(139, 92, 246, 0.4)',
+ glowS: 'rgba(139, 92, 246, 0.22)', glowL: 'rgba(139, 92, 246, 0.45)',
+ tagline: 'Selbstvertrauen, deine Welt auszudrücken',
+ sub: 'B1 ist die Stufe, auf der du aufhörst zu übersetzen und anfängst, auf Deutsch zu denken. Du teilst Meinungen, erzählst Erfahrungen und folgst den meisten Gesprächen.',
+ stats: [ ['3 von 6', 'Stufenposition'], ['~2.500', 'Wörter bekannt'], ['zunehmend', 'fließend'] ],
+ what: 'B1 (Mittelstufe) ist die dritte CEFR-Stufe. Du verstehst die Hauptpunkte klarer Standardsprache zu vertrauten Themen, bewältigst die meisten Situationen im Alltag und auf Reisen, schreibst einfache zusammenhängende Texte und beschreibst Erfahrungen, Ereignisse, Träume und Hoffnungen — und begründest kurz deine Meinungen.',
+ why: 'B1 ist die Schwelle zum selbstständigen Sprachgebrauch — das Minimum, das viele Arbeitgeber und Hochschulen verlangen. Es beweist, dass du auf Deutsch arbeiten, studieren und reisen kannst, ohne ständig Hilfe zu brauchen, und es ist das Sprungbrett zu echter beruflicher Flüssigkeit.',
+ contains: [
+ 'Meinungen & Pläne klar ausdrücken',
+ 'Erfahrungen & Ereignisse im Detail beschreiben',
+ 'Die meisten Reisesituationen meistern',
+ 'Einfache zusammenhängende Texte schreiben',
+ 'Klarer, standardsprachlicher Sprache folgen',
+ 'Argumente vortragen & Ideen vergleichen'
+ ],
+ topics: ['Perfekt & Plusquamperfekt', 'Konjunktionalsätze (weil, dass, obwohl)', 'Relativsätze', 'Indirekte Rede (Grundlagen)', 'Trennbare & untrennbare Verben', 'Modalverben in der Vergangenheit', 'Konjunktiv II (würde, hätte)', 'Passiv (Grundlagen)', 'Eigene Meinung vertreten', 'Reise & Alltag', 'Beruf & Studium', 'Gesellschaft & Kultur'],
+ focus: [
+ 'Konjunktiv II, Relativsätze und Passiv lernen',
+ 'Den Wortschatz für Beruf und Alltag erweitern',
+ 'Üben, Meinungen klar zu begründen und vorzustellen',
+ 'Strukturierte Absätze schreiben: Einleitung, Hauptteil, Schluss',
+ 'Radio und Podcasts zu Themen hören, die dich interessieren'
+ ],
+ examples: [
+ { en: 'Wenn ich mehr Zeit hätte, würde ich durch Europa reisen.', mean: 'Konjunktiv II, um einen Wunsch auszudrücken' },
+ { en: 'Ich arbeite seit 2021 bei dieser Firma.', mean: 'Perfekt mit „seit“, um über die Arbeit zu sprechen' },
+ { en: 'Meiner Meinung nach ist Online-Unterricht flexibler.', mean: 'Eine Meinung äußern und vertreten' },
+ { en: 'Letzten Sommer bin ich mit meiner Familie ans Meer gefahren.', mean: 'Über ein vergangenes Erlebnis erzählen' },
+ { en: 'Der Film war so gut, dass ich ihn zweimal gesehen habe.', mean: 'Sätze mit „dass“ verbinden' }
+ ],
+ tips: [
+ 'Sprich jeden Tag mit dir selbst über deine Pläne',
+ 'Überarbeite Fehler beim Schreiben — korrigiere und schreibe neu',
+ 'Serien ohne Untertitel ansehen, dann mit Untertiteln wiederholen',
+ 'Ein persönliches Phrasenbuch mit Redewendungen anlegen',
+ 'Wöchentlich kurze Aufsätze schreiben und Feedback einholen'
+ ],
+ resources: ['Goethe-Zertifikat B1 Materialien', 'Deutsche Welle: Nicos Weg', 'Podcasts für B1-Lernende', 'Grammatik aktiv (Cornelsen)', 'Leicht lesbare Lektüren'],
+ nextLabel: 'Nächste Stufe',
+ nextTitle: 'B2 Obere Mittelstufe',
+ nextDesc: 'Komplexe Themen flüssig diskutieren, klar argumentieren und gut strukturierte professionelle Texte schreiben.',
+ steps: [
+ 'Fortgeschrittene Grammatik meistern: erweitertes Passiv, Konjunktiv II, indirekte Rede',
+ 'Redewendungen und Kollokationen lernen',
+ 'Berichte, E-Mails und Aufsätze mit klaren Argumenten schreiben'
+ ]
+ },
+ B2: {
+ title: 'Obere Mittelstufe', icon: '📊', accent: '#F97316',
+ grad: 'linear-gradient(135deg, #F97316, #EF4444)',
+ tint: 'rgba(249, 115, 22, 0.12)', border: 'rgba(249, 115, 22, 0.35)',
+ glowS: 'rgba(249, 115, 22, 0.22)', glowL: 'rgba(249, 115, 22, 0.45)',
+ tagline: 'Sprich flüssig über jedes Alltagsthema',
+ sub: 'B2 ist die Stufe echter Flüssigkeit. Du führst spontane Gespräche, verstehst komplexe Texte und schreibst klare, detaillierte berufliche und akademische Texte.',
+ stats: [ ['4 von 6', 'Stufenposition'], ['~4.000', 'Wörter bekannt'], ['fließend', 'im Alltag'] ],
+ what: 'B2 (Obere Mittelstufe) ist die vierte CEFR-Stufe. Du verstehst die Hauptinhalte komplexer Texte zu konkreten und abstrakten Themen, interagierst mit einem Grad an Flüssigkeit und Spontaneität, der normale Gespräche mit Muttersprachlern möglich macht, und schreibst klare, detaillierte Texte zu vielen Themen.',
+ why: 'B2 ist die Stufe der beruflichen und akademischen Bereitschaft — die Voraussetzung für die meisten internationalen Hochschulen und Fachkräftejobs. Du kannst verhandeln, präsentieren, argumentieren und wirst ganz natürlich verstanden. Genau das verlangen hochwertige Chancen.',
+ contains: [
+ 'Komplexe & abstrakte Themen diskutieren',
+ 'Flüssig & spontan kommunizieren',
+ 'Detailliertes, gut strukturiertes Schreiben',
+ 'Längere Texte & Nachrichten verstehen',
+ 'Berufliches & akademisches Deutsch',
+ 'Passiv, indirekte Rede & erweiterte Modalverben'
+ ],
+ topics: ['Erweiterte Modalverben', 'Indirekte Rede (erweitert)', 'Konjunktiv II in der Vergangenheit', 'Passivformen (erweitert)', 'Redewendungen & Kollokationen', 'Nominalisierung', 'Nachrichten & Artikel analysieren', 'Akademische Aufsätze', 'Business-Deutsch', 'Debattieren & Überzeugen', 'Register & Formalität', 'Komplexe Satzstrukturen'],
+ focus: [
+ 'Fortgeschrittene Grammatik meistern: erweitertes Passiv, Konjunktiv II, indirekte Rede',
+ 'Redewendungen und Kollokationen im Kontext lernen',
+ 'Berichte, E-Mails und Aufsätze mit klaren Argumenten schreiben',
+ 'Podcasts und Nachrichten für fortgeschrittenes Hörverstehen nutzen',
+ 'An Diskussionen teilnehmen, um spontanes Sprechen zu trainieren'
+ ],
+ examples: [
+ { en: 'Hätte ich von dem Meeting gewusst, hätte ich teilgenommen.', mean: 'Konjunktiv II für eine irreale Vergangenheit' },
+ { en: 'Die Wirtschaft wird sich ohne Investitionen wohl kaum erholen.', mean: 'Komplexe Themen mit abschwächenden Formulierungen besprechen' },
+ { en: 'Trotz der Hindernisse hat das Team pünktlich geliefert.', mean: 'Sätze im professionellen Schreiben verbinden' },
+ { en: 'Er muss den Zug verpasst haben — er sieht besorgt aus.', mean: 'Modalverben zur Vermutung' },
+ { en: 'Nicht nur hat sie gewonnen, sondern auch einen Rekord gebrochen.', mean: 'Inversion zur Betonung' }
+ ],
+ tips: [
+ 'Täglich Nachrichten auf Deutsch lesen und jeden Artikel zusammenfassen',
+ 'Professionelle E-Mails schreiben und Feedback einholen',
+ 'Dich selbst beim Sprechen aufnehmen und deine Flüssigkeit überprüfen',
+ 'Redewendungen im Kontext lernen — zu jeder einen eigenen Satz schreiben',
+ 'Themen mit einem Partner debattieren, um spontanes Denken zu fördern'
+ ],
+ resources: ['Goethe-Zertifikat B2 Materialien', 'Deutsche Welle Nachrichten', 'Zeit Online', 'Deutschlandfunk: So geht Medien', 'TED Talks auf Deutsch'],
+ nextLabel: 'Nächste Stufe',
+ nextTitle: 'C1 Fortgeschritten',
+ nextDesc: 'Flüssiges, flexibles Deutsch für akademisches und berufliches Leben mit Präzision und Stil.',
+ steps: [
+ 'Nuancen, idiomatischen Ausdruck und Register verfeinern',
+ 'Akademisches Schreiben und formelle Debatten üben',
+ 'Literatur, Leitartikel und Forschungszusammenfassungen lesen'
+ ]
+ },
+ C1: {
+ title: 'Fortgeschritten', icon: '🧠', accent: '#EC4899',
+ grad: 'linear-gradient(135deg, #EC4899, #6C3CE1)',
+ tint: 'rgba(236, 72, 153, 0.12)', border: 'rgba(236, 72, 153, 0.4)',
+ glowS: 'rgba(236, 72, 153, 0.22)', glowL: 'rgba(236, 72, 153, 0.45)',
+ tagline: 'Präzision, Stil und akademische Stärke',
+ sub: 'C1 ist fortgeschrittene Flüssigkeit. Du drückst Ideen fließend und flexibel aus, beherrschst akademisches und berufliches Deutsch und verwendest subtile, idiomatische Sprache mit Selbstvertrauen.',
+ stats: [ ['5 von 6', 'Stufenposition'], ['~7.000', 'Wörter bekannt'], ['fließend', '& präzise'] ],
+ what: 'C1 (Fortgeschritten) ist die fünfte CEFR-Stufe. Du verstehst anspruchsvolle, längere Texte und erkennst implizite Bedeutung, drückst Ideen fließend und spontan aus, ohne lange zu suchen, und verwendest Sprache flexibel für soziale, akademische und berufliche Zwecke.',
+ why: 'C1 bestätigt, dass du auf Deutsch auf höchstem beruflichen und akademischen Niveau arbeiten kannst — publizieren, Verträge verhandeln, unterrichten oder an Elite-Hochschulen studieren. Es signalisiert nicht nur Kompetenz, sondern Beherrschung von Stil und Nuance.',
+ contains: [
+ 'Ideen fließend & flexibel ausdrücken',
+ 'Sprache für akademische & berufliche Zwecke nutzen',
+ 'Klare, detaillierte, komplexe Texte verfassen',
+ 'Ausführliche Argumentationen verstehen',
+ 'Präziser & idiomatischer Ausdruck',
+ 'Implizite Bedeutung erkennen'
+ ],
+ topics: ['Erweiterte Inversion & Betonung', 'Kollokationen & Register', 'Spaltsätze (Cleft-Sätze)', 'Akademisches Schreiben & Zitieren', 'Formelle Debatte & Überzeugung', 'Nuance & Ironie', 'Literatur lesen', 'Spezialwortschatz', 'Komplexe Quellen zusammenfassen', 'Fachspezifisches Deutsch (Recht, Medizin, Finanzen)'],
+ focus: [
+ 'Nuance, idiomatischen Ausdruck und Register verfeinern',
+ 'Akademisches Schreiben und formelle Debatten üben',
+ 'Subtile Kollokationen und stilistische Variation meistern',
+ 'Literatur, Leitartikel und Forschungszusammenfassungen lesen',
+ 'Lange Texte schreiben: Artikel, Berichte, Forschungsnotizen'
+ ],
+ examples: [
+ { en: 'Es war erst Jahre später, dass sie seine Entscheidung verstand.', mean: 'Spaltsatz, um etwas zu betonen' },
+ { en: 'Die Ergebnisse sind zwar vorläufig, aber sehr aufschlussreich.', mean: 'Akademische Präzision beim Abschwächen' },
+ { en: 'Sein Argument ist überzeugend, aber nicht ohne Grenzen.', mean: 'Ausgewogene kritische Bewertung' },
+ { en: 'Das Gutachten darf unter keinen Umständen verzögert werden.', mean: 'Emphatische Verneinung' },
+ { en: 'Sie ist sozusagen eine Mentorin für das ganze Team.', mean: 'Idiomatische Einschübe natürlich verwenden' }
+ ],
+ tips: [
+ 'Wöchentlich einen langen akademischen oder beruflichen Text schreiben',
+ 'Formelle Debatten mit präzisem Wortschatz üben',
+ 'Leitartikel lesen und mit eigenen Worten paraphrasieren',
+ 'Fachspezifischen Wortschatz für deinen Beruf lernen',
+ 'Feedback von fortgeschrittenen Sprechern oder Lehrern einholen'
+ ],
+ resources: ['Goethe-Zertifikat C1 Materialien', 'Die ZEIT', 'Wissenschaftliche Artikel', 'Literatur & Essays', 'Formelle Deutschkurse'],
+ nextLabel: 'Nächste Stufe',
+ nextTitle: 'C2 Meisterschaft',
+ nextDesc: 'Beinahe muttersprachliche Beherrschung, totale Präzision und die Fähigkeit, jedes Register zu bewältigen.',
+ steps: [
+ 'Präzision unter Druck bewahren: Meetings, Verhandlungen, Pitches',
+ 'Zwischen formellem, akademischem und umgangssprachlichem Deutsch wechseln',
+ 'Rechtliches, medizinisches oder finanzielle Deutsch lesen, falls relevant'
+ ]
+ },
+ C2: {
+ title: 'Meisterschaft', icon: '🏆', accent: '#EF4444',
+ grad: 'linear-gradient(135deg, #EF4444, #F97316)',
+ tint: 'rgba(239, 68, 68, 0.1)', border: 'rgba(239, 68, 68, 0.35)',
+ glowS: 'rgba(239, 68, 68, 0.22)', glowL: 'rgba(239, 68, 68, 0.45)',
+ tagline: 'Der Gipfel der deutschen Sprachbeherrschung',
+ sub: 'C2 ist Beherrschung. Du verstehst praktisch alles mit Leichtigkeit, drückst dich mit totaler Präzision aus und verwendest Deutsch so natürlich wie deine Muttersprache.',
+ stats: [ ['6 von 6', 'Stufenposition'], ['~10.000+', 'Wörter bekannt'], ['muttersprachlich', 'Beherrschung'] ],
+ what: 'C2 (Meisterschaft) ist die sechste und höchste CEFR-Stufe. Du verstehst mühelos praktisch alles, was du hörst oder liest, fasst Informationen aus verschiedenen Quellen zusammen und drückst dich spontan, sehr fließend und präzise aus — wobei du feinste Bedeutungsnuancen unterscheidest.',
+ why: 'C2 ist die Elite-Stufe — das Niveau muttersprachlicher Beherrschung, das Türen in Wissenschaft, Verlagswesen, Recht, Diplomatie und Führungspositionen öffnet. Es ist der Beweis, dass du auf dem höchsten Niveau der Sprache arbeiten kannst.',
+ contains: [
+ 'Praktisch alles verstehen, was man hört oder liest',
+ 'Informationen aus vielen Quellen zusammenfassen',
+ 'Dich mit totaler Präzision ausdrücken',
+ 'Akademisches & juristisches Deutsch beherrschen',
+ 'Flüssigkeit & Nuance auf muttersprachlichem Niveau',
+ 'Feinste Bedeutungsnuancen unterscheiden'
+ ],
+ topics: ['Idiomatische Meisterschaft', 'Sprichwörter & kulturelle Referenzen', 'Juristisches & medizinisches Deutsch', 'Fortgeschrittenes akademisches Schreiben', 'Implizieren & Schlussfolgern', 'Subtext & Ironie', 'Zwischen Registern wechseln', 'Präzises Zusammenfassen', 'Rhetorik & Überzeugung auf höchstem Niveau'],
+ focus: [
+ 'Präzision unter Druck bewahren: Meetings, Verhandlungen, Pitches',
+ 'Zwischen formellem, akademischem und umgangssprachlichem Deutsch wechseln',
+ 'In Spezialgebiete eintauchen (Recht, Medizin, Finanzen)',
+ 'Andere coachen und den eigenen Schreibstil verfeinern',
+ 'Täglich anspruchsvolles Deutsch konsumieren, um fit zu bleiben'
+ ],
+ examples: [
+ { en: 'Ihre Beherrschung des Themas ist schlichtweg bemerkenswert.', mean: 'Präzises idiomatisches Lob' },
+ { en: 'Die Beweislage ist zwar dürftig, aber nicht völlig ohne Wert.', mean: 'Extreme Nuance bei der Bewertung' },
+ { en: 'Er hat eine unheimliche Fähigkeit, zwischen den Zeilen zu lesen.', mean: 'Idiomatisches Verständnis von Subtext' },
+ { en: 'Kurz gesagt: Der Vorschlag ist unhaltbar.', mean: 'Knappes, emphatisches Urteil' },
+ { en: 'Ihre Rhetorik, so glänzend sie auch ist, klingt hohl.', mean: 'Anspruchsvolle kritische Analyse' }
+ ],
+ tips: [
+ 'Eigenes Schreiben rigoros zur Perfektion überarbeiten',
+ 'Andere unterrichten oder coachen — durch Erklären wächst Beherrschung',
+ 'Rechts-, Medizin- oder Finanzdeutsch in deinem Fachgebiet lesen',
+ 'Reden ohne Notizen halten üben',
+ 'Tagebuch führen und regelmäßig überprüfen, um Schärfe zu bewahren'
+ ],
+ resources: ['Goethe-Zertifikat C2 Materialien', 'Anspruchsvolle Literatur', 'Juristische & akademische Texte', 'Nachrichtenanalyse & Kommentare', 'Rhetorik- & Präsentationskurse'],
+ nextLabel: 'Gipfel erreicht',
+ nextTitle: 'Du hast die höchste Stufe erreicht',
+ nextDesc: 'Es gibt keine Stufe über C2. Der nächste Schritt ist, Exzellenz zu bewahren und dein Wissen durch Lehren weiterzugeben.',
+ steps: [
+ 'Täglich üben, um auf höchstem Niveau zu bleiben',
+ 'Andere unterrichten oder coachen, um Beherrschung zu vertiefen',
+ 'Dein Deutsch für echte, hochwertige Arbeit einsetzen'
+ ]
+ }
+ };
+
+ var LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+ function populate() {
+ var params = new URLSearchParams(window.location.search);
+ var level = params.get('level') || 'B1';
+ if (LEVELS.indexOf(level) === -1) level = 'B1';
+ if (level === 'A1') { window.location.replace('german-a1.html'); return; }
+ if (level === 'A2') { window.location.replace('german-a2.html'); return; }
+ var d = LEVEL_DETAILS[level];
+
+ document.title = d.title + ' (' + level + ') Stufenleitfaden | Chango';
+ var heroLevelEl = document.getElementById('heroLevel');
+ if (heroLevelEl) heroLevelEl.textContent = 'CEFR ' + level;
+ document.getElementById('heroTitle').textContent = d.title;
+ document.getElementById('heroTagline').textContent = d.tagline;
+ document.getElementById('heroSub').textContent = d.sub;
+ document.getElementById('secTitle').textContent = level + ' ' + d.title;
+ document.getElementById('blockWhat').textContent = d.what;
+ document.getElementById('blockWhy').textContent = d.why;
+
+ var page = document.getElementById('page');
+ page.style.setProperty('--lv-accent', d.accent);
+ page.style.setProperty('--lv-grad', d.grad);
+ page.style.setProperty('--lv-tint', d.tint);
+ page.style.setProperty('--lv-border', d.border);
+ page.style.setProperty('--lv-glow-s', d.glowS);
+ page.style.setProperty('--lv-glow-l', d.glowL);
+
+ fillList('blockContains', d.contains);
+ fillChips('blockTopics', d.topics);
+ fillList('blockFocus', d.focus);
+ fillExamples(d.examples);
+ fillList('blockTips', d.tips);
+ fillChips('blockResources', d.resources);
+
+ document.getElementById('nextLabel').textContent = d.nextLabel;
+ document.getElementById('nextTitle').textContent = d.nextTitle;
+ document.getElementById('nextDesc').textContent = d.nextDesc;
+ document.getElementById('nextIcon').textContent = d.icon;
+ if (d.steps) {
+ document.getElementById('step1').textContent = d.steps[0] || '';
+ document.getElementById('step2').textContent = d.steps[1] || '';
+ document.getElementById('step3').textContent = d.steps[2] || '';
+ }
+
+ var statsEl = document.getElementById('heroStats');
+ statsEl.innerHTML = '';
+ d.stats.forEach(function (s) {
+ var div = document.createElement('div');
+ div.className = 'hero-stat';
+ div.innerHTML = '<div class="number">' + s[0] + '</div><div class="label">' + s[1] + '</div>';
+ statsEl.appendChild(div);
+ });
+
+ var cta = document.getElementById('nextCta');
+ var nextMap = {
+ B1: ['german-level-detail.html?level=B2', 'Nächste Stufe: B2 →'],
+ B2: ['german-level-detail.html?level=C1', 'Nächste Stufe: C1 →'],
+ C1: ['german-level-detail.html?level=C2', 'Nächste Stufe: C2 →'],
+ C2: ['german-test.html', 'Test wiederholen']
+ };
+ if (nextMap[level]) {
+ cta.href = nextMap[level][0];
+ cta.textContent = nextMap[level][1];
+ }
+
+ var rank = LEVELS.indexOf(level) + 1;
+ document.getElementById('journeyFill').style.width = (rank / 6 * 100) + '%';
+ var pipsEl = document.getElementById('journeyPips');
+ pipsEl.innerHTML = '';
+ LEVELS.forEach(function (l) {
+ var pip = document.createElement('div');
+ pip.className = 'pip' + (l === level ? ' on' : '');
+ pip.innerHTML = '<div class="cir"></div>' + l;
+ pipsEl.appendChild(pip);
+ });
+ }
+
+ function fillList(id, items) {
+ var el = document.getElementById(id);
+ el.innerHTML = '';
+ items.forEach(function (t) {
+ var li = document.createElement('li');
+ li.textContent = t;
+ el.appendChild(li);
+ });
+ }
+
+ function fillChips(id, items) {
+ var el = document.getElementById(id);
+ el.innerHTML = '';
+ items.forEach(function (t) {
+ var c = document.createElement('span');
+ c.className = 'chip';
+ c.textContent = t;
+ el.appendChild(c);
+ });
+ }
+
+ function fillExamples(examples) {
+ var el = document.getElementById('blockExamples');
+ el.innerHTML = '';
+ examples.forEach(function (e) {
+ var box = document.createElement('div');
+ box.className = 'example-box';
+ box.innerHTML = '<div class="en">' + e.en + '</div><div class="mean">' + e.mean + '</div>';
+ el.appendChild(box);
+ });
+ }
+
+ populate();
+
+ const navbar = document.getElementById('navbar');
+ window.addEventListener('scroll', () => {
+ navbar.classList.toggle('scrolled', window.scrollY > 50);
+ });
+
+ const hamburger = document.getElementById('hamburger');
+ const navLinks = document.getElementById('navLinks');
+ hamburger.addEventListener('click', () => {
+ navLinks.classList.toggle('active');
+ });
+
+ navLinks.querySelectorAll('a').forEach(link => {
+ link.addEventListener('click', () => navLinks.classList.remove('active'));
+ });
+
+ const reveals = document.querySelectorAll('.reveal');
+ const observer = new IntersectionObserver((entries) => {
+ entries.forEach((entry, i) => {
+ if (entry.isIntersecting) {
+ setTimeout(() => entry.target.classList.add('visible'), i * 80);
+ observer.unobserve(entry.target);
+ }
+ });
+ }, { threshold: 0.1 });
+ reveals.forEach(el => observer.observe(el));
+ setTimeout(() => document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')), 1500);
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

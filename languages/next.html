@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>What's Next | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="stylesheet" href="../css/app.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <div class="nav-right">
+ <a href="../index.html" class="nav-link">Home</a>
+ <a href="level.html" class="nav-link">Levels</a>
+ <a href="test.html" class="nav-link">Test</a>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ </div>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ var cur = document.documentElement.getAttribute('data-theme');
+ b.textContent = cur === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<main class="page" id="nextView">
+
+ <div class="section-label" style="margin:0 0 1rem;">
+ <div class="section-step" style="background:var(--gradient-2);">→</div>
+ <div>
+ <div class="section-title">What's Next</div>
+ <div class="section-sub">Your personal roadmap after knowing your level</div>
+ </div>
+ <div class="section-line"></div>
+ </div>
+
+ <div class="next-box">
+ <div class="result-avatar">🚀</div>
+ <div class="section-label-next">Your Roadmap</div>
+ <h2 id="nextTitle">You are CEFR A1 — Beginner</h2>
+ <p id="nextText"></p>
+ <ul id="nextList"></ul>
+ <div class="result-actions">
+ <a href="result.html" class="btn btn-outline btn-large">← Back to Result</a>
+ <a href="../index.html" class="btn btn-primary btn-large">Back to Home</a>
+ <button class="btn btn-outline btn-large" onclick="location.href='test.html'">Retake Test</button>
+ </div>
+ </div>
+
+ <div class="bootcamp-reco">
+ <div class="bootcamp-reco-label">🥇 Recommended for you</div>
+ <div class="price-card featured">
+ <h3>💼 Career English Bootcamp</h3>
+ <p style="color:var(--text-dim);font-size:0.9rem;">4 weeks of focused, career-driven English training.</p>
+ <div class="price-amount">999 EGP <span>/ 4 weeks</span></div>
+ <ul class="price-features" style="text-align: center;">
+ <li style="text-align: center;"><span class="check">✓</span> Weekly live sessions</li>
+ <li><span class="check">✓</span> Practice materials &amp; resources</li>
+ <li><span class="check">✓</span> Weekly assessments</li>
+ <li><span class="check">✓</span> Final assessment &amp; Chango Score</li>
+ <li><span class="check">✓</span> Career profile creation</li>
+ </ul>
+ <a href="https://chat.whatsapp.com/ImsdjravuSIAfRxk9TRonB" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%;justify-content:center;">Start Now</a>
+ </div>
+ </div>
+</main>
+
+<script src="../js/app-data.js"></script>
+<script>
+ let result = null;
+ try { result = JSON.parse(localStorage.getItem('changoResult')); } catch (e) { result = null; }
+
+ if (!result || !result.level) {
+ window.location.href = 'test.html';
+ }
+
+ function renderNext() {
+ const level = result.level;
+ const info = LEVEL_INFO[level];
+
+ document.getElementById('nextTitle').innerHTML = 'You are ' + level + ' — <span class="gradient-text">' + info.title + '</span>';
+ document.getElementById('nextText').textContent = info.desc;
+
+ const listEl = document.getElementById('nextList');
+ listEl.innerHTML = '';
+
+ info.skills.forEach(s => {
+ const li = document.createElement('li');
+ li.textContent = s + ' (work on this)';
+ listEl.appendChild(li);
+ });
+ info.focus.forEach(f => {
+ const li = document.createElement('li');
+ li.textContent = 'Focus: ' + f;
+ listEl.appendChild(li);
+ });
+
+ const rank = LEVEL_RANK[level];
+ const next = rank < 6 ? LEVEL_INFO[LEVELS_ASC[rank]] : null;
+ const liNext = document.createElement('li');
+ liNext.textContent = next ? 'Next milestone: ' + LEVELS_ASC[rank] + ' — ' + next.title + '. ' + info.next + '.' : info.next;
+ listEl.appendChild(liNext);
+ const liBoot = document.createElement('li');
+ liBoot.textContent = 'Master this level, then join the Chango English Bootcamp to jump to the next one.';
+ listEl.appendChild(liBoot);
+ }
+
+ if (result && result.level) { renderNext(); }
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backend Developer Roadmap | CHANGO</title>
+  <meta name="description" content="The complete Backend Developer Roadmap: from programming fundamentals to PHP, Laravel, SQL, APIs, Docker, and job ready. Follow the path.">
+  <link rel="icon" href="../../images/Logo.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="../programming.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../../index.html" class="logo">
+    <div class="logo-icon"><img src="../../images/Logo.jpg" alt="Chango logo"></div>
+    <span class="logo-text">Chango</span>
+  </a>
+  <div class="nav-right">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <a href="../../journey.html" class="nav-link">Journeys</a>
+    <a href="../programming.html" class="nav-link" id="navProgramming">Programming</a>
+    <a href="backend.html" class="nav-link active">Backend Roadmap</a>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-mobile" id="navMobile">
+  <a href="../../index.html" class="nav-link">Home</a>
+  <a href="../../journey.html" class="nav-link">Journeys</a>
+  <a href="../programming.html" class="nav-link">Programming</a>
+  <a href="backend.html" class="nav-link active">Backend Roadmap</a>
+</div>
+
+<script>
+  (function () {
+    var saved = 'dark';
+    try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+    document.documentElement.setAttribute('data-theme', saved);
+    function refresh() {
+      var b = document.getElementById('themeToggle');
+      if (!b) return;
+      b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+    }
+    window.toggleTheme = function () {
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('changoTheme', next); } catch (e) {}
+      document.documentElement.setAttribute('data-theme', next);
+      refresh();
+    };
+    refresh();
+    document.addEventListener('DOMContentLoaded', refresh);
+
+    try { document.getElementById('navProgramming').setAttribute('href', '../programming.html'); } catch (e) {}
+  })();
+
+  var navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', function () {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  var hamburger = document.getElementById('hamburger');
+  var navMobile = document.getElementById('navMobile');
+  hamburger.addEventListener('click', function () { navMobile.classList.toggle('active'); });
+  navMobile.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () { navMobile.classList.remove('active'); });
+  });
+</script>
+
+<!-- HERO -->
+<section class="hero" style="min-height:auto;padding:9rem 2rem 4rem;">
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <!-- <div class="hero-badge reveal"><span class="dot"></span> Backend Quest</div> -->
+    <h1 class="reveal">Welcome, Future <span class="gradient-text">Backend Developer.</span></h1>
+    <p class="hero-sub reveal">
+      You are about to learn how servers, databases and APIs work. Don't worry. The server is probably not down. Probably.
+      <br><br>
+      This is the complete path — 12 levels from your first line of code to job ready.
+    </p>
+    <div class="hero-buttons reveal">
+      <a href="#roadmap" class="btn btn-primary btn-large">See the Full Roadmap ↓</a>
+      <a href="https://wa.me/+201028100880" target="_blank" class="btn btn-primary btn-large">Book The Book :)</a>
+      <a href="lesson.html?level=programming&lesson=what-is-programming" class="btn btn-outline btn-large">Start Level 01 →</a>
+    </div>
+    <!-- <div class="hero-steps reveal">
+      <div class="s"><b>🧱 Learn</b></div><div class="arrow">→</div>
+      <div class="s"><b>✏️ Practice</b></div><div class="arrow">→</div>
+      <div class="s"><b>🛠️ Build</b></div><div class="arrow">→</div>
+      <div class="s"><b>🏆 Prove</b></div><div class="arrow">→</div>
+      <div class="s"><b>💼 Job Ready</b></div>
+    </div> -->
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="section" id="roadmap">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-label"><span class="line"></span> The Roadmap</div>
+      <h2 class="section-title">Don't Learn Randomly. <span class="accent-text">Follow The Path.</span></h2>
+      <p class="section-desc">
+Twelve levels. Each one builds on the last. Every level, every lesson, is open right now — all 87 lessons. Work through them in order.
+    </p>
+  </div>
+
+  <div class="roadmap" id="roadmapList"></div>
+
+  <div class="soon-note reveal" id="allLive">
+    ✅ The full path is live — 12 levels, 87 lessons, 6 real projects. Mark lessons as "Understood" and watch your progress fill the bars above.
+  </div>
+  </div>
+</section>
+
+<!-- RULE -->
+<section class="section alt">
+  <div class="container narrow">
+    <div class="section-head reveal">
+      <div class="section-label"><span class="line"></span> One Rule</div>
+      <h2 class="section-title">The Path Answers the Questions</h2>
+    </div>
+    <div class="project-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+      <div class="project-card reveal"><div class="p-icon">🧭</div><h3>What should I learn next?</h3><p>The roadmap says so. No more guessing.</p></div>
+      <div class="project-card reveal"><div class="p-icon">🛠️</div><h3>What should I build?</h3><p>Every level ends with a real project.</p></div>
+      <div class="project-card reveal"><div class="p-icon">❓</div><h3>Why do I need this?</h3><p>Every lesson explains why before how.</p></div>
+      <div class="project-card reveal"><div class="p-icon">✅</div><h3>Am I ready to continue?</h3><p>Quizzes and challenges check you honestly.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container narrow">
+    <div class="cta-box reveal">
+      <h2>The whole road is <span class="gradient-text">open now</span>.</h2>
+      <p>Start at Level 01, or jump straight to the level you need. Every lesson ends with something you actually build.</p>
+      <div class="hero-buttons">
+        <a href="lesson.html?level=programming&lesson=what-is-programming" class="btn btn-journey btn-large">Start at Level 01 →</a>
+        <a href="https://wa.me/+201028100880" target="_blank" class="btn btn-primary btn-large">Book The Book :)</a>
+        <a href="projects.html" class="btn btn-outline btn-large">View Real Projects →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="../../images/Logo.jpg" alt="Chango logo"> Chango — The bridge between skills and opportunities</div>
+    <div class="footer-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../journey.html">Journeys</a>
+      <a href="../programming.html">Programming</a>
+      <a href="backend.html">Backend Roadmap</a>
+    </div>
+  </div>
+  <p class="footer-quote">Built for developers who are tired of learning without building.</p>
+</footer>
+
+<script src="backend-data.js"></script>
+<script>
+  (function () {
+    var list = document.getElementById('roadmapList');
+    var doneArr = [];
+    try { doneArr = JSON.parse(localStorage.getItem('chango_lessons_done')) || []; } catch (e) {}
+    var out = '';
+    BACKEND_LEVELS.forEach(function (lv) {
+      var available = lv.status === 'available';
+      var slugs = lv.lessonSlugs || [];
+      var doneCount = slugs.filter(function (s) { return doneArr.indexOf(s) !== -1; }).length;
+      var total = slugs.length;
+      var pct = total ? Math.round((doneCount / total) * 100) : 0;
+      var meta = [
+        '<span>⏱️ <b>' + lv.time + '</b></span>',
+        '<span>📊 <b>' + lv.difficulty + '</b></span>',
+        '<span>🛠️ <b>' + lv.project + '</b></span>',
+        '<span>📖 <b>' + lv.chapters + '</b></span>',
+        '<span>📚 <b>' + total + '</b> lessons</span>'
+      ].join('');
+
+      var topics = lv.topics.map(function (t) { return '<span class="topic-chip">' + t + '</span>'; }).join('');
+
+      var progressHTML = '';
+      if (total > 0) {
+        progressHTML = '<div class="lv-progress"><div class="lv-progress-bar-wrap"><div class="lv-progress-bar" style="width:' + pct + '%;background:' + lv.gradient + ';"></div></div><span class="lv-progress-text">' + doneCount + '/' + total + '</span></div>';
+      }
+
+      var action;
+      if (available) {
+        action = '<a class="level-action" href="' + lv.href + '" style="background:' + lv.gradient + ';">' + lv.cta + '</a>';
+      } else {
+        action = '<span class="level-action">⏳ ' + lv.cta + '</span>';
+      }
+
+      out += '<div class="level-card ' + (available ? '' : 'soon') + ' reveal" style="--lv-accent:' + lv.accent + ';--lv-tint:' + lv.tint + ';--lv-border:' + lv.border + ';">' +
+        '<div class="main">' +
+          '<div class="level-num">' + lv.icon + '</div>' +
+          '<div class="level-body">' +
+            '<div class="level-info">' +
+              '<div class="level-title"><small>' + lv.tagline + (available ? ' · ● Available' : ' · ⏳ Coming Soon') + '</small>' + lv.title + '</div>' +
+              '<p class="level-desc">' + lv.desc + '</p>' +
+              '<div class="level-meta">' + meta + '</div>' +
+              '<div class="level-topics">' + topics + '</div>' +
+              progressHTML +
+            '</div>' +
+            '<div class="level-action-wrap">' + action + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    list.innerHTML = out;
+
+    var reveals = document.querySelectorAll('.reveal');
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+    reveals.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

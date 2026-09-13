@@ -1,0 +1,747 @@
+﻿<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>A1 Anfänger Leitfaden | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+ :root{--primary:#6C3CE1;--primary-light:#8B5CF6;--primary-dark:#5224B5;--accent:#F97316;--accent-light:#FB923C;--bg-dark:#0A0A0F;--bg-card:#12121A;--bg-card-hover:#1A1A25;--text:#F8F8FC;--text-muted:#9CA3AF;--text-dim:#6B7280;--border:#1F1F2E;--gradient-1:linear-gradient(135deg,#6C3CE1,#F97316);--gradient-2:linear-gradient(135deg,#8B5CF6,#6C3CE1);--gradient-3:linear-gradient(135deg,#F97316,#EF4444);--glow-purple:0 0 60px rgba(108,60,225,0.3);--glow-orange:0 0 60px rgba(249,115,22,0.3)
+ --radius: 20px;}
+ .theme-toggle{width:42px;height:42px;min-width:42px;border-radius:12px;border:1.5px solid var(--border);background:var(--bg-card);color:var(--accent-light);cursor:pointer;font-size:1.15rem;display:inline-flex;align-items:center;justify-content:center;transition:all .25s ease}
+ .theme-toggle:hover{border-color:var(--primary);box-shadow:var(--glow-purple);transform:translateY(-2px)}
+ [data-theme="light"]{--bg-dark:#F5F6FB;--bg-card:#FFFFFF;--bg-card-hover:#EEF1F7;--text:#14141B;--text-muted:#3E4757;--text-dim:#79808F;--border:#E4E7EF;--glow-purple:0 0 60px rgba(108,60,225,0.12);--glow-orange:0 0 60px rgba(249,115,22,0.1)}
+ [data-theme="light"] nav{background:rgba(255,255,255,0.88)}
+ [data-theme="light"] nav.scrolled{background:rgba(255,255,255,0.97);box-shadow:0 6px 24px rgba(24,22,48,0.06)}
+ [data-theme="light"] .nav-links.active{background:rgba(255,255,255,0.98)}
+ [data-theme="light"] .btn-outline{background:#FFF}
+ [data-theme="light"] .topic-card,[data-theme="light"] .info-card,[data-theme="light"] .vocab-card,[data-theme="light"] .phrase-card,[data-theme="light"] .cando-card,[data-theme="light"] .next-card,[data-theme="light"] .tip-card{box-shadow:0 12px 34px rgba(24,22,48,0.07)}
+ *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+ body{font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text);overflow-x:hidden;line-height:1.7}
+ ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(148,148,175,0.35);border-radius:10px;border:2px solid transparent;background-clip:padding-box}::-webkit-scrollbar-thumb:hover{background:rgba(16,185,129,0.7);border:2px solid transparent;background-clip:padding-box}html{scrollbar-width:thin;scrollbar-color:rgba(148,148,175,0.35) transparent}
+ .page{--lv-accent:#10B981;--lv-grad:linear-gradient(135deg,#10B981,#3B82F6);--lv-tint:rgba(16,185,129,0.12);--lv-border:rgba(16,185,129,0.4);--lv-glow-s:rgba(16,185,129,0.22);--lv-glow-l:rgba(16,185,129,0.45)}
+ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(10,10,15,0.8);border-bottom:1px solid var(--border);transition:all .3s ease}
+ nav.scrolled{padding:.6rem 2rem;background:rgba(10,10,15,0.95)}
+ .logo{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+ .logo-icon{width:42px;height:42px;background:var(--gradient-1);border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:var(--glow-purple)}
+ .logo-icon img{width:100%;height:100%;object-fit:cover}
+ .logo-text{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+ .nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+ .nav-links a{color:var(--text-muted);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .3s;position:relative}
+ .nav-links a:hover{color:var(--text)}
+ .nav-links a::after{content: '';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gradient-1);transition:width .3s}
+ .nav-links a:hover::after{width:100%}
+ .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1.6rem;border-radius:12px;font-weight:700;font-size:.9rem;text-decoration:none;transition:all .3s ease;cursor:pointer;border:none;font-family:'Inter',sans-serif}
+ .btn-primary{background:var(--gradient-1);color:#fff;box-shadow:0 4px 20px rgba(108,60,225,0.4)}
+ .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(108,60,225,0.6)}
+ .btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border)}
+ .btn-outline:hover{border-color:var(--primary);background:rgba(108,60,225,0.1)}
+ .btn-large{padding:1rem 2.2rem;font-size:1rem;border-radius:14px}
+ .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+ .hamburger span{width:25px;height:2px;background:var(--text);transition:.3s}
+ .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden}
+ .hero-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+ .orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.5;animation:float 8s ease-in-out infinite}
+ .orb-1{width:420px;height:420px;background:var(--lv-accent);top:-10%;left:-5%;opacity:.4}
+ .orb-2{width:380px;height:380px;background:var(--primary);bottom:-10%;right:-5%;animation-delay:2s}
+ .orb-3{width:260px;height:260px;background:#EC4899;top:40%;left:45%;animation-delay:4s;opacity:.25}
+ @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-40px)}}
+ .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,0.06) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,rgba(0,0,0,0.6),transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,rgba(0,0,0,0.6),transparent 75%)}
+ .hero-content{position:relative;z-index:2;max-width:900px;width:100%}
+ .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--lv-tint);border:1px solid var(--lv-border);backdrop-filter:blur(8px);color:var(--lv-accent);font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:2px;padding:.5rem 1.4rem;border-radius:50px;margin-bottom:1.5rem}
+ .hero-badge .dot{width:8px;height:8px;background:var(--lv-accent);border-radius:50%;display:inline-block;animation:pulse 1.5s infinite}
+ @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(0.8)}}
+ h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.8rem,6vw,4.6rem);font-weight:800;line-height:1.1;margin-bottom:.6rem;color:var(--text)}
+ .level-name{font-size:clamp(1.4rem,3.4vw,2rem);color:var(--text-muted);font-weight:600;margin-bottom:1.2rem}
+ .hero-sub{font-size:1.1rem;color:var(--text-muted);max-width:640px;margin:0 auto 2.5rem;line-height:1.8}
+ .hero-stats{display:flex;align-items:center;justify-content:center;gap:2.5rem;margin-bottom:2.5rem;flex-wrap:wrap}
+ .hero-stat .number{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;background:var(--lv-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+ .hero-stat .label{font-size:.82rem;color:var(--text-dim);margin-top:.2rem}
+ .journey-line{height:2px;background:var(--border);border-radius:2px;position:relative;max-width:640px;margin:0 auto .4rem}
+ .journey-line .fill{position:absolute;top:0;left:0;height:100%;border-radius:2px;background:var(--lv-grad)}
+ .journey-pips{display:flex;justify-content:space-between;max-width:640px;margin:.6rem auto 0}
+ .journey-pips .pip{display:flex;flex-direction:column;align-items:center;gap:.3rem;font-size:.72rem;color:var(--text-dim)}
+ .journey-pips .pip .cir{width:14px;height:14px;border-radius:50%;background:var(--bg-card);border:2px solid var(--border);transition:all .3s}
+ .journey-pips .pip.on .cir{background:var(--lv-grad);border-color:transparent;box-shadow:var(--lv-glow-s)}
+ .journey-pips .pip.on{color:var(--text);font-weight:700}
+ .content{max-width:1080px;margin:0 auto;padding:4rem 1.25rem 7rem;position:relative;z-index:2}
+ .section-head{text-align:center;margin-bottom:2.5rem}
+ .section-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lv-accent);margin-bottom:.8rem}
+ .section-eyebrow .line{width:30px;height:2px;background:var(--lv-grad);border-radius:2px}
+ .section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:700;line-height:1.2}
+ .section-sub{color:var(--text-muted);font-size:1rem;margin-top:.6rem}
+ .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:3rem}
+ .info-card{background:var(--bg-card);border:1px solid var(--border);border-radius:22px;padding:2rem;position:relative;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease}
+ .info-card::before{content: '';position:absolute;top:0;left:0;right:0;height:3px;background:var(--lv-grad);opacity:0;transition:opacity .3s}
+ .info-card:hover{transform:translateY(-4px);box-shadow:var(--lv-glow-s)}
+ .info-card:hover::before{opacity:1}
+ .info-card-icon{width:54px;height:54px;border-radius:16px;background:var(--lv-tint);border:1px solid var(--lv-border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem}
+ .info-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:.8rem}
+ .info-card p{font-size:.95rem;color:var(--text-muted);line-height:1.8}
+ .photo-banner{position:relative;border-radius:24px;overflow:hidden;margin-bottom:3rem;height:320px;display:flex;align-items:flex-end}
+ .photo-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+ .photo-banner::after{content: '';position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(4,6,10,0.9))}
+ .photo-banner .pb-text{position:relative;z-index:2;padding:2rem}
+ .photo-banner .pb-text b{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#FFF;text-shadow:0 2px 12px rgba(0,0,0,0.55)}
+ .photo-banner .pb-text span{display:block;font-size:.9rem;color:rgba(255,255,255,0.85);margin-top:.3rem;text-shadow:0 1px 6px rgba(0,0,0,0.5)}
+ .topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:3rem}
+ .topic-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:1.6rem;border-top:3px solid var(--lv-accent);transition:transform .3s ease,box-shadow .3s ease}
+ .topic-card:hover{transform:translateY(-4px);box-shadow:var(--lv-glow-s)}
+ .topic-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem}
+ .topic-head .t-ic{width:40px;height:40px;min-width:40px;border-radius:12px;background:var(--lv-tint);border:1px solid var(--lv-border);display:flex;align-items:center;justify-content:center;font-size:1.15rem}
+ .topic-head h3{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700}
+ .topic-note{font-size:.85rem;color:var(--text-dim);margin-bottom:1rem;line-height:1.6}
+ .example-box{background:var(--bg-card-hover);border:1px solid var(--border);border-left:3px solid var(--lv-accent);border-radius:12px;padding:.8rem 1rem;margin-bottom:.6rem}
+ .example-box .en{font-size:.95rem;font-weight:600;color:var(--text)}
+ .example-box .mean{font-size:.82rem;color:var(--text-dim);margin-top:.15rem}
+ .vocab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3rem}
+ .vocab-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:1.6rem;transition:transform .3s ease,box-shadow .3s ease}
+ .vocab-card:hover{transform:translateY(-4px);box-shadow:var(--lv-glow-s)}
+ .vocab-head{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
+ .vocab-head .v-ic{font-size:1.3rem}
+ .vocab-head h3{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700}
+ .word-row{display:flex;flex-direction:column;padding:.55rem 0;border-bottom:1px dashed var(--border)}
+ .word-row:last-child{border-bottom:none}
+ .word-row .w{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.98rem;color:var(--lv-accent)}
+ .word-row .wex{font-size:.8rem;color:var(--text-dim)}
+ .phrase-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:3rem}
+ .phrase-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:1.6rem;transition:transform .3s ease,box-shadow .3s ease}
+ .phrase-card:hover{transform:translateY(-4px);box-shadow:var(--lv-glow-s)}
+ .phrase-head{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
+ .phrase-head h3{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700}
+ .chat{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.6rem}
+ .chat .who{min-width:26px;height:26px;border-radius:50%;background:var(--lv-tint);color:var(--lv-accent);font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+ .chat .txt{background:var(--bg-card-hover);border:1px solid var(--border);border-radius:14px;padding:.5rem .85rem;font-size:.9rem}
+ .cando-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:3rem}
+ .cando-card{display:flex;gap:1rem;align-items:flex-start;background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:1.3rem;transition:transform .3s ease,box-shadow .3s ease}
+ .cando-card:hover{transform:translateY(-3px);box-shadow:var(--lv-glow-s)}
+ .cando-ic{min-width:46px;height:46px;border-radius:14px;background:var(--lv-tint);border:1px solid var(--lv-border);display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+ .cando-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.98rem;margin-bottom:.3rem}
+ .cando-en{font-size:.9rem;color:var(--text);font-weight:600}
+ .cando-mean{font-size:.8rem;color:var(--text-dim);margin-top:.2rem}
+ .speak-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:3rem}
+ .speak-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:1.6rem;position:relative;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease}
+ .speak-card:hover{transform:translateY(-4px);box-shadow:var(--lv-glow-s)}
+ .speak-num{position:absolute;top:1rem;right:1.2rem;font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:800;color:var(--lv-tint);line-height:1;pointer-events:none}
+ .speak-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem}
+ .speak-head .s-ic{width:40px;height:40px;min-width:40px;border-radius:12px;background:var(--lv-tint);border:1px solid var(--lv-border);display:flex;align-items:center;justify-content:center;font-size:1.15rem}
+ .speak-head h3{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700}
+ .speak-prompt{font-size:.82rem;color:var(--text-muted);margin-bottom:.9rem}
+ .model-box{background:var(--bg-card-hover);border:1px solid var(--border);border-left:3px solid var(--lv-accent);border-radius:12px;padding:.8rem 1rem}
+ .model-box .ml{font-size:.6rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--lv-accent);margin-bottom:.25rem}
+ .model-box .en{font-size:.93rem;font-weight:600;color:var(--text)}
+ .model-box .me{font-size:.8rem;color:var(--text-dim);margin-top:.2rem}
+ .pron-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3rem}
+ .sound-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:1.6rem;transition:transform .3s ease,box-shadow .3s ease}
+ .sound-card:hover{transform:translateY(-4px);box-shadow:var(--lv-glow-s)}
+ .sound-phone{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:var(--lv-accent);background:var(--lv-tint);border:1px solid var(--lv-border);padding:.2rem .7rem;border-radius:8px;margin-bottom:.6rem}
+ .sound-card p{font-size:.85rem;color:var(--text-muted);margin-bottom:.5rem}
+ .sound-w{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.7rem}
+ .pair{display:flex;align-items:center;gap:.9rem;font-size:.85rem;padding:.45rem 0;border-bottom:1px dashed var(--border);flex-wrap:wrap}
+ .pair:last-child{border-bottom:none}
+ .pair .vs{color:var(--text-dim);font-size:.72rem;font-weight:700}
+ .pair .pw{display:inline-flex;align-items:center;gap:.4rem;font-weight:600;color:var(--text)}
+ .pair .pw em{color:var(--text-dim);font-style:normal;font-size:.72rem;font-weight:600}
+ .accent-tips{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:3rem}
+ .accent-tips li{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:.9rem 1.1rem .9rem 2.1rem;font-size:.9rem;color:var(--text-muted);position:relative}
+ .accent-tips li::before{content: '';position:absolute;left:.8rem;top:.85rem;font-size:.95rem}
+ .spk{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;min-width:26px;border-radius:8px;border:1px solid var(--lv-border);background:var(--lv-tint);color:var(--lv-accent);cursor:pointer;font-size:.85rem;line-height:1;padding:0;transition:all .2s ease;font-family:inherit}
+ .spk:hover{background:var(--lv-accent);color:#fff;transform:scale(1.12)}
+ .spk.sm{width:20px;height:20px;min-width:20px;border-radius:6px;font-size:.72rem}
+ .sound-phone-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem}
+ .sound-phone-row .sound-phone{margin-bottom:0}
+ .sound-w{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+ .word-pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--bg-card);border:1px solid var(--border);border-radius:30px;padding:.25rem .75rem .25rem .35rem;font-size:.85rem;font-weight:700;color:var(--text)}
+ .word-pill .pm{color:var(--text-dim);font-weight:600;font-size:.72rem}
+ .quiz-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:1.8rem 2rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+ .quiz-card::before{content: '';position:absolute;top:0;left:0;right:0;height:4px;background:var(--lv-grad)}
+ .quiz-toolbar{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap}
+ .quiz-toolbar b{font-family:'Space Grotesk',sans-serif;font-size:1.02rem}
+ .quiz-score{margin-left:auto;font-size:.8rem;font-weight:800;color:var(--lv-accent);background:var(--lv-tint);border:1px solid var(--lv-border);padding:.35rem .95rem;border-radius:30px;white-space:nowrap}
+ .q-block{padding:1rem 0}.q-block+.q-block{border-top:1px dashed var(--border)}
+ .q-text{font-weight:800;font-size:.98rem;margin-bottom:.7rem}
+ .q-opts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+ .q-opt{display:flex;align-items:center;gap:.6rem;background:var(--bg-card-hover);border:1.5px solid var(--border);border-radius:12px;padding:.55rem .85rem;font-size:.9rem;font-weight:600;color:var(--text);text-align:left;cursor:pointer;transition:all .2s ease;font-family:inherit}
+ .q-opt:hover:not(.locked){border-color:var(--lv-border);transform:translateY(-2px)}
+ .q-opt .q-let{width:22px;height:22px;min-width:22px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;background:var(--lv-tint);color:var(--lv-accent);font-size:.72rem;font-weight:800}
+ .q-opt.ok{background:rgba(16,185,129,0.12);border-color:#10B981;color:#10B981}
+ .q-opt.ok .q-let{background:#10B981;color:#fff}
+ .q-opt.bad{background:rgba(239,68,68,0.12);border-color:#EF4444;color:#EF4444}
+ .q-opt.bad .q-let{background:#EF4444;color:#fff}
+ .q-opt.locked{cursor:default}
+ .q-fb{min-height:1.5rem;font-size:.9rem;margin-top:.6rem;font-weight:700}
+ .q-fb.good{color:#10B981}
+ .q-fb.bad-fb{color:var(--text-muted);font-weight:500;font-size:.84rem}
+ .quiz-reset{margin-top:.4rem}
+ .listen-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:1rem}
+ .btn-mini{display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1.15rem;border-radius:12px;font-weight:700;font-size:.85rem;border:1.5px solid var(--lv-border);background:var(--lv-tint);color:var(--lv-accent);cursor:pointer;transition:all .25s ease;font-family:inherit}
+ .btn-mini:hover{background:var(--lv-accent);color:#fff;transform:translateY(-2px);box-shadow:var(--lv-glow-s)}
+ .listen-note{font-size:.82rem;color:var(--text-dim);margin-bottom:1rem;line-height:1.7}
+ .listen-transcript.hidden{display:none}
+ .listen-card .quiz-card{margin-top:1.5rem}
+ .story-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2rem 2rem 1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+ .story-card::before{content: '';position:absolute;top:0;left:0;right:0;height:4px;background:var(--lv-grad)}
+ .story-head{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+ .story-head .st-ic{font-size:1.5rem}
+ .story-head h3{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700}
+ .story-text{font-size:1.02rem;line-height:2;color:var(--text-muted);max-width:760px}
+ .story-text b{color:var(--lv-accent);font-weight:600}
+ .story-gloss{font-size:.8rem;color:var(--text-dim);margin-top:1rem;border-top:1px dashed var(--border);padding-top:.8rem}
+ .story-gloss .kg{display:inline-block;background:var(--lv-tint);border:1px solid var(--lv-border);color:var(--lv-accent);font-weight:700;padding:.15rem .6rem;border-radius:30px;margin:.2rem .15rem 0}
+ .story-questions,.listen-questions{list-style:none;margin-top:1.2rem;display:grid;gap:.6rem}
+ .story-questions li,.listen-questions li{background:var(--bg-card-hover);border:1px solid var(--border);border-radius:12px;padding:.7rem 1rem;font-size:.9rem;color:var(--text-muted)}
+ .story-questions li b,.listen-questions li b{color:var(--lv-accent)}
+ .listen-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2rem 2rem 1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+ .listen-card::before{content: '';position:absolute;top:0;left:0;right:0;height:4px;background:var(--lv-grad)}
+ .listen-head{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+ .listen-head .ls-ic{font-size:1.5rem}
+ .listen-head h3{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700}
+ .listen-badge{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--lv-accent);background:var(--lv-tint);border:1px solid var(--lv-border);padding:.35rem .8rem;border-radius:30px;letter-spacing:1px;white-space:nowrap}
+ .listen-transcript{background:var(--bg-card-hover);border:1px solid var(--border);border-radius:16px;padding:1.4rem 1.6rem;font-size:1.02rem;line-height:2;color:var(--text-muted)}
+ .listen-transcript b{color:var(--lv-accent);font-weight:600}
+ .listen-glance{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+ .listen-glance span{font-size:.78rem;font-weight:600;color:var(--lv-accent);background:var(--lv-tint);border:1px solid var(--lv-border);padding:.3rem .8rem;border-radius:30px}
+ .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:3rem}
+ .photo-card{position:relative;border-radius:18px;overflow:hidden;height:230px;cursor:pointer}
+ a.photo-card{display:block;text-decoration:none;color:inherit;outline:none}
+ a.photo-card:focus-visible{outline:2px solid var(--lv-accent);outline-offset:3px}
+ .photo-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+ .photo-card:hover img{transform:scale(1.06)}
+ .photo-card::after{content: '';position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(4,6,10,0.92))}
+ .photo-info{position:absolute;left:0;right:0;bottom:0;padding:1.1rem;z-index:2}
+ .photo-info b{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;display:block;color:#FFF;text-shadow:0 2px 10px rgba(0,0,0,0.5)}
+ .photo-info span{font-size:.78rem;color:rgba(255,255,255,0.8);text-shadow:0 1px 5px rgba(0,0,0,0.45)}
+ .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem}
+ .tip-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:1.3rem;text-align:center;transition:all .3s ease}
+ .tip-card:hover{border-color:var(--lv-border);transform:translateY(-4px);box-shadow:var(--lv-glow-s)}
+ .tip-ic{font-size:1.7rem;margin-bottom:.6rem}
+ .tip-card b{font-family:'Space Grotesk',sans-serif;font-size:.98rem;display:block;margin-bottom:.4rem}
+ .tip-card p{font-size:.83rem;color:var(--text-muted);line-height:1.6}
+ .next-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden;margin-top:2rem}
+ .next-card::before{content: '';position:absolute;top:0;left:0;right:0;height:4px;background:var(--lv-grad)}
+ .next-card::after{content: '';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--lv-tint),transparent 60%);pointer-events:none}
+ .next-card>*{position:relative;z-index:2}
+ .next-icon{font-size:2.6rem;margin-bottom:1rem}
+ .next-card .nk-label{font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lv-accent);margin-bottom:.5rem}
+ .next-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:.5rem}
+ .next-card p{color:var(--text-muted);font-size:.98rem;max-width:620px;margin:0 auto 1.6rem}
+ .next-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:760px;margin:0 auto 2rem}
+ .next-step{background:var(--bg-card-hover);border:1px solid var(--border);border-radius:16px;padding:1.1rem;text-align:center;transition:all .25s}
+ .next-step:hover{border-color:var(--lv-border);transform:translateY(-3px)}
+ .next-step .ns-ic{font-size:1.4rem;margin-bottom:.4rem}
+ .next-step b{font-size:.9rem;display:block;margin-bottom:.3rem}
+ .next-step span{font-size:.78rem;color:var(--text-muted)}
+ .bootcamp-card{background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden;margin-top:2rem}
+ .bootcamp-card::before{content: '';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(135deg,#F59E0B,#EF4444)}
+ .bootcamp-card::after{content: '';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(245,158,11,0.12),transparent 60%);pointer-events:none}
+ .bootcamp-card>*{position:relative;z-index:2}
+ .bootcamp-icon{font-size:2.6rem;margin-bottom:1rem}
+ .bootcamp-tag{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#F59E0B;margin-bottom:.5rem}
+ .bootcamp-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:.5rem}
+ .bootcamp-card p{color:var(--text-muted);font-size:.98rem;max-width:640px;margin:0 auto 1.6rem}
+ .bootcamp-feats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:760px;margin:0 auto 2rem}
+ .bootcamp-feat{background:var(--bg-card-hover);border:1px solid var(--border);border-radius:16px;padding:1.1rem;text-align:center;transition:all .25s}
+ .bootcamp-feat:hover{border-color:rgba(245,158,11,0.5);transform:translateY(-3px)}
+ .bootcamp-feat .bf-ic{font-size:1.4rem;margin-bottom:.4rem}
+ .bootcamp-feat b{font-size:.9rem;display:block;margin-bottom:.3rem}
+ .bootcamp-feat span{font-size:.78rem;color:var(--text-muted)}
+ .bootcamp-cta{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;padding:1rem 2.2rem;border-radius:14px;font-weight:600;font-size:1rem;text-decoration:none;box-shadow:0 4px 20px rgba(245,158,11,0.4);transition:all .3s}
+ .bootcamp-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(245,158,11,0.6)}
+ .actions{display:flex;justify-content:center;gap:1rem;margin-top:2rem;flex-wrap:wrap}
+ .cta-note{margin-top:2rem;color:var(--text-dim);font-size:.95rem;text-align:center}
+ .cta-note a{color:var(--lv-accent);text-decoration:none;font-weight:600;border-bottom:1px dashed var(--lv-border);transition:color .3s}
+ .cta-note a:hover{color:var(--primary-light)}
+ .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(0.16,1,0.3,1)}
+ .reveal.visible{opacity:1;transform:translateY(0)}
+ footer{background:#08080D;border-top:1px solid var(--border);padding:4rem 2rem 2rem}
+ .footer-bottom{max-width:1200px;margin:0 auto;padding-top:2rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+ .footer-bottom p{font-size:.82rem;color:var(--text-dim)}
+ .footer-social{display:flex;gap:1rem}
+ .footer-social a{width:38px;height:38px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-dim);text-decoration:none;transition:all .3s;font-size:.85rem}
+ .footer-social a:hover{border-color:var(--primary);color:var(--text)}
+ @media(max-width:1024px){.vocab-grid,.photo-grid,.tips-grid,.pron-grid{grid-template-columns:repeat(2,1fr)}}
+ @media(max-width:768px){.grid-2,.topic-grid,.phrase-grid,.cando-grid,.speak-grid,.accent-tips{grid-template-columns:1fr}.vocab-grid,.photo-grid,.tips-grid,.pron-grid{grid-template-columns:1fr}.next-steps,.bootcamp-feats{grid-template-columns:1fr}.hero-stats{gap:1.5rem}.photo-banner{height:240px}.q-opts{grid-template-columns:1fr}.nav-links{display:none;position:fixed;top:0;right:0;width:70%;height:100vh;background:rgba(10,10,15,0.98);flex-direction:column;justify-content:center;align-items:center;gap:2rem;transition:right .4s ease;z-index:999}[data-theme="light"] .nav-links{background:rgba(255,255,255,0.98)}.nav-links.active{display:flex}.hamburger{display:flex;position:relative;z-index:1001}.nav-links .btn{padding:.6rem 1.3rem}}
+ </style>
+</head>
+<body class="page" id="page">
+<nav id="navbar">
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <ul class="nav-links" id="navLinks">
+ <li><a href="../index.html">Home</a></li>
+ <li><a href="german-level.html">Stufen</a></li>
+ <li><a href="german-test.html">Stufentest</a></li>
+ <li><a href="german-test.html" class="btn btn-primary" style="padding:0.5rem 1.2rem;">Test starten</a></li>
+ </ul>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">&#9728;&#65039;</button>
+ <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+<section class="hero" id="hero">
+ <div class="hero-bg"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="hero-grid"></div></div>
+ <div class="hero-content">
+ <h1 class="reveal">Anf&auml;nger</h1>
+ <div class="level-name reveal">Deine ersten Schritte zum echten Deutsch / Your first steps to real German</div>
+ <p class="hero-sub reveal">Everything from your very first words to simple conversations &mdash; real grammar with real examples, the best words to learn, and phrases you can use today.<br>Alles von deinen allerersten W&ouml;rtern bis hin zu einfachen Gespr&auml;chen &mdash; echte Grammatik mit echten Beispielen, die besten W&ouml;rter zum Lernen und Floskeln, die du heute verwenden kannst.</p>
+ <div class="hero-stats reveal">
+ <div class="hero-stat"><div class="number">1 von 6</div><div class="label">Level position</div></div>
+ <div class="hero-stat"><div class="number">400&ndash;600</div><div class="label">W&ouml;rter bekannt</div></div>
+ <div class="hero-stat"><div class="number">Grundlagen</div><div class="label">Alltags&uuml;berlebung</div></div>
+ </div>
+ <div class="journey-line reveal"><div class="fill" style="width:16.6%"></div></div>
+ <div class="journey-pips reveal">
+ <div class="pip on"><div class="cir"></div>A1</div>
+ <div class="pip"><div class="cir"></div>A2</div>
+ <div class="pip"><div class="cir"></div>B1</div>
+ <div class="pip"><div class="cir"></div>B2</div>
+ <div class="pip"><div class="cir"></div>C1</div>
+ <div class="pip"><div class="cir"></div>C2</div>
+ </div>
+ <div class="actions reveal">
+ <a href="german-a2.html" class="btn btn-primary btn-large">N&auml;chste Stufe: A2 &rarr;</a>
+ <a href="german-level.html" class="btn btn-outline btn-large">Alle Stufen</a>
+ </div>
+ </div>
+</section>
+<div class="content">
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Level Guide / Stufenleitfaden</div>
+ <h2 class="section-title">All About <span style="color:var(--lv-accent)">A1 Beginner / Alles &uuml;ber A1 Anf&auml;nger</span></h2>
+ <p class="section-sub">Grammar with real examples, the best words, everyday phrases and photos<br>Echte Grammatik mit Beispielen, die besten W&ouml;rter, Alltagsfloskeln und Fotos</p>
+ </div>
+ <div class="grid-2">
+ <div class="info-card reveal">
+ <div class="info-card-icon">&#127793;</div>
+ <h3>What makes A1 special? / Was macht A1 besonders?</h3>
+ <p>A1 is where your German journey starts. You learn the most useful everyday words, the verb &quot;to be&quot; (sein), the verb &quot;to have&quot; (haben), present simple, and simple questions &mdash; enough to introduce yourself, order food, ask prices and find your way. Every topic here comes with a real-life example so you can see how German is really used.</p>
+ <p style="margin-top:.6rem;color:var(--text-dim)">A1 ist, wo deine Deutschreise beginnt. Du lernst die n&uuml;tzlichsten Alltagsw&ouml;rter, das Verb &bdquo;sein&ldquo;, das Verb &bdquo;haben&ldquo;, das Pr&auml;sens und einfache Fragen &mdash; genug, um dich vorzustellen, Essen zu bestellen, Preise zu fragen und den Weg zu finden. Jedes Thema kommt mit einem echten Beispiel, damit du siehst, wie Deutsch wirklich verwendet wird.</p>
+ </div>
+ <div class="info-card reveal">
+ <div class="info-card-icon">&#128640;</div>
+ <h3>Why is A1 worth it? / Warum lohnt sich A1?</h3>
+ <p>A1 gives you the <b>foundation</b> for everything else. When you master this level, you stop translating word by word and start building sentences naturally. That confidence is what takes you to A2, B1 and beyond &mdash; one step at a time.</p>
+ <p style="margin-top:.6rem;color:var(--text-dim)">A1 gibt dir das <b>Fundament</b> f&uuml;r alles andere. Wenn du dieses Level beherrst, h&ouml;rst du auf, Wort f&uuml;r Wort zu &uuml;bersetzen, und f&auml;ngst an, S&auml;tze nat&uuml;rlich zu bauen. Dieses Vertrauen bringt dich zu A2, B1 und dar&uuml;ber hinaus &mdash; Schritt f&uuml;r Schritt.</p>
+ </div>
+ </div>
+ <div class="photo-banner reveal">
+ <img src="https://picsum.photos/seed/a1-featured/1200/520" alt="Beginner learning German in the real world" loading="lazy">
+ <div class="pb-text">
+ <b>Where your journey starts / Wo deine Reise beginnt &#127757;</b>
+ <span>Bigger worlds are made of small first steps. Every word below is a step. / Gr&ouml;&szlig;ere Welten bestehen aus kleinen ersten Schritten. Jedes Wort unten ist ein Schritt.</span>
+ </div>
+ </div>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Grammar with examples / Grammatik mit Beispielen</div>
+ <h2 class="section-title">12 Grammar Topics <span style="color:var(--lv-accent)">You Will Really Use / Die du wirklich brauchst</span></h2>
+ <p class="section-sub">Not rules for the exam &mdash; rules for real conversations, each with an example and its meaning<br>Keine Pr&uuml;fungsregeln &mdash; Regeln f&uuml;r echte Gespr&auml;che, jeweils mit Beispiel und Bedeutung</p>
+ </div>
+ <div class="topic-grid" id="grammarGrid"></div>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Speaking practice / Sprech&uuml;bung</div>
+ <h2 class="section-title">Speaking Tasks <span style="color:var(--lv-accent)">You Can Do Today / Sprechaufgaben, die du heute machen kannst</span></h2>
+ <p class="section-sub">Read the model answer, then say it about YOUR life &mdash; out loud<br>Lies die Musterantwort und sage sie dann &uuml;ber DEIN Leben &mdash; laut</p>
+ </div>
+ <div class="speak-grid" id="speakGrid"></div>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Pronunciation &amp; accent / Aussprache &amp; Akzent</div>
+ <h2 class="section-title">Sounds &amp; Accent <span style="color:var(--lv-accent)">For Beginners / Laute &amp; Akzent f&uuml;r Anf&auml;nger</span></h2>
+ <p class="section-sub">The 6 sounds that matter most at A1 &mdash; with pairs of words to practice<br>Die 6 Laute, die am wichtigsten f&uuml;r A1 sind &mdash; mit Wortpaaren zum &Uuml;ben</p>
+ </div>
+ <div class="pron-grid" id="pronGrid"></div>
+ <ul class="accent-tips" id="accentTips"></ul>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Reading / Lesen</div>
+ <h2 class="section-title">A Story <span style="color:var(--lv-accent)">For Your Level / Eine Geschichte f&uuml;r dein Niveau</span></h2>
+ <p class="section-sub">Read it slowly twice &mdash; then try to retell it in your own words<br>Lies es langsam zweimal &mdash; versuche es dann mit eigenen Worten nachzuerz&auml;hlen</p>
+ </div>
+ <div class="story-card reveal" id="storyCard"></div>
+ <div class="quiz-card reveal" id="storyQuiz"></div>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Listening / H&ouml;rverstehen</div>
+ <h2 class="section-title">Listen &amp; Learn <span style="color:var(--lv-accent)">Grammar in Real Speech / H&ouml;re und lerne Grammatik in echter Sprache</span></h2>
+ <p class="section-sub">Press play, listen with your ears only, then answer the questions<br>Dr&uuml;cke auf Abspielen, h&ouml;re nur mit deinen Ohren zu und beantworte dann die Fragen</p>
+ </div>
+ <div class="listen-card reveal" id="listenCard"></div>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Vocabulary / Wortschatz</div>
+ <h2 class="section-title">The Best <span style="color:var(--lv-accent)">30+ Words</span> to Learn First / Die besten 30+ W&ouml;rter zum Anfangen</h2>
+ <p class="section-sub">High-frequency words that appear in almost every A1 conversation<br>H&auml;ufige W&ouml;rter, die in fast jedem A1-Gespr&auml;ch vorkommen</p>
+ </div>
+ <div class="vocab-grid" id="vocabGrid"></div>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Everyday phrases / Alltagsfloskeln</div>
+ <h2 class="section-title">Mini Dialogs <span style="color:var(--lv-accent)">You Will Actually Use / Mini-Dialoge, die du wirklich verwenden wirst</span></h2>
+ <p class="section-sub">Five real little conversations &mdash; read them aloud, then try them yourself<br>F&uuml;nf echte kleine Gespr&auml;che &mdash; lies sie laut vor und versuche sie dann selbst</p>
+ </div>
+ <div class="phrase-grid" id="phraseGrid"></div>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Can-do statements / K&ouml;nnen-Aussagen</div>
+ <h2 class="section-title">What You Can Say <span style="color:var(--lv-accent)">At A1 / Was du auf A1 sagen kannst</span></h2>
+ <p class="section-sub">The seven things every beginner should be able to do &mdash; with model sentences<br>Die sieben Dinge, die jeder Anf&auml;nger k&ouml;nnen sollte &mdash; mit Musters&auml;tzen</p>
+ </div>
+ <div class="cando-grid" id="candoGrid"></div>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Photos / Fotos</div>
+ <h2 class="section-title">Deutsch <span style="color:var(--lv-accent)">In The Real World / in der echten Welt</span></h2>
+ <p class="section-sub">Moments, people and places where A1 German happens every single day<br>Momente, Menschen und Orte, an denen A1-Deutsch jeden Tag stattfindet</p>
+ </div>
+ <div class="photo-grid" id="photosGrid"></div>
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> Study tips / Lerntipps</div>
+ <h2 class="section-title">6 Tips to Move <span style="color:var(--lv-accent)">From A1 to A2 / 6 Tipps f&uuml;r den Weg von A1 zu A2</span></h2>
+ <p class="section-sub">Simple daily habits that take you to the next level faster<br>Einfache t&auml;gliche Gewohnheiten, die dich schneller zum n&auml;chsten Level bringen</p>
+ </div>
+ <div class="tips-grid" id="tipsGrid"></div>
+ <!-- <div class="bootcamp-card reveal">
+ <div class="bootcamp-icon">&#128188;</div>
+ <div class="bootcamp-tag">Career German Bootcamp / Berufsdeutsch-Bootcamp</div>
+ <h3>Your German, Your Future Job / Dein Deutsch, dein zuk&uuml;nftiger Job</h3>
+ <p>One structured program that turns the German you learn here into real career skills &mdash; interviews, CVs, workplace German, and clear professional communication.<br>Ein strukturiertes Programm, das dein hier gelerntes Deutsch zu echten Karrieref&auml;higkeiten macht &mdash; Interviews, Lebenslauf, Deutsch am Arbeitsplatz und klare berufliche Kommunikation.</p>
+ <div class="bootcamp-feats">
+ <div class="bootcamp-feat"><div class="bf-ic">&#127908;</div><b>Job Interviews / Jobinterviews</b><span>Answer confidently in clear German / Antworte selbstbewusst in klarem Deutsch</span></div>
+ <div class="bootcamp-feat"><div class="bf-ic">&#128196;</div><b>CV &amp; Emails / Lebenslauf &amp; E-Mails</b><span>Write strong professional documents / Schreibe starke berufliche Dokumente</span></div>
+ <div class="bootcamp-feat"><div class="bf-ic">&#128172;</div><b>Workplace German / Deutsch am Arbeitsplatz</b><span>Meetings, calls and everyday work talk / Besprechungen, Anrufe und Alltagsgespr&auml;che</span></div>
+ </div>
+ <div class="actions">
+ <a href="../index.html#pricing" class="btn bootcamp-cta">Explore The Bootcamp &rarr;</a>
+ <a href="german-test.html" class="btn btn-outline btn-large">Take the Free Test</a>
+ </div>
+ </div> -->
+ <div class="next-card reveal">
+ <div class="next-icon">&#127793;</div>
+ <div class="nk-label">Next Level / N&auml;chste Stufe</div>
+ <h3>A2 Grundstufe</h3>
+ <p>From single phrases to full conversations about your everyday life &mdash; routine tasks, simple past events, and plans for the future.<br>Von einzelnen S&auml;tzen zu ganzen Gespr&auml;chen &uuml;ber dein Alltagsleben &mdash; Routineaufgaben, einfache Vergangenheitsereignisse und Zukunftspl&auml;ne.</p>
+ <div class="next-steps">
+ <div class="next-step"><div class="ns-ic">&#128197;</div><b>Use the past / Die Vergangenheit nutzen</b><span>Describe what you did yesterday / Beschreibe, was du gestern gemacht hast</span></div>
+ <div class="next-step"><div class="ns-ic">&#128717;&#65039;</div><b>Shop with confidence / Selbstbewusst einkaufen</b><span>Ask prices and try things on / Preise fragen und Sachen anprobieren</span></div>
+ <div class="next-step"><div class="ns-ic">&#129517;</div><b>Make plans / Plane machen</b><span>&bdquo;I&#39;m going to travel next week&ldquo; / &bdquo;Ich werde n&auml;chste Woche reisen&ldquo;</span></div>
+ </div>
+ <div class="actions">
+ <a href="german-a2.html" class="btn btn-primary btn-large">Explore A2 &rarr;</a>
+ <a href="german-test.html" class="btn btn-outline btn-large">Take the Free Test</a>
+ </div>
+ </div>
+ <p class="cta-note reveal">Not sure of your level? / Unsicher &uuml;ber dein Niveau? <a href="german-test.html">Take the Chango level test / Mach den Chango-Stufentest</a> &mdash; it takes about 5 minutes.</p>
+</div>
+<footer>
+ <div class="footer-bottom">
+ <p>&copy; 2026 Chango. Learn German for the real world. / Lerne Deutsch f&uuml;r die echte Welt.</p>
+ <div class="footer-social">
+ <a href="../index.html" title="Home">&#127968;</a>
+ <a href="german-level.html" title="Stufen">&#128218;</a>
+ <a href="german-test.html" title="Stufentest">&#128221;</a>
+ </div>
+ </div>
+</footer>
+<script>
+var TOPICS=[
+{t:'Verb "to be" / Verb "sein"',ic:'&#129489;',note:'The most important verb in German &mdash; used to say who, what and where things are. / Das wichtigste Verb im Deutschen &mdash; benutzt um zu sagen, wer, was und wo.',ex:[
+{en:'I am a student.',me:'Ich bin Student.'},
+{en:'She is my friend.',me:'Sie ist meine Freundin.'},
+{en:'He is not from here.',me:'Er ist nicht von hier.'},
+{en:'We are happy today.',me:'Wir sind heute gl&uuml;cklich.'}]},
+{t:'Verbs: haben / Verbs: haben',ic:'&#9995;',note:'Use haben to say you have something. / Benutzt haben, um zu sagen, dass du etwas hast.',ex:[
+{en:'I have a cat.',me:'Ich habe eine Katze.'},
+{en:'She has two brothers.',me:'Sie hat zwei Br&uuml;der.'},
+{en:'We have a new car.',me:'Wir haben ein neues Auto.'},
+{en:'Do you have time?',me:'Hast du Zeit?'}]},
+{t:'Articles: der / die / das',ic:'&#128196;',note:'Every German noun has a gender: masculine (der), feminine (die), neuter (das). / Jedes deutsche Nomen hat ein Geschlecht: maskulin (der), feminin (die), neutral (das).',ex:[
+{en:'der Mann (the man)',me:'maskulin / masculine'},
+{en:'die Frau (the woman)',me:'feminin / feminine'},
+{en:'das Kind (the child)',me:'neutral / neuter'},
+{en:'das Buch (the book)',me:'neutral / neuter'}]},
+{t:'Plural nouns / Pluralnomen',ic:'&#128290;',note:'German plurals often change the vowel and add -er, -e, or -en. / Deutsche Plurale &auml;ndern oft den Vokal und f&uuml;gen -er, -e oder -en hinzu.',ex:[
+{en:'der Mann &rarr; die M&auml;nner',me:'man &rarr; men'},
+{en:'das Buch &rarr; die B&uuml;cher',me:'book &rarr; books'},
+{en:'die Lampe &rarr; die Lampen',me:'lamp &rarr; lamps'},
+{en:'das Auto &rarr; die Autos',me:'car &rarr; cars'}]},
+{t:'Present Simple / Pr&auml;sens',ic:'&#9200;',note:'Talk about habits, routines and facts that are always true. / Rede &uuml;ber Gewohnheiten, Routinen und Fakten, die immer wahr sind.',ex:[
+{en:'I work every day.',me:'Ich arbeite jeden Tag.'},
+{en:'He likes coffee with sugar.',me:'Er mag Kaffee mit Zucker.'},
+{en:'We live in a small city.',me:'Wir wohnen in einer kleinen Stadt.'},
+{en:'They play football on Fridays.',me:'Sie spielen freitags Fu&szlig;ball.'}]},
+{t:'Question words / Fragew&ouml;rter',ic:'&#10067;',note:'Start questions with wer, wo, wann, wie, was. / Beginne Fragen mit wer, wo, wann, wie, was.',ex:[
+{en:'Wie hei&szlig;t du?',me:'What is your name?'},
+{en:'Woher kommst du?',me:'Where are you from?'},
+{en:'Wie alt bist du?',me:'How old are you?'},
+{en:'Wann ist dein Geburtstag?',me:'When is your birthday?'}]},
+{t:'Possessives / Possessivpronomen',ic:'&#128273;',note:'mein, dein, sein, ihr, unser, euer &mdash; say who owns what. / mein, dein, sein, ihr, unser, euer &mdash; sage, wem etwas geh&ouml;rt.',ex:[
+{en:'Das ist mein Handy.',me:'This is my phone.'},
+{en:'Ihr Name ist Sara.',me:'Her name is Sara.'},
+{en:'Unser Haus ist nah an der Schule.',me:'Our house is near the school.'},
+{en:'Ist das dein Rucksack?',me:'Is this your bag?'}]},
+{t:'Demonstratives: dieser / dieser',ic:'&#128070;',note:'Point to things near you (dieser/diese/dieses) or far away (jener/jene/jenes). / Weise auf Dinge in der N&auml;he (dieser/diese/dieses) oder Ferne (jener/jene/jenes).',ex:[
+{en:'Das ist ein Stift.',me:'This is a pen.'},
+{en:'Das ist ein Auto.',me:'That is a car.'},
+{en:'Das sind meine Schl&uuml;ssel.',me:'These are my keys.'},
+{en:'Das sind meine Schuhe.',me:'Those are my shoes.'}]},
+{t:'Prepositions of place / Lokalpr&auml;positionen',ic:'&#128205;',note:'Say where things are: in, auf, unter, neben. / Sage, wo Dinge sind: in, auf, unter, neben.',ex:[
+{en:'Das Buch ist auf dem Tisch.',me:'The book is on the table.'},
+{en:'Die Katze ist unter dem Stuhl.',me:'The cat is under the chair.'},
+{en:'Die Bank ist neben der Schule.',me:'The bank is next to the school.'},
+{en:'Der Lehrer ist im Klassenzimmer.',me:'The teacher is in the classroom.'}]},
+{t:'Modal verbs: k&ouml;nnen / m&ouml;chten',ic:'&#127947;',note:'k&ouml;nnen says you are able; m&ouml;chten says you would like. / k&ouml;nnen sagt, dass du etwas kannst; m&ouml;chten sagt, dass du etwas m&ouml;chtest.',ex:[
+{en:'Ich kann gut schwimmen.',me:'I can swim very well.'},
+{en:'Sie kann drei Sprachen sprechen.',me:'She can speak three languages.'},
+{en:'Ich m&ouml;chte einen Kaffee, bitte.',me:'I would like a coffee, please.'},
+{en:'K&ouml;nnen Sie mir helfen?',me:'Can you help me, please?'}]},
+{t:'Negation: nicht / kein',ic:'&#10060;',note:'Use nicht to negate verbs and adjectives; use kein for nouns without articles. / Benutzt nicht zum Verneinen von Verben und Adjektiven; kein f&uuml;r Nomen ohne Artikel.',ex:[
+{en:'Ich komme nicht aus Deutschland.',me:'I am not from Germany.'},
+{en:'Das ist nicht mein Buch.',me:'That is not my book.'},
+{en:'Ich habe keinen Hund.',me:'I do not have a dog.'},
+{en:'Er trinkt keinen Kaffee.',me:'He does not drink coffee.'}]},
+{t:'Accusative basics / Akkusativ-Grundlagen',ic:'&#127919;',note:'In the accusative case, only masculine articles change: der &rarr; den. / Im Akkusativ &auml;ndern sich nur maskuline Artikel: der &rarr; den.',ex:[
+{en:'Ich sehe den Mann.',me:'I see the man.'},
+{en:'Er kauft das Buch.',me:'He buys the book.'},
+{en:'Wir kaufen die Milch.',me:'We buy the milk.'},
+{en:'Ich brauche einen Stift.',me:'I need a pen.'}]}
+];
+
+var VOCAB=[
+{g:'Greetings &amp; politeness / Begr&uuml;&szlig;ung &amp; H&ouml;flichkeit',ic:'&#128075;',words:[
+{w:'hello / hallo',ex:'Hello! How are you? / Hallo! Wie geht es dir?'},
+{w:'please / bitte',ex:'A coffee, please. / Einen Kaffee, bitte.'},
+{w:'thank you / danke',ex:'Thank you very much. / Vielen Dank.'},
+{w:'sorry / Entschuldigung',ex:'Sorry, I am late. / Entschuldigung, ich bin sp&auml;t.'},
+{w:'goodbye / tsch&uuml;ss',ex:'Goodbye, see you tomorrow. / Tsch&uuml;ss, bis morgen.'}]},
+{g:'Numbers &amp; time / Zahlen &amp; Zeit',ic:'&#128336;',words:[
+{w:'one / eins',ex:'I have one brother. / Ich habe einen Bruder.'},
+{w:'three / drei',ex:'The class starts at three. / Der Unterricht beginnt um drei.'},
+{w:'today / heute',ex:'Today is a nice day. / Heute ist ein sch&ouml;ner Tag.'},
+{w:'tomorrow / morgen',ex:'See you tomorrow. / Bis morgen.'},
+{w:'morning / Morgen',ex:'I drink tea in the morning. / Ich trinke Tee am Morgen.'}]},
+{g:'Family &amp; people / Familie &amp; Menschen',ic:'&#128104;&#8205;&#128105;&#8205;&#128103;&#8205;&#128102;',words:[
+{w:'mother / Mutter',ex:'My mother cooks well. / Meine Mutter kocht gut.'},
+{w:'father / Vater',ex:'My father works in an office. / Mein Vater arbeitet in einem B&uuml;ro.'},
+{w:'brother / Bruder',ex:'My brother is tall. / Mein Bruder ist gro&szlig;.'},
+{w:'friend / Freund',ex:'This is my best friend. / Das ist mein bester Freund.'},
+{w:'family / Familie',ex:'I love my family. / Ich liebe meine Familie.'}]},
+{g:'Home &amp; objects / Zuhause &amp; Gegenst&auml;nde',ic:'&#127968;',words:[
+{w:'house / Haus',ex:'Our house is big. / Unser Haus ist gro&szlig;.'},
+{w:'door / T&uuml;r',ex:'Please close the door. / Bitteschlie&szlig;e die T&uuml;r.'},
+{w:'table / Tisch',ex:'The keys are on the table. / Die Schl&uuml;ssel sind auf dem Tisch.'},
+{w:'phone / Handy',ex:'My phone is new. / Mein Handy ist neu.'},
+{w:'bed / Bett',ex:'I go to bed at ten. / Ich gehe um zehn Uhr ins Bett.'}]},
+{g:'Food &amp; drink / Essen &amp; Trinken',ic:'&#127822;',words:[
+{w:'water / Wasser',ex:'I drink water every morning. / Ich trinke jeden Morgen Wasser.'},
+{w:'coffee / Kaffee',ex:'He orders coffee with milk. / Er bestellt Kaffee mit Milch.'},
+{w:'bread / Brot',ex:'We eat bread for breakfast. / Wir essen Brot zum Fr&uuml;hst&uuml;ck.'},
+{w:'milk / Milch',ex:'The baby drinks milk. / Das Baby trinkt Milch.'},
+{w:'apple / Apfel',ex:'This apple is very sweet. / Dieser Apfel ist sehr s&uuml;&szlig;.'}]},
+{g:'Feelings / Gef&uuml;hle',ic:'&#128522;',words:[
+{w:'happy / gl&uuml;cklich',ex:'I am happy today. / Ich bin heute gl&uuml;cklich.'},
+{w:'tired / m&uuml;de',ex:'She is tired after work. / Sie ist m&uuml;de nach der Arbeit.'},
+{w:'hungry / hungrig',ex:'I am hungry. Let us eat. / Ich bin hungrig. Lass uns essen.'},
+{w:'good / gut',ex:'The food is really good. / Das Essen ist wirklich gut.'},
+{w:'sick / krank',ex:'He is sick, so he stays home. / Er ist krank, deshalb bleibt er zu Hause.'}]}
+];
+var PHRASES=[
+{t:'Greeting someone new / Jemanden Neues begr&uuml;&szlig;en',ic:'&#128587;',lines:[
+{p:'A',t:'Hallo! Wie geht es Ihnen? / Hello! How are you?'},
+{p:'B',t:'Mir geht es gut, danke. Und Ihnen? / I am fine, thank you. And you?'},
+{p:'A',t:'Sehr gut, danke. Freut mich! / Very well, thanks. Nice to meet you!'}]},
+{t:'Introducing yourself / Sich vorstellen',ic:'&#129681;',lines:[
+{p:'A',t:'Wie hei&szlig;t du? / What is your name?'},
+{p:'B',t:'Ich hei&szlig;e Omar. Und du? / My name is Omar. What about you?'},
+{p:'A',t:'Ich hei&szlig;e Sara. Woher kommst du? / I am Sara. Where are you from?'},
+{p:'B',t:'Ich komme aus &Auml;gypten. Und du? / I am from Egypt. And you?'}]},
+{t:'At a caf&eacute; / Im Caf&eacute;',ic:'&#9749;',lines:[
+{p:'A',t:'Guten Morgen! Kann ich bitte einen Kaffee haben? / Good morning! Can I have a coffee, please?'},
+{p:'B',t:'Nat&uuml;rlich! Klein oder gro&szlig;? / Of course. Small or large?'},
+{p:'A',t:'Gro&szlig;, bitte. Wie viel kostet er? / Large, please. How much is it?'},
+{p:'B',t:'Drei Euro. / It is three euros.'},
+{p:'A',t:'Bitte sehr. Danke! / Here you are. Thank you!'}]},
+{t:'Asking the time / Nach der Uhrzeit fragen',ic:'&#128337;',lines:[
+{p:'A',t:'Entschuldigung, wie sp&auml;t ist es? / Excuse me, what time is it?'},
+{p:'B',t:'Es ist drei Uhr. / It is three o&#39;clock.'},
+{p:'A',t:'Danke! Kommt der Bus sp&auml;t? / Thank you! Is the bus late?'},
+{p:'B',t:'Nein, er ist heute p&uuml;nktlich. / No, it is on time today.'}]},
+{t:'Finding your way / Sich zurechtfinden',ic:'&#129517;',lines:[
+{p:'A',t:'Entschuldigung, wo ist die Bank? / Excuse me, where is the bank?'},
+{p:'B',t:'Sie ist neben der Schule. / It is next to the school.'},
+{p:'A',t:'Ist es weit von hier? / Is it far from here?'},
+{p:'B',t:'Nein, es ist sehr nah. Zwei Minuten zu Fu&szlig;. / No, it is very near. Two minutes on foot.'},
+{p:'A',t:'Toll, vielen Dank! / Great, thank you so much!'}]}
+];
+
+var CANDO=[
+{ic:'&#128172;',t:'Introduce yourself / Sich vorstellen',en:'My name is Layla. I am from Morocco.',me:'Ich hei&szlig;e Layla. Ich komme aus Marokko.'},
+{ic:'&#128104;&#8205;&#128105;&#8205;&#128103;',t:'Talk about your family / &Uuml;ber deine Familie sprechen',en:'This is my sister. She is a teacher.',me:'Das ist meine Schwester. Sie ist Lehrerin.'},
+{ic:'&#128337;',t:'Ask and tell the time / Nach der Uhrzeit fragen',en:'What time is it? &mdash; It is five o&#39;clock.',me:'Wie sp&auml;t ist es? &mdash; Es ist f&uuml;nf Uhr.'},
+{ic:'&#127869;',t:'Order food simply / Einfach Essen bestellen',en:'I would like a sandwich and some water, please.',me:'Ich m&ouml;chte ein Br&ouml;tchen und etwas Wasser, bitte.'},
+{ic:'&#128205;',t:'Say where things are / Sage, wo Dinge sind',en:'The keys are under the table.',me:'Die Schl&uuml;ssel sind unter dem Tisch.'},
+{ic:'&#127749;',t:'Describe your daily routine / Beschreibe deinen Tagesablauf',en:'I get up at seven and go to work by bus.',me:'Ich stehe um sieben auf und fahre mit dem Bus zur Arbeit.'},
+{ic:'&#128085;',t:'Buy basic things / Einfache Dinge kaufen',en:'How much is this T-shirt?',me:'Wie viel kostet dieses T-Shirt?'}
+];
+
+var SPEAKING=[
+{t:'Introduce yourself / Sich vorstellen',ic:'&#129681;',prompt:'Say your name, your country and what you do. / Sage deinen Namen, dein Land und was du machst.',model:'Hello! My name is Omar. I am from Egypt. I am a student.',me:'Hallo! Ich hei&szlig;e Omar. Ich komme aus &Auml;gypten. Ich bin Student.'},
+{t:'Talk about your family / &Uuml;ber Familie sprechen',ic:'&#128104;&#8205;&#128105;&#8205;&#128103;',prompt:'Say who is in your family. / Sage, wer in deiner Familie ist.',model:'I have two brothers and one sister. My mother is a teacher. My father works in a bank.',me:'Ich habe zwei Br&uuml;der und eine Schwester. Meine Mutter ist Lehrerin. Mein Vater arbeitet in einer Bank.'},
+{t:'Describe your day / Deinen Tag beschreiben',ic:'&#127749;',prompt:'Say what you do in the morning and in the evening. / Sage, was du morgens und abends machst.',model:'I get up at seven. I have breakfast. I go to work by bus. In the evening I watch TV.',me:'Ich stehe um sieben auf. Ich fr&uuml;hst&uuml;cke. Ich fahre mit dem Bus zur Arbeit. Am Abend schaue ich fern.'},
+{t:'Talk about likes &amp; dislikes / &uuml;ber Likes und Dislikes sprechen',ic:'&#10084;&#65039;',prompt:'Say what you like and what you do not like. / Sage, was du magst und was du nicht magst.',model:'I like football and music. I do not like fish. I love my family.',me:'Ich mag Fu&szlig;ball und Musik. Ich mag keinen Fisch. Ich liebe meine Familie.'},
+{t:'Talk about your town / &uuml;ber deine Stadt sprechen',ic:'&#127961;&#65039;',prompt:'Describe your town or city simply. / Beschreibe deine Stadt einfach.',model:'I live in a small town. There is a park near my house. The town is clean and quiet.',me:'Ich wohne in einer kleinen Stadt. Es gibt einen Park in der N&auml;he meines Hauses. Die Stadt ist sauber und ruhig.'}
+];
+
+var SOUNDS=[
+{s:'/&#596;/',read:'sch&ouml;n &mdash; der &ouml;-Laut / the ö sound',w:[
+{w:'sch&ouml;n',p:'beautiful'},{w:'Gr&ouml;&szlig;e',p:'size'},{w:'H&ouml;hle',p:'cave'}],
+tip:'Round your lips as if saying &ldquo;u&rdquo; and try to say &ldquo;e&rdquo;. / Runde die Lippen wie bei &bdquo;u&ldquo; und versuche &bdquo;e&rdquo; zu sagen.',
+pairs:[[{w:'sch&ouml;n',p:'beautiful'},{w:'schon',p:'already'}],[{w:'H&ouml;hle',p:'cave'},{w:'Hohe',p:'high'}]]},
+{s:'/&#649;/',read:'gr&uuml;n &mdash; der &uuml;-Laut / the ü sound',w:[
+{w:'gr&uuml;n',p:'green'},{w:'M&uuml;ller',p:'miller'},{w:'&uuml;ber',p:'over'}],
+tip:'Round your lips tightly and try to say &ldquo;ee&rdquo;. / Runde die Lippen fest und versuche &bdquo;ie&rdquo; zu sagen.',
+pairs:[[{w:'gr&uuml;n',p:'green'},{w:'Rum',p:'rum'}],[{w:'M&uuml;ller',p:'miller'},{w:'Mutter',p:'mother'}]]},
+{s:'ch (weich)',read:'ich &mdash; der ich-Laut / the soft ch',w:[
+{w:'ich',p:'I'},{w:'nicht',p:'not'},{w:'wichtig',p:'important'}],
+tip:'Place your tongue near the roof of your mouth and push air out gently. / Lege die Zunge nahe an den Gaumen und lass Luft sanft str&ouml;men.',
+pairs:[[{w:'ich',p:'I'},{w:'Buch',p:'book'}],[{w:'Licht',p:'light'},{w:'Nacht',p:'night'}]]},
+{s:'ch (hart)',read:'Bach &mdash; der ach-Laut / the hard ch',w:[
+{w:'Bach',p:'brook'},{w:'noch',p:'still'},{w:'Tag',p:'day'}],
+tip:'Like a soft &ldquo;h&rdquo; from your throat, after a, o, u. / Wie ein sanftes &bdquo;h&ldquo; aus der Kehle, nach a, o, u.',
+pairs:[[{w:'Bach',p:'brook'},{w:'Backe',p:'cheek'}],[{w:'noch',p:'still'},{w:'Koch',p:'cook'}]]},
+{s:'/ts/',read:'Zeit &mdash; das z-Laut / the z sound',w:[
+{w:'Zeit',p:'time'},{w:'Tanz',p:'dance'},{w:'Platz',p:'place'}],
+tip:'German &ldquo;z&rdquo; sounds like &ldquo;ts&rdquo; in English &ldquo;cats&rdquo;. / Das deutsche &bdquo;z&ldquo; klingt wie &bdquo;ts&ldquo; im englischen &bdquo;cats&rdquo;.',
+pairs:[[{w:'Zeit',p:'time'},{w:'Seite',p:'side'}],[{w:'setzen',p:'to set'},{w:'essen',p:'to eat'}]]},
+{s:'/&#596;/',read:'M&auml;dchen &mdash; der &auml;-Laut / the ä sound',w:[
+{w:'M&auml;dchen',p:'girl'},{w:'K&auml;se',p:'cheese'},{w:'Herr',p:'Mr.'}],
+tip:'Open your mouth and say &ldquo;e&rdquo; like in English &ldquo;bed&rdquo;. / &Ouml;ffne den Mund und sage &bdquo;e&rdquo; wie im englischen &bdquo;bed&rdquo;.',
+pairs:[[{w:'B&auml;r',p:'bear'},{w:'sehr',p:'very'}],[{w:'M&auml;dchen',p:'girl'},{w:'nett',p:'nice'}]]}
+];
+
+var ACCENT=[
+'Wortbetonung &mdash; sage &bdquo;FRAU-en&ldquo;, der erste Teil ist am st&auml;rksten. / Word stress &mdash; say &ldquo;FRAU-en&rdquo;, the first part is the strongest.',
+'Das deutsche &bdquo;z&rdquo; klingt wie &bdquo;ts&rdquo; &mdash; &bdquo;Zeit&rdquo; wird &bdquo;tsait&rdquo; ausgesprochen. / German &ldquo;z&rdquo; sounds like &ldquo;ts&rdquo; &mdash; &ldquo;Zeit&rdquo; is pronounced &ldquo;tsait&rdquo;.',
+'Umlaute ver&auml;ndern den Laut &mdash; &auml;, &ouml;, &uuml; sind andere Vokale, keine Dekoration. / Umlauts change the sound &mdash; &auml;, &ouml;, &uuml; are different vowels, not decorations.',
+'&bdquo;ch&ldquo; hat zwei Laute &mdash; weich nach i/e (ich), hart nach a/o/u (Bach). / &ldquo;ch&rdquo; has two sounds &mdash; soft after i/e (ich), hard after a/o/u (Bach).',
+'Sprich langsam zuerst. Geschwindigkeit kommt mit der Zeit. / Speak slowly first. Speed comes with time.'
+];
+var STORY={
+title:"Lena's New City / Lenas neue Stadt",
+para:'<b>English:</b> <b>Lena</b> comes from a <b>small town</b>. She <b>lives</b> in Berlin now. Her <b>apartment</b> is <b>small</b> but <b>nice</b>.<br><br>One day, she goes to the <b>market</b>. She wants to buy <b>bread</b> and <b>apples</b>. The seller is very <b>friendly</b>.<br><br>&ldquo;Good morning!&rdquo; says Lena. &ldquo;I would like bread, please.&rdquo;<br>&ldquo;Of course! Two euros fifty,&rdquo; says the seller.<br><br>Lena also buys three apples. &ldquo;How much is it?&rdquo;<br>&ldquo;Four euros in total,&rdquo; says the seller.<br><br>&ldquo;Thank you!&rdquo; says Lena. She is <b>happy</b>. Berlin is a great city!<br><br><b>Deutsch:</b> <b>Lena</b> kommt aus einer <b>kleinen Stadt</b>. Sie <b>lebt</b> jetzt in Berlin. Ihre <b>Wohnung</b> ist <b>klein</b>, aber <b>sch&ouml;n</b>.<br><br>Eines Tages geht sie auf den <b>Markt</b>. Sie m&ouml;chte <b>Brot</b> und <b>&Auml;pfel</b> kaufen. Der Verk&auml;ufer ist sehr <b>freundlich</b>.<br><br>&bdquo;Guten Morgen!&ldquo; sagt Lena. &bdquo;Ich h&auml;tte gerne Brot, bitte.&ldquo;<br>&bdquo;Nat&uuml;rlich! Zwei Euro f&uuml;nfzig,&ldquo; sagt der Verk&auml;ufer.<br><br>Lena kauft auch drei &Auml;pfel. &bdquo;Wie viel kostet das?&ldquo;<br>&bdquo;Vier Euro insgesamt,&ldquo; sagt der Verk&auml;ufer.<br><br>&bdquo;Dankesch&ouml;n!&ldquo; sagt Lena. Sie ist <b>gl&uuml;cklich</b>. Berlin ist eine tolle Stadt!',
+words:['small town / kleine Stadt','lives / lebt','apartment / Wohnung','market / Markt','bread / Brot','friendly / freundlich','happy / gl&uuml;cklich'],
+note:'Grammar in this story: the present simple (kommt, lebt, geht, m&ouml;chte), the verb &ldquo;sein&rdquo; (ist), and German articles (die, der, eine). / Grammatik in dieser Geschichte: das Pr&auml;sens (kommt, lebt, geht, m&ouml;chte), das Verb &bdquo;sein&ldquo; (ist), und deutsche Artikel (die, der, eine).',
+qa:[['Where does Lena live now? / Wo lebt Lena jetzt?','She lives in Berlin. / Sie lebt in Berlin.'],['What does Lena buy at the market? / Was kauft Lena auf dem Markt?','Bread and apples. / Brot und &Auml;pfel.'],['How much does the bread cost? / Wie viel kostet das Brot?','Two euros fifty. / Zwei Euro f&uuml;nfzig.'],['How much does Lena pay in total? / Wie viel zahlt Lena insgesamt?','Four euros. / Vier Euro.']]
+};
+
+var LISTEN={
+title:'My Monday / Mein Montag',
+trans:'<b>English:</b> Hi! My name is <b>Maya</b>. <b>Today is Monday</b>. I <b>get up</b> at six o&#39;clock. I <b>have breakfast</b> at seven. I eat bread and <b>drink milk</b>. Then I <b>go to school</b> at eight.<br><br><b>My school is big</b>. <b>There are</b> fifty teachers. I like Mondays because I play football in the afternoon. My friend Ali is in my class. <b>He is</b> funny.<br><br>In the evening I <b>do my homework</b> and <b>go to bed</b> at ten. I always sleep well on Monday nights!<br><br><b>Deutsch:</b> Hallo! Ich hei&szlig;e <b>Maya</b>. <b>Heute ist Montag</b>. Ich <b>stehe um</b> sechs Uhr <b>auf</b>. Ich <b>fr&uuml;hst&uuml;cke</b> um sieben Uhr. Ich esse Brot und <b>trinke Milch</b>. Dann <b>gehe ich</b> um acht Uhr <b>zur Schule</b>.<br><br><b>Meine Schule ist gro&szlig;</b>. <b>Es gibt</b> f&uuml;nfzig Lehrer. Ich mag Montage, weil ich nachmittags Fu&szlig;ball spiele. Mein Freund Ali ist in meiner Klasse. <b>Er ist</b> lustig.<br><br>Am Abend <b>mache ich meine Hausaufgaben</b> und <b>gehe um</b> zehn Uhr <b>ins Bett</b>. Ich schlafe immer gut am Montagabend!',
+glance:['Daily routine verbs: get up, have breakfast, go to school / Verben des Tagesablaufs: aufstehen, fr&uuml;hst&uuml;cken, zur Schule gehen','Time words: at six, at seven, at eight, at ten / Zeitw&ouml;rter: um sechs, um sieben, um acht, um zehn','Adjectives: big, funny / Adjektive: gro&szlig;, lustig','Present simple: I eat, I drink, I like / Pr&auml;sens: ich esse, ich trinke, ich mag'],
+qa:[['What time does Maya get up? / Um wie viel Uhr steht Maya auf?','At six o&#39;clock. / Um sechs Uhr.'],['What does Maya drink at breakfast? / Was trinkt Maya zum Fr&uuml;hst&uuml;ck?','Milk. / Milch.'],['How many teachers are at Maya&#39;s school? / Wie viele Lehrer gibt es an Mayas Schule?','Fifty. / F&uuml;nfzig.'],['Why does Maya like Mondays? / Warum mag Maya Montage?','She plays football. / Sie spielt Fu&szlig;ball.']]
+};
+
+var QUIZ_STORY=[
+{q:'Where does Lena live? / Wo lebt Lena?',opts:['M&uuml;nchen','Hamburg','Berlin'],a:2},
+{q:'What does Lena buy? / Was kauft Lena?',opts:['Bread and apples / Brot und &Auml;pfel','Bread and milk / Brot und Milch','Apples and coffee / &Auml;pfel und Kaffee'],a:0},
+{q:'How much does the bread cost? / Wie viel kostet das Brot?',opts:['Two euros fifty / Zwei Euro f&uuml;nfzig','Three euros / Drei Euro','Four euros / Vier Euro'],a:0},
+{q:'How much does Lena pay? / Wie viel zahlt Lena?',opts:['Two euros fifty / Zwei Euro f&uuml;nfzig','Three euros / Drei Euro','Four euros / Vier Euro'],a:2}
+];
+
+var QUIZ_LISTEN=[
+{q:'What time does Maya get up? / Um wie viel Uhr steht Maya auf?',opts:['At five / Um f&uuml;nf','At six / Um sechs','At seven / Um sieben'],a:1},
+{q:'What does Maya drink? / Was trinkt Maya?',opts:['Orange juice / Orangensaft','Tea / Tee','Milk / Milch'],a:2},
+{q:'How many teachers? / Wie viele Lehrer?',opts:['Fifteen / F&uuml;nfzehn','Fifty / F&uuml;nfzig','Five / F&uuml;nf'],a:1},
+{q:'Why does Maya like Mondays? / Warum mag Maya Montage?',opts:['She plays football / Sie spielt Fu&szlig;ball','She sleeps late / Sie schl&auml;ft aus','Short day / Kurzer Tag'],a:0}
+];
+
+var PHOTOS=[
+{seed:'a1-greet',cap:'Greetings / Begr&uuml;&szlig;ung',note:'Say &ldquo;hallo&rdquo; wherever you go / Sage &bdquo;hallo&ldquo; &uuml;berall'},
+{seed:'a1-coffee',cap:'Order at a caf&eacute; / Im Caf&eacute; bestellen',note:'&ldquo;Einen Kaffee, bitte.&rdquo;'},
+{seed:'a1-family',cap:'Talk about family / &Uuml;ber Familie sprechen',note:'My family and friends / Meine Familie und Freunde'},
+{seed:'a1-city',cap:'Find your way / Sich zurechtfinden',note:'&ldquo;Wo ist...? Es ist neben...&rdquo;'},
+{seed:'a1-watch',cap:'Learn with films / Mit Filmen lernen',note:'Watch with simple subtitles / Mit einfachen Untertiteln schauen'},
+{seed:'a1-notebook',cap:'Keep a notebook / F&uuml;hre ein Notizbuch',note:'5 new words a day / 5 neue W&ouml;rter am Tag'}
+];
+
+var TIPS=[
+{ic:'&#128221;',t:'Learn words in sentences / Lerne W&ouml;rter in S&auml;tzen',p:'Never memorize a word alone. Learn &ldquo;ein Kaffee, bitte&rdquo;, not just &ldquo;Kaffee&rdquo;. / Merke dir nie ein Wort allein. Lerne &bdquo;ein Kaffee, bitte&ldquo;, nicht nur &bdquo;Kaffee&rdquo;.'},
+{ic:'&#128172;',t:'Talk to yourself for 10 minutes / Sprich 10 Minuten mit dir selbst',p:'Describe what you see: &ldquo;Das ist mein Zimmer. Das Fenster ist offen.&rdquo; / Beschreibe, was du siehst: &bdquo;Das ist mein Zimmer. Das Fenster ist offen.&rdquo;'},
+{ic:'&#128250;',t:'Watch German shows / Schau deutsche Sendungen an',p:'Start with children&#39;s shows &mdash; slow, simple German. / Fang mit Kindersendungen an &mdash; langsames, einfaches Deutsch.'},
+{ic:'&#127991;',t:'Label your house / Beschrifte dein Zuhause',p:'Put notes on your door, table, fridge in German. / Klebe Zettel an deine T&uuml;r, deinen Tisch, deinen K&uuml;hlschrank auf Deutsch.'},
+{ic:'&#128213;',t:'Write 3 sentences a day / Schreibe 3 S&auml;tze am Tag',p:'&ldquo;Heute bin ich um sieben Uhr aufgestanden. Ich war gl&uuml;cklich.&rdquo; / &bdquo;Heute bin ich um sieben Uhr aufgestanden. Ich war gl&uuml;cklich.&rdquo;'},
+{ic:'&#128257;',t:'Repeat and review / Wiederhole und &uuml;berpr&uuml;fe',p:'Go over yesterday&#39;s words every morning. Repetition makes them stick. / Gehe jeden Morgen die W&ouml;rter von gestern durch. Wiederholung macht sie haltbar.'}
+];
+function renderSpeaking(){var el=document.getElementById('speakGrid');el.innerHTML=SPEAKING.map(function(sp,i){return '<div class="speak-card"><div class="speak-num">'+(i+1)+'</div><div class="speak-head"><div class="s-ic">'+sp.ic+'</div><h3>'+sp.t+'</h3></div><p class="speak-prompt">'+spk(deLast(sp.prompt),1)+' '+sp.prompt+'</p><div class="model-box"><div class="ml">Model answer / Musterantwort</div><div class="en">'+sp.model+'</div><div class="me">'+spk(sp.me)+' '+sp.me+'</div></div></div>'}).join('')}
+
+function renderSounds(){var el=document.getElementById('pronGrid');el.innerHTML=SOUNDS.map(function(s){var pills=s.w.map(function(wd){return '<span class="word-pill"><button type="button" class="spk" onclick="speak(\''+wd.w+'\')">&#128264;</button> '+wd.w+'<span class="pm">'+wd.p+'</span></span>'}).join('');var pairs=s.pairs.map(function(pr){return '<div class="pair"><span class="pw">'+pr[0].w+' <button type="button" class="spk" onclick="speak(\''+pr[0].w+'\')">&#128264;</button> <em>'+pr[0].p+'</em></span><span class="vs">vs</span><span class="pw">'+pr[1].w+' <button type="button" class="spk" onclick="speak(\''+pr[1].w+'\')">&#128264;</button> <em>'+pr[1].p+'</em></span></div>'}).join('');return '<div class="sound-card"><div class="sound-phone-row"><span class="sound-phone">'+s.s+'</span><button type="button" class="spk" onclick="speak(\''+s.read+'\')">&#128264;</button></div><div class="sound-w">'+pills+'</div><p>'+spk(deLast(s.tip),1)+' '+s.tip+'</p>'+pairs+'</div>'}).join('');var tips=document.getElementById('accentTips');tips.innerHTML=ACCENT.map(function(t){return '<li>'+spk(deFirst(t),1)+' '+t+'</li>'}).join('')}
+
+function renderStory(){var el=document.getElementById('storyCard');var chips=STORY.words.map(function(w){return '<span class="kg">'+spk(deLast(w),1)+' '+w+'</span>'}).join('');var deG=STORY.para.split('<b>Deutsch:</b>')[1]||'';el.innerHTML='<div class="story-head"><span class="st-ic">&#128214;</span><h3>'+STORY.title+'</h3>'+spkL(deG,'Deutsch vorlesen')+'</div><div class="story-text">'+STORY.para+'</div><div class="story-gloss"><b>Story words to learn / Story-W&ouml;rter zum Lernen:</b><div>'+chips+'</div><div style="margin-top:.6rem">'+STORY.note+'</div></div>'}
+
+function renderListen(){var el=document.getElementById('listenCard');if(!el)return;var glance=LISTEN.glance.map(function(g){return '<span>'+spk(deLast(g),1)+' '+g+'</span>'}).join('');el.innerHTML='<div class="listen-head"><span class="ls-ic">&#127911;</span><h3>'+LISTEN.title+'</h3><span class="listen-badge">LISTENING TEST</span></div>'+'<div class="listen-actions"><button type="button" class="btn-mini" onclick="playListen(this)">&#128264; Play German / Deutsch abspielen</button><button type="button" class="btn-mini" onclick="stopSpeak(this)">&#9209; Stop</button><button type="button" class="btn-mini" onclick="toggleTranscript(this)">&#128065;&#65039; Show text / Text</button></div>'+'<p class="listen-note">The text is hidden on purpose. Play the audio and try to understand it with your ears only &mdash; then answer the questions. / Der Text ist absichtlich versteckt. Spiele die Audiodatei ab und versuche, sie nur mit deinen Ohren zu verstehen &mdash; beantworte dann die Fragen.</p>'+'<div class="listen-transcript hidden" id="listenTrans">'+LISTEN.trans+'</div>'+'<div class="listen-glance">'+glance+'</div>'+'<div class="quiz-card" id="listenQuiz"></div>';renderQuiz('listenQuiz',QUIZ_LISTEN,'listenScore')}
+
+function pickVoice(){try{var v=window.speechSynthesis.getVoices();var p=['Google Deutsch','Microsoft Hedda - German (Germany)','Microsoft Stefan - German (Germany)','Anna','Google DE','Microsoft Katja - German (Germany)'];for(var i=0;i<p.length;i++){for(var j=0;j<v.length;j++){if(v[j].name===p[i])return v[j]}}for(var k=0;k<v.length;k++){if((v[k].lang||'').toLowerCase().indexOf('de-de')===0)return v[k]}for(var m=0;m<v.length;m++){if((v[m].lang||'').toLowerCase().indexOf('de')===0)return v[m]}}catch(e){}return null}
+
+function resetBusyButtons(){var b=document.querySelectorAll('button[data-playing]');for(var i=0;i<b.length;i++){var l=b[i].getAttribute('data-playing');b[i].textContent=l;b[i].removeAttribute('data-playing');b[i].disabled=false}}
+
+function stopSpeak(btn){try{if('speechSynthesis' in window&&window.speechSynthesis.cancel)window.speechSynthesis.cancel()}catch(e){}resetBusyButtons()}
+
+function speak(text,after){try{if(!('speechSynthesis' in window)){alert('Your browser does not support text-to-speech. / Dein Browser unterst&uuml;tzt kein Text-to-Speech.');return}resetBusyButtons();window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang='de-DE';u.rate=0.9;var v=pickVoice();if(v)u.voice=v;u.onend=function(){if(after)after()};u.onerror=function(){if(after)after()};window.speechSynthesis.speak(u)}catch(e){resetBusyButtons();if(after)after()}}
+
+function gtxt(t){var d=document.createElement('div');d.innerHTML=t;return(d.textContent||d.innerText||'').replace(/\s+/g,' ').trim()}
+function deLast(s){s=String(s);var i=s.lastIndexOf(' / ');return i>-1?s.substring(i+3):s}
+function deFirst(s){s=String(s);var i=s.indexOf(' / ');return i>-1?s.substring(0,i).trim():s}
+function spk(t,s){t=gtxt(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,"\\'").replace(/\\/g,'\\\\');return'<button type="button" class="spk'+(s?' sm':'')+'" aria-label="Play" onclick="speak(\''+t+'\')">&#128266;</button>'}
+function spkL(t,l){t=gtxt(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,"\\'").replace(/\\/g,'\\\\');return'<button type="button" class="btn-mini" onclick="speak(\''+t+'\')">&#128266; '+l+'</button>'}
+
+function playListen(btn){if(btn.getAttribute('data-playing')!==null){stopSpeak();return}var p=LISTEN.trans.split('<b>Deutsch:</b>');var t=(p.length>1?p[1]:LISTEN.trans).replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();var old=btn.textContent;btn.setAttribute('data-playing',old);btn.textContent='&#9208; Playing\u2026';btn.disabled=true;speak(t,function(){var l=btn.getAttribute('data-playing');if(l!==null){btn.textContent=l;btn.removeAttribute('data-playing');btn.disabled=false}})}
+
+function toggleTranscript(btn){var t=document.getElementById('listenTrans');if(!t)return;var isH=t.classList.contains('hidden');t.classList.toggle('hidden');btn.textContent=isH?'&#128064;&#65039; Hide text / Text verbergen':'&#128065;&#65039; Show text / Text anzeigen'}
+
+var PRAISE=['&#127881; Ausgezeichnet! Richtig! / Excellent! Correct!','&#127775; Toll &mdash; das stimmt! / Amazing &mdash; that is right!','&#128079; Gut gemacht! / Well done!','&#128170; Perfekte Antwort! / Perfect answer!','&#127919; Genau richtig! / Exactly right!'];
+
+function renderQuiz(cid,list,sid){var el=document.getElementById(cid);if(!el)return;window.QUIZZES=window.QUIZZES||{};window.QUIZZES[cid]={list:list,score:0,used:{},sid:sid};var qs=list.map(function(qi,i){var opts=qi.opts.map(function(o,oi){return '<button type="button" class="q-opt" onclick="answerQuiz(\''+cid+'\','+i+','+oi+',this)"><span class="q-let">'+String.fromCharCode(65+oi)+'</span>'+o+'</button>'}).join('');return '<div class="q-block" id="'+cid+'-q'+i+'"><div class="q-text">'+(i+1)+'. '+spk(deLast(qi.q),1)+' '+qi.q+'</div><div class="q-opts">'+opts+'</div><div class="q-fb"></div></div>'}).join('');el.innerHTML='<div class="quiz-toolbar"><span style="font-size:1.15rem">&#9997;&#65039;</span><b>Check your understanding / &Uuml;berpr&uuml;fe dein Verst&auml;ndnis</b><span class="quiz-score" id="'+sid+'">Score: 0 / '+list.length+'</span></div>'+qs+'<button type="button" class="btn-mini quiz-reset" onclick="resetQuiz(\''+cid+'\',\''+sid+'\')">&#8634; Try again / Nochmal</button>'}
+
+function answerQuiz(cid,qi,oi,btn){var quiz=window.QUIZZES&&window.QUIZZES[cid];if(!quiz)return;var key='q'+qi;if(quiz.used[key])return;var q=quiz.list[qi];var btns=btn.parentNode.querySelectorAll('.q-opt');var fbs=document.getElementById(cid+'-q'+qi).querySelector('.q-fb');for(var i=0;i<btns.length;i++){btns[i].classList.add('locked');if(i===q.a)btns[i].classList.add('ok');else if(i===oi)btns[i].classList.add('bad')}if(oi===q.a){quiz.score++;fbs.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)];fbs.className='q-fb good'}else{fbs.textContent='Not quite &mdash; correct answer is '+String.fromCharCode(65+q.a)+': '+q.opts[q.a];fbs.className='q-fb bad-fb'}quiz.used[key]=true;var scoreEl=document.getElementById(quiz.sid);if(scoreEl)scoreEl.textContent='Score: '+quiz.score+' / '+quiz.list.length;if(Object.keys(quiz.used).length===quiz.list.length){var msg=quiz.score===quiz.list.length?'\uD83C\uDFC6 Perfekt! '+quiz.score+' / '+quiz.list.length+' &mdash; Toll gemacht!':'\u2705 Fertig! Score: '+quiz.score+' / '+quiz.list.length+'. Nochmal versuchen / Try again.';setTimeout(function(){alert(msg)},250)}}
+
+function resetQuiz(cid,sid){var quiz=window.QUIZZES&&window.QUIZZES[cid];if(!quiz)return;quiz.score=0;quiz.used={};var els=document.querySelectorAll('#'+cid+' .q-opt');for(var i=0;i<els.length;i++)els[i].classList.remove('ok','bad','locked');var fbs=document.querySelectorAll('#'+cid+' .q-fb');for(var j=0;j<fbs.length;j++){fbs[j].textContent='';fbs[j].className='q-fb'}var scoreEl=document.getElementById(sid);if(scoreEl)scoreEl.textContent='Score: 0 / '+quiz.list.length}
+
+function renderTopics(){var el=document.getElementById('grammarGrid');el.innerHTML=TOPICS.map(function(t){var exs=t.ex.map(function(e){return '<div class="example-box"><div class="en">'+spk(e.en,1)+' '+e.en+'</div><div class="mean">'+spk(e.me,1)+' '+e.me+'</div></div>'}).join('');return '<div class="topic-card"><div class="topic-head"><div class="t-ic">'+t.ic+'</div><h3>'+t.t+'</h3></div><p class="topic-note">'+t.note+'</p>'+exs+'</div>'}).join('')}
+
+function renderVocab(){var el=document.getElementById('vocabGrid');el.innerHTML=VOCAB.map(function(g){var rows=g.words.map(function(w){return '<div class="word-row"><span class="w">'+spk(deLast(w.w),1)+' '+w.w+'</span><span class="wex">'+spk(deLast(w.ex),1)+' '+w.ex+'</span></div>'}).join('');return '<div class="vocab-card"><div class="vocab-head"><span class="v-ic">'+g.ic+'</span><h3>'+g.g+'</h3></div>'+rows+'</div>'}).join('')}
+
+function renderPhrases(){var el=document.getElementById('phraseGrid');el.innerHTML=PHRASES.map(function(d){var lines=d.lines.map(function(l){return '<div class="chat"><div class="who">'+l.p+'</div><div class="txt">'+spk(deFirst(l.t),1)+' '+l.t+'</div></div>'}).join('');return '<div class="phrase-card"><div class="phrase-head"><span style="font-size:1.25rem">'+d.ic+'</span><h3>'+d.t+'</h3></div>'+lines+'</div>'}).join('')}
+
+function renderCanDo(){var el=document.getElementById('candoGrid');el.innerHTML=CANDO.map(function(c){return '<div class="cando-card"><div class="cando-ic">'+c.ic+'</div><div><div class="cando-title">'+c.t+'</div><div class="cando-en">'+c.en+'</div><div class="cando-mean">'+spk(c.me)+' '+c.me+'</div></div></div>'}).join('')}
+
+function renderPhotos(){var el=document.getElementById('photosGrid');el.innerHTML=PHOTOS.map(function(p,i){return '<a class="photo-card" href="../languages/photo-detail.html?level=A1&pid='+i+'" title="Open the story behind this picture"><img src="https://picsum.photos/seed/'+p.seed+'/640/420" alt="'+p.cap+'" loading="lazy"><div class="photo-info"><b>'+p.cap+'</b><span>&#9654; '+p.note+'</span></div></a>'}).join('')}
+
+function renderTips(){var el=document.getElementById('tipsGrid');el.innerHTML=TIPS.map(function(t){return '<div class="tip-card"><div class="tip-ic">'+t.ic+'</div><b>'+spk(deLast(t.t),1)+' '+t.t+'</b><p>'+spk(deLast(t.p),1)+' '+t.p+'</p></div>'}).join('')}
+
+renderTopics();renderSpeaking();renderSounds();renderStory();renderQuiz('storyQuiz',QUIZ_STORY,'storyScore');renderListen();renderVocab();renderPhrases();renderCanDo();renderPhotos();renderTips();
+
+var navbar=document.getElementById('navbar');window.addEventListener('scroll',function(){navbar.classList.toggle('scrolled',window.scrollY>50)});
+var hamburger=document.getElementById('hamburger');var navLinks=document.getElementById('navLinks');hamburger.addEventListener('click',function(){navLinks.classList.toggle('active')});navLinks.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){navLinks.classList.remove('active')})});
+
+var reveals=document.querySelectorAll('.reveal');var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry,i){if(entry.isIntersecting){setTimeout(function(){entry.target.classList.add('visible')},i*80);observer.unobserve(entry.target)}})},{threshold:0.1});reveals.forEach(function(el){observer.observe(el)});setTimeout(function(){document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible')})},1500);try{if(window.speechSynthesis&&window.speechSynthesis.getVoices)window.speechSynthesis.getVoices()}catch(e){}
+</script><script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

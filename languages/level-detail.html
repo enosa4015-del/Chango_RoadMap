@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>English Level | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+ :root {
+ --primary: #6C3CE1;
+ --primary-light: #8B5CF6;
+ --primary-dark: #5224B5;
+ --accent: #F97316;
+ --accent-light: #FB923C;
+ --bg-dark: #0A0A0F;
+ --bg-card: #12121A;
+ --bg-card-hover: #1A1A25;
+ --text: #F8F8FC;
+ --text-muted: #9CA3AF;
+ --text-dim: #6B7280;
+ --border: #1F1F2E;
+ --gradient-1: linear-gradient(135deg, #6C3CE1, #F97316);
+ --gradient-2: linear-gradient(135deg, #8B5CF6, #6C3CE1);
+ --gradient-3: linear-gradient(135deg, #F97316, #EF4444);
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.35);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.3);
+ --radius: 20px;}
+
+ .theme-toggle {
+ width: 42px; height: 42px; min-width: 42px; border-radius: 12px; border: 1.5px solid var(--border);
+ background: var(--bg-card); color: var(--accent-light); cursor: pointer;
+ font-size: 1.15rem; display: inline-flex; align-items: center; justify-content: center;
+ transition: all 0.25s ease;
+ }
+ .theme-toggle:hover { border-color: var(--primary); box-shadow: var(--glow-purple); transform: translateY(-2px); }
+ [data-theme="light"] {
+ --bg-dark: #F5F6FB;
+ --bg-card: #FFFFFF;
+ --bg-card-hover: #EEF1F7;
+ --text: #14141B;
+ --text-muted: #3E4757;
+ --text-dim: #79808F;
+ --border: #E4E7EF;
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.12);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.1);
+ }
+ [data-theme="light"] nav { background: rgba(255, 255, 255, 0.88); }
+ [data-theme="light"] nav.scrolled { background: rgba(255, 255, 255, 0.97); box-shadow: 0 6px 24px rgba(24, 22, 48, 0.06); }
+ [data-theme="light"] .nav-links.active { background: rgba(255, 255, 255, 0.98); }
+ [data-theme="light"] .btn-outline { background: #FFFFFF; }
+ [data-theme="light"] .detail-card, [data-theme="light"] .info-card, [data-theme="light"] .next-card {
+ box-shadow: 0 12px 34px rgba(24, 22, 48, 0.07);
+ }
+ [data-theme="light"] .detail-card:hover, [data-theme="light"] .info-card:hover, [data-theme="light"] .next-card:hover {
+ box-shadow: 0 18px 44px rgba(24, 22, 48, 0.12);
+ }
+ [data-theme="light"] .journey-line { background: #E4E7EF; }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', sans-serif;
+ background: var(--bg-dark);
+ color: var(--text);
+ overflow-x: hidden;
+ line-height: 1.7;
+ }
+
+ ::-webkit-scrollbar { width: 10px; }
+ ::-webkit-scrollbar-track { background: transparent; }
+ ::-webkit-scrollbar-thumb { background: rgba(148, 148, 175, 0.35); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+ ::-webkit-scrollbar-thumb:hover { background: rgba(108, 60, 225, 0.7); border: 2px solid transparent; background-clip: padding-box; }
+ html { scrollbar-width: thin; scrollbar-color: rgba(148, 148, 175, 0.35) transparent; }
+
+ /* theme vars set per level via JS */
+ .page {
+ --lv-accent: #10B981;
+ --lv-grad: linear-gradient(135deg, #10B981, #3B82F6);
+ --lv-tint: rgba(16, 185, 129, 0.12);
+ --lv-border: rgba(16, 185, 129, 0.4);
+ --lv-glow-s: rgba(16, 185, 129, 0.22);
+ --lv-glow-l: rgba(16, 185, 129, 0.45);
+ }
+
+ /* NAV */
+ nav {
+ position: fixed;
+ top: 0; left: 0; right: 0;
+ z-index: 1000;
+ padding: 1rem 2rem;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ backdrop-filter: blur(20px);
+ background: rgba(10, 10, 15, 0.8);
+ border-bottom: 1px solid var(--border);
+ transition: all 0.3s ease;
+ }
+ nav.scrolled { padding: 0.6rem 2rem; background: rgba(10, 10, 15, 0.95); }
+
+ .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+ .logo-icon {
+ width: 42px; height: 42px; background: var(--gradient-1); border-radius: 12px;
+ display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: var(--glow-purple);
+ }
+ .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+ .logo-text {
+ font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700;
+ background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+ }
+
+ .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+ .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; position: relative; }
+ .nav-links a:hover { color: var(--text); }
+ .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--gradient-1); transition: width 0.3s; }
+ .nav-links a:hover::after { width: 100%; }
+
+ .btn {
+ display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+ padding: 0.7rem 1.6rem; border-radius: 12px; font-weight: 700; font-size: 0.9rem;
+ text-decoration: none; transition: all 0.3s ease; cursor: pointer;
+ border: none; font-family: 'Inter', sans-serif;
+ }
+ .btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 20px rgba(108, 60, 225, 0.4); }
+ .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108, 60, 225, 0.6); }
+ .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+ .btn-outline:hover { border-color: var(--primary); background: rgba(108, 60, 225, 0.1); }
+ .btn-large { padding: 1rem 2.2rem; font-size: 1rem; border-radius: 14px; }
+
+ .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+ .hamburger span { width: 25px; height: 2px; background: var(--text); transition: 0.3s; }
+
+ /* HERO */
+ .hero {
+ min-height: 100vh;
+ display: flex; align-items: center; justify-content: center; text-align: center;
+ padding: 8rem 2rem 4rem; position: relative; overflow: hidden;
+ }
+ .hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+ .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.5; animation: float 8s ease-in-out infinite; }
+ .orb-1 { width: 420px; height: 420px; background: var(--lv-accent); top: -10%; left: -5%; opacity: 0.4; }
+ .orb-2 { width: 380px; height: 380px; background: var(--primary); bottom: -10%; right: -5%; animation-delay: 2s; }
+ .orb-3 { width: 260px; height: 260px; background: #EC4899; top: 40%; left: 45%; animation-delay: 4s; opacity: 0.25; }
+
+ @keyframes float {
+ 0%, 100% { transform: translateY(0); }
+ 50% { transform: translateY(-40px); }
+ }
+
+ .hero-grid {
+ position: absolute; inset: 0;
+ background-image:
+ linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
+ linear-gradient(90deg, rgba(139, 92, 246, 0.06) 1px, transparent 1px);
+ background-size: 60px 60px;
+ mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ }
+
+ .hero-content { position: relative; z-index: 2; max-width: 900px; width: 100%; }
+
+ .hero-badge {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ background: var(--lv-tint); border: 1px solid var(--lv-border);
+ backdrop-filter: blur(8px); color: var(--lv-accent);
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 0.95rem; font-weight: 700; letter-spacing: 2px;
+ padding: 0.5rem 1.4rem; border-radius: 50px; margin-bottom: 1.5rem;
+ }
+ .hero-badge .dot { width: 8px; height: 8px; background: var(--lv-accent); border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
+ @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+
+ h1 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: clamp(2.8rem, 6vw, 4.6rem); font-weight: 800; line-height: 1.1;
+ margin-bottom: 0.6rem; color: var(--text);
+ }
+ .level-name { font-size: clamp(1.4rem, 3.4vw, 2rem); color: var(--text-muted); font-weight: 600; margin-bottom: 1.2rem; }
+ .hero-sub { font-size: 1.1rem; color: var(--text-muted); max-width: 640px; margin: 0 auto 2.5rem; line-height: 1.8; }
+
+ .hero-stats { display: flex; align-items: center; justify-content: center; gap: 2.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+ .hero-stat .number {
+ font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700;
+ background: var(--lv-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+ }
+ .hero-stat .label { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+ .journey-line { height: 2px; background: var(--border); border-radius: 2px; position: relative; max-width: 640px; margin: 0 auto 2.5rem; }
+ .journey-line .fill {
+ position: absolute; top: 0; left: 0; height: 100%; border-radius: 2px;
+ background: var(--lv-grad); transition: width 0.8s ease;
+ }
+ .journey-pips { display: flex; justify-content: space-between; max-width: 640px; margin: 0.6rem auto 0; }
+ .journey-pips .pip { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; font-size: 0.72rem; color: var(--text-dim); }
+ .journey-pips .pip .cir {
+ width: 14px; height: 14px; border-radius: 50%; background: var(--bg-card);
+ border: 2px solid var(--border); transition: all 0.3s;
+ }
+ .journey-pips .pip.on .cir { background: var(--lv-grad); border-color: transparent; box-shadow: var(--lv-glow-s); }
+ .journey-pips .pip.on { color: var(--text); font-weight: 700; }
+
+ /* CONTENT */
+ .content { max-width: 1000px; margin: 0 auto; padding: 4rem 1.25rem 7rem; position: relative; z-index: 2; }
+
+ .section-head { text-align: center; margin-bottom: 2.5rem; }
+ .section-eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+ color: var(--lv-accent); margin-bottom: 0.8rem;
+ }
+ .section-eyebrow .line { width: 30px; height: 2px; background: var(--lv-grad); border-radius: 2px; }
+ .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 700; line-height: 1.2; }
+ .section-sub { color: var(--text-muted); font-size: 1rem; margin-top: 0.6rem; }
+
+ .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+
+ .info-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px;
+ padding: 2rem; position: relative; overflow: hidden;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .info-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--lv-grad); opacity: 0; transition: opacity 0.3s; }
+ .info-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .info-card:hover::before { opacity: 1; }
+ .info-card-icon { width: 54px; height: 54px; border-radius: 16px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+ .info-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+ .info-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; }
+
+ .detail-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px;
+ padding: 2rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+ }
+ .detail-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
+ .detail-card h3 .ic { width: 38px; height: 38px; min-width: 38px; border-radius: 12px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: inline-flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+
+ ul.checks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem 1.4rem; }
+ ul.checks.two-col li { list-style: none; position: relative; padding-left: 1.6rem; font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+ ul.checks.two-col li::before { content: ''; position: absolute; left: 0; top: 0; color: var(--lv-accent); font-weight: 800; }
+
+ .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.4rem; }
+ .chip { font-size: 0.83rem; font-weight: 600; color: var(--text-muted); background: var(--bg-card-hover); border: 1px solid var(--border); padding: 0.45rem 0.95rem; border-radius: 30px; transition: all 0.25s; }
+ .chip:hover { border-color: var(--lv-border); color: var(--lv-accent); background: var(--lv-tint); }
+
+ .example-box { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.2rem 1.4rem; margin-bottom: 0.9rem; }
+ .example-box .en { font-size: 1rem; font-weight: 600; color: var(--text); }
+ .example-box .mean { font-size: 0.85rem; color: var(--text-dim); margin-top: 0.25rem; }
+
+ .next-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden; margin-top: 2rem;
+ }
+ .next-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .next-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, var(--lv-tint), transparent 60%); pointer-events: none; }
+ .next-card > * { position: relative; z-index: 2; }
+ .next-icon { font-size: 2.6rem; margin-bottom: 1rem; }
+ .next-card .nk-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--lv-accent); margin-bottom: 0.5rem; }
+ .next-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+ .next-card p { color: var(--text-muted); font-size: 0.98rem; max-width: 620px; margin: 0 auto 1.6rem; }
+
+ .next-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 760px; margin: 0 auto 2rem; }
+ .next-step { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.1rem; text-align: center; transition: all 0.25s; }
+ .next-step:hover { border-color: var(--lv-border); transform: translateY(-3px); }
+ .next-step .ns-ic { font-size: 1.4rem; margin-bottom: 0.4rem; }
+ .next-step b { font-size: 0.9rem; display: block; margin-bottom: 0.3rem; }
+ .next-step span { font-size: 0.8rem; color: var(--text-muted); }
+
+ .actions { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+
+ .cta-note { margin-top: 2rem; color: var(--text-dim); font-size: 0.95rem; text-align: center; }
+ .cta-note a { color: var(--lv-accent); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--lv-border); transition: color 0.3s; }
+ .cta-note a:hover { color: var(--primary-light); }
+
+ .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+ .reveal.visible { opacity: 1; transform: translateY(0); }
+
+ /* FOOTER */
+ footer { background: #08080D; border-top: 1px solid var(--border); padding: 4rem 2rem 2rem; }
+ .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+ .footer-bottom p { font-size: 0.82rem; color: var(--text-dim); }
+ .footer-social { display: flex; gap: 1rem; }
+ .footer-social a { width: 38px; height: 38px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-dim); text-decoration: none; transition: all 0.3s; font-size: 0.85rem; }
+ .footer-social a:hover { border-color: var(--primary); color: var(--text); }
+
+ @media (max-width: 768px) {
+ .grid-2 { grid-template-columns: 1fr; }
+ ul.checks { grid-template-columns: 1fr; }
+ .next-steps { grid-template-columns: 1fr; }
+ .hero-stats { gap: 1.5rem; }
+ .nav-links {
+ display: none;
+ position: fixed; top: 0; right: 0; width: 70%; height: 100vh;
+ background: rgba(10, 10, 15, 0.98);
+ flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+ transition: right 0.4s ease; z-index: 999;
+ }
+ [data-theme="light"] .nav-links { background: rgba(255, 255, 255, 0.98); }
+ .nav-links.active { display: flex; }
+ .hamburger { display: flex; position: relative; z-index: 1001; }
+ .nav-links .btn { padding: 0.6rem 1.3rem; }
+ }
+ </style>
+</head>
+<body class="page" id="page">
+
+<!-- NAV -->
+<nav id="navbar">
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <ul class="nav-links" id="navLinks">
+ <li><a href="../index.html">Home</a></li>
+ <li><a href="level.html">Levels</a></li>
+ <li><a href="test.html">Level Test</a></li>
+ <li><a href="test.html" class="btn btn-primary" style="padding: 0.5rem 1.2rem;">Take the Test</a></li>
+ </ul>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ <button class="hamburger" id="hamburger" aria-label="Menu">
+ <span></span><span></span><span></span>
+ </button>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+ <div class="hero-bg">
+ <div class="orb orb-1"></div>
+ <div class="orb orb-2"></div>
+ <div class="orb orb-3"></div>
+ <div class="hero-grid"></div>
+ </div>
+ <div class="hero-content">
+ <h1 class="reveal" id="heroTitle">Beginner</h1>
+ <div class="level-name reveal" id="heroTagline">Your first steps to real English</div>
+ <p class="hero-sub reveal" id="heroSub">Everything you need to know about this level — what it means, why it matters, what it contains, and exactly how to reach the next one.</p>
+ <div class="hero-stats reveal" id="heroStats"></div>
+ <div class="journey-line reveal"><div class="fill" id="journeyFill"></div></div>
+ <div class="journey-pips reveal" id="journeyPips"></div>
+ <div class="actions reveal">
+ <a href="test.html" class="btn btn-primary btn-large">Take the Free Test</a>
+ <a href="level.html" class="btn btn-outline btn-large">All Levels</a>
+ </div>
+ </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🌱 Level Guide</div>
+ <h2 class="section-title">All About <span id="secTitle">A1 Beginner</span></h2>
+ <p class="section-sub" id="secSub">Your complete roadmap for this level</p>
+ </div>
+
+ <div class="grid-2">
+ <div class="info-card reveal">
+ 
+ <div class="info-card-icon">ℹ️</div>
+  <h3>What Is This Level?</h3>
+ <p id="blockWhat"></p>
+ </div>
+ <div class="info-card reveal">
+ 
+ <div class="info-card-icon">💡</div>
+  <h3>Why You Should Take It</h3>
+ <p id="blockWhy"></p>
+ </div>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">📦</span> What This Level Contains</h3>
+ <ul class="checks two-col" id="blockContains"></ul>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">📚</span> Topics You Will Learn</h3>
+ <div class="chips" id="blockTopics"></div>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">🎯</span> What You Must Focus On</h3>
+ <ul class="checks two-col" id="blockFocus"></ul>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">🗣️</span> What You Can Say At This Level</h3>
+ <div id="blockExamples"></div>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">🧑🏫</span> Coach Recommendations</h3>
+ <ul class="checks two-col" id="blockTips"></ul>
+ </div>
+
+ <div class="detail-card reveal">
+ <h3><span class="ic">✨</span> Best Things To Use Daily</h3>
+ <div class="chips" id="blockResources"></div>
+ </div>
+
+ <div class="next-card reveal">
+ 
+ <div class="next-icon">🚀</div>
+  <div class="nk-label" id="nextLabel">Next Level</div>
+ <h3 id="nextTitle">A2 Elementary</h3>
+ <p id="nextDesc">Handle simple everyday situations, past tenses, and real life conversations.</p>
+ <div class="next-steps">
+ <div class="next-step"><b>Step 1</b><span id="step1">Learn the 500 most common English words</span></div>
+ <div class="next-step"><b>Step 2</b><span id="step2">Master "to be", the present simple and basic questions</span></div>
+ <div class="next-step"><b>Step 3</b><span id="step3">Listen to slow, simple English every day</span></div>
+ </div>
+ <div class="actions">
+ <a href="a2.html" class="btn btn-primary btn-large" id="nextCta">Next Level: A2 →</a>
+ <a href="level.html" class="btn btn-outline btn-large">See All Levels</a>
+ </div>
+ <p class="cta-note">Already know your level? <a href="result.html">View your latest result</a></p>
+ </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-bottom">
+ <p>&copy; 2026 Chango. All rights reserved.</p>
+ <div class="footer-social">
+ <a href="https://lnkd.in/eKgC9ajq" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+ <a href="https://chat.whatsapp.com/ImsdjravuSIAfRxk9TRonB" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WS</a>
+ </div>
+ </div>
+</footer>
+
+<script>
+ var LEVEL_DETAILS = {
+ A1: {
+ title: 'Beginner', icon: '🌱', accent: '#10B981',
+ grad: 'linear-gradient(135deg, #10B981, #3B82F6)',
+ tint: 'rgba(16, 185, 129, 0.12)', border: 'rgba(16, 185, 129, 0.4)',
+ glowS: 'rgba(16, 185, 129, 0.22)', glowL: 'rgba(16, 185, 129, 0.45)',
+ tagline: 'Your first steps to real English',
+ sub: 'A1 is the true starting point. You begin with the basics every learner needs to survive in English — greeting people, introducing yourself, and understanding very simple phrases.',
+ stats: [ ['C1 of 6', 'position'], ['~500', 'words known'], ['beginner', 'fluency'] ],
+ what: 'A1 (Beginner) is the first of six CEFR levels. At this level you can understand and use familiar everyday expressions, introduce yourself and others, ask and answer simple questions about personal details like where you live, and interact in a slow, simple way when the other person speaks clearly.',
+ why: 'Because every fluent speaker started here. A1 builds the foundation: everyday words, basic sentence structure, and the confidence to speak. Without this base, nothing else sticks — and the fastest way from zero to real English is to master the basics properly first time.',
+ contains: [
+ 'Basic greetings & introductions',
+ 'Simple present tense ("I am", "She is")',
+ 'Numbers, colors, days of the week',
+ 'Family, home & everyday objects',
+ 'Simple questions & answers',
+ 'Prices, times & very simple needs'
+ ],
+ topics: ['Greetings', 'The alphabet', 'Numbers', 'Colors', 'Days & months', 'Family', 'Food', 'Shops & money', 'Simple present (to be)', 'Basic questions', 'Plurals', 'Possessives'],
+ focus: [
+ 'Learn the 500 most common English words',
+ 'Master "to be", the present simple, and basic questions',
+ 'Practise everyday phrases: shopping, food, travel, family',
+ 'Listen to slow, simple English every day',
+ 'Repeat full sentences — not single words'
+ ],
+ examples: [
+ { en: 'Hello! My name is Ali. What is your name?', mean: 'Introducing yourself and asking someone else' },
+ { en: 'I am from Egypt. I live in Cairo.', mean: 'Saying where you are from and where you live' },
+ { en: 'I have two brothers and one sister.', mean: 'Talking about your family' },
+ { en: 'How much is this? It is five dollars.', mean: 'Asking prices in a shop' },
+ { en: 'What time is it? It is three o\u2019clock.', mean: 'Telling and asking the time' }
+ ],
+ tips: [
+ 'Practise 15\u201325 minutes every day instead of long weekend sessions',
+ 'Label objects in your room with their English names',
+ 'Watch English videos for kids or learners with subtitles',
+ 'Speak out loud even when you are alone',
+ 'Do not be afraid of mistakes — they are part of learning'
+ ],
+ resources: ['Duolingo', 'BBC Learning English', '1000 Basic English Words', 'English for Beginners podcasts', 'Flashcard apps'],
+ nextLabel: 'Next Level',
+ nextTitle: 'A2 Elementary',
+ nextDesc: 'Handle simple daily situations, use past tenses, and have short real conversations in shops, cafés and travel.',
+ steps: [
+ 'Expand your vocabulary to 1,000+ common words',
+ 'Learn the past simple & future with "going to"',
+ 'Practise real conversations: ordering, directions, small talk'
+ ]
+ },
+ A2: {
+ title: 'Elementary', icon: '🌿', accent: '#3B82F6',
+ grad: 'linear-gradient(135deg, #3B82F6, #22D3EE)',
+ tint: 'rgba(59, 130, 246, 0.12)', border: 'rgba(59, 130, 246, 0.4)',
+ glowS: 'rgba(59, 130, 246, 0.22)', glowL: 'rgba(59, 130, 246, 0.45)',
+ tagline: 'From survival to everyday confidence',
+ sub: 'A2 is where English starts feeling real. You can handle everyday tasks — ordering food, asking for directions, describing your day — and understand short, clear messages.',
+ stats: [ ['C2 of 6', 'position'], ['~1,200', 'words known'], ['basic', 'fluency'] ],
+ what: 'A2 (Elementary) is the second CEFR level. You can understand sentences and frequently used expressions related to areas of most immediate relevance, communicate simple and routine tasks, and describe in simple terms your background, family, shopping, and immediate needs.',
+ why: 'A2 is the bridge between textbook basics and real life. This is the level where you can actually use English — travel, ask for help, make friends, and start understanding authentic content like songs and short videos. It also unlocks the door to more advanced grammar.',
+ contains: [
+ 'Past & present tenses',
+ 'Shopping, food & travel vocabulary',
+ 'Describing people, places & routines',
+ 'Understanding short, clear messages',
+ 'Everyday conversations & small talk',
+ 'Simple future ("going to")'
+ ],
+ topics: ['Past simple', 'Future (going to)', 'Comparatives', 'Prepositions', 'Adjectives & adverbs', 'Travel & hotels', 'Restaurants & cafes', 'Health & body', 'Hobbies', 'Feelings & opinions', 'Directions', 'House & city'],
+ focus: [
+ 'Move confidently into the past and future tenses',
+ 'Practise ordering, asking directions and small talk',
+ 'Describe people, places and routines in detail',
+ 'Start reading short articles and simple stories',
+ 'Write 2\u20133 sentence descriptions every day'
+ ],
+ examples: [
+ { en: 'Yesterday I went to the market and bought some fruits.', mean: 'Talking about the past' },
+ { en: 'I am going to visit my friend next weekend.', mean: 'Talking about future plans with "going to"' },
+ { en: 'Excuse me, where is the nearest station?', mean: 'Asking for directions' },
+ { en: 'I would like a coffee and a sandwich, please.', mean: 'Ordering food politely' },
+ { en: 'My city is bigger than my village.', mean: 'Making comparisons' }
+ ],
+ tips: [
+ 'Speak with someone at least once a week — even a short chat counts',
+ 'Keep a daily journal of 3\u20135 sentences in English',
+ 'Switch your phone to English',
+ 'Listen to slow podcasts for A1\u2013A2 learners',
+ 'Learn words in groups (family, food, travel) not in isolation'
+ ],
+ resources: ['Duolingo', 'English File Elementary', 'Easy English podcasts', 'Short graded readers', 'YouTube: basic English lessons'],
+ nextLabel: 'Next Level',
+ nextTitle: 'B1 Intermediate',
+ nextDesc: 'Express opinions and plans, handle travel situations, and write simple connected texts about familiar topics.',
+ steps: [
+ 'Build professional and everyday vocabulary to 2,000+ words',
+ 'Master the present perfect & conditionals',
+ 'Practise giving opinions and structured writing'
+ ]
+ },
+ B1: {
+ title: 'Intermediate', icon: '🎯', accent: '#8B5CF6',
+ grad: 'linear-gradient(135deg, #8B5CF6, #6C3CE1)',
+ tint: 'rgba(139, 92, 246, 0.12)', border: 'rgba(139, 92, 246, 0.4)',
+ glowS: 'rgba(139, 92, 246, 0.22)', glowL: 'rgba(139, 92, 246, 0.45)',
+ tagline: 'Confidence to express your world',
+ sub: 'B1 is the level where you stop translating and start thinking in English. You share opinions, narrate experiences, and follow most conversations.',
+ stats: [ ['C3 of 6', 'position'], ['~2,500', 'words known'], ['increasing', 'fluency'] ],
+ what: 'B1 (Intermediate) is the third CEFR level. You can understand the main points of clear standard input on familiar matters, deal with most situations in daily life and travel, produce simple connected texts on familiar topics, and describe experiences, events, dreams, hopes, and give brief reasons for opinions.',
+ why: 'B1 is the "independent user" threshold — the minimum level most employers and universities ask for. It proves you can work, study, and travel in English without constant help, and it is the springboard to truly professional fluency.',
+ contains: [
+ 'Express opinions & plans clearly',
+ 'Describe experiences & events in detail',
+ 'Handle most travel situations',
+ 'Write simple connected texts',
+ 'Follow clear, standard speech',
+ 'Present arguments & compare ideas'
+ ],
+ topics: ['Present perfect & past perfect', 'First & second conditionals', 'Relative clauses', 'Reported speech (basics)', 'Phrasal verbs', 'Modal verbs', 'Opinion essays', 'Films, books & media', 'Work & study', 'Society & culture', 'Past habits: used to', 'Passive voice (basics)'],
+ focus: [
+ 'Learn conditionals, relative clauses and phrasal verbs',
+ 'Build professional and formal vocabulary',
+ 'Practise giving opinions and presenting ideas clearly',
+ 'Write structured paragraphs: introduction, body, conclusion',
+ 'Listen to radio and podcasts on topics you enjoy'
+ ],
+ examples: [
+ { en: 'If I had more time, I would travel around Europe.', mean: 'Using a second conditional to express a wish' },
+ { en: 'I have been working at this company since 2021.', mean: 'Using the present perfect for experience' },
+ { en: 'In my opinion, online education is more flexible.', mean: 'Giving and defending an opinion' },
+ { en: 'Last summer, I went to the beach with my family.', mean: 'Narrating a past experience' },
+ { en: 'The movie was so good that I watched it twice.', mean: 'Linking ideas with result clauses' }
+ ],
+ tips: [
+ 'Talk to yourself in English about your daily plans',
+ 'Review mistakes in writing — fix them, then rewrite',
+ 'Watch series without subtitles, then re-watch with them',
+ 'Build a personal phrasebook of expressions you hear',
+ 'Do weekly short essays and ask for feedback'
+ ],
+ resources: ['New English File Intermediate', '6 Minute English (BBC)', 'Ted-Ed lessons', 'Graded B1 readers', 'English grammar in use'],
+ nextLabel: 'Next Level',
+ nextTitle: 'B2 Upper Intermediate',
+ nextDesc: 'Discuss complex topics fluently, argue clearly, and write well-structured professional texts.',
+ steps: [
+ 'Master advanced grammar: inversions, modals of deduction, reported speech',
+ 'Learn idiomatic expressions and collocations',
+ 'Practise writing reports, emails and essays with clear arguments'
+ ]
+ },
+ B2: {
+ title: 'Upper Intermediate', icon: '📊', accent: '#F97316',
+ grad: 'linear-gradient(135deg, #F97316, #EF4444)',
+ tint: 'rgba(249, 115, 22, 0.12)', border: 'rgba(249, 115, 22, 0.35)',
+ glowS: 'rgba(249, 115, 22, 0.22)', glowL: 'rgba(249, 115, 22, 0.45)',
+ tagline: 'Speak fluently on any everyday topic',
+ sub: 'B2 is the level of real fluency. You can have spontaneous conversations, understand complex texts, and write clear, detailed professional and academic content.',
+ stats: [ ['C4 of 6', 'position'], ['~4,000', 'words known'], ['fluent', 'in daily life'] ],
+ what: 'B2 (Upper Intermediate) is the fourth CEFR level. You can understand the main ideas of complex texts on concrete and abstract topics, interact with a degree of fluency and spontaneity that makes regular conversation with native speakers possible, and produce clear, detailed texts on a wide range of subjects.',
+ why: 'B2 is the level of professional and academic readiness — the requirement for most international universities and skilled jobs. It means you can negotiate, present, argue, and be understood naturally, which is exactly what high-value opportunities demand.',
+ contains: [
+ 'Discuss complex & abstract topics',
+ 'Fluency & spontaneity in conversation',
+ 'Detailed, well-structured writing',
+ 'Understanding longer texts & news',
+ 'Professional & academic English',
+ 'Passive, reported speech & advanced modals'
+ ],
+ topics: ['Third conditionals', 'Inversions', 'Modals of deduction', 'Reported speech (advanced)', 'Idioms & collocations', 'Phrasal verbs (advanced)', 'Analysing news & articles', 'Academic essays', 'Business English', 'Debating & persuasion', 'Register & formality', 'Complex passive forms'],
+ focus: [
+ 'Master advanced grammar: inversions, modals of deduction, reported speech',
+ 'Learn idiomatic expressions and collocations',
+ 'Practise writing reports, emails and essays with clear arguments',
+ 'Listen to podcasts and the news for advanced listening',
+ 'Take part in debates to build spontaneous speech'
+ ],
+ examples: [
+ { en: 'Had I known about the meeting, I would have attended.', mean: 'Using an inverted conditional for counterfactual past' },
+ { en: 'The economy is unlikely to recover without investment.', mean: 'Discussing complex issues with hedging language' },
+ { en: 'Despite the obstacles, the team delivered on time.', mean: 'Connecting ideas in professional writing' },
+ { en: 'He must have missed the train — he looks worried.', mean: 'Using modals of deduction' },
+ { en: 'Not only did she win, but she also broke a record.', mean: 'Using inversion for emphasis' }
+ ],
+ tips: [
+ 'Read the news in English daily and summarize each article',
+ 'Write professional emails and get native feedback',
+ 'Record yourself speaking and review your fluency',
+ 'Learn idioms in context — write sentences with each one',
+ 'Debate topics with a partner to push spontaneous thinking'
+ ],
+ resources: ['English File Upper-Intermediate', 'BBC News', 'The Economist (weekly)', 'IELTS / Cambridge materials', 'TED Talks'],
+ nextLabel: 'Next Level',
+ nextTitle: 'C1 Advanced',
+ nextDesc: 'Fluent, flexible English for academic and professional life with precision and style.',
+ steps: [
+ 'Fine-tune nuance, idiomatic expression and register',
+ 'Practise academic writing and formal debate',
+ 'Read literature, editorials and research summaries'
+ ]
+ },
+ C1: {
+ title: 'Advanced', icon: '🧠', accent: '#EC4899',
+ grad: 'linear-gradient(135deg, #EC4899, #6C3CE1)',
+ tint: 'rgba(236, 72, 153, 0.12)', border: 'rgba(236, 72, 153, 0.4)',
+ glowS: 'rgba(236, 72, 153, 0.22)', glowL: 'rgba(236, 72, 153, 0.45)',
+ tagline: 'Precision, style and academic power',
+ sub: 'C1 is advanced fluency. You express ideas fluently and flexibly, handle academic and professional English, and use subtle, idiomatic language with confidence.',
+ stats: [ ['C5 of 6', 'position'], ['~7,000', 'words known'], ['fluent', '& precise'] ],
+ what: 'C1 (Advanced) is the fifth CEFR level. You can understand a wide range of demanding, longer texts and recognize implicit meaning, express ideas fluently and spontaneously without much obvious searching, and use language flexibly and effectively for social, academic, and professional purposes.',
+ why: 'C1 certifies that you can genuinely function in English at the highest professional and academic levels — publishing research, negotiating contracts, teaching, or studying at elite universities. It signals not just competence, but mastery of style and nuance.',
+ contains: [
+ 'Express ideas fluently & flexibly',
+ 'Use language for academic & professional purposes',
+ 'Produce clear, detailed, complex texts',
+ 'Understand extended arguments',
+ 'Precise & idiomatic expression',
+ 'Recognition of implicit meaning'
+ ],
+ topics: ['Advanced inversions & emphasis', 'Collocations & register', 'Cleft sentences', 'Academic writing & citation', 'Formal debate & persuasion', 'Nuance & irony', 'Reading literature', 'Specialised vocabulary', 'Summarising complex sources', 'Field-specific English (law, medicine, finance)'],
+ focus: [
+ 'Fine-tune nuance, idiomatic expression and register',
+ 'Practise academic writing and formal debate',
+ 'Master subtle collocations and stylistic variation',
+ 'Read literature, editorials and research summaries',
+ 'Write long-form texts: articles, reports, research notes'
+ ],
+ examples: [
+ { en: 'It was not until years later that she understood his decision.', mean: 'Using a cleft structure to create emphasis' },
+ { en: 'The findings, while preliminary, are highly suggestive.', mean: 'Academic hedging with precision' },
+ { en: 'His argument is compelling, yet not without its limitations.', mean: 'Balanced critical evaluation' },
+ { en: 'Under no circumstances should the report be delayed.', mean: 'Emphatic negative inversion' },
+ { en: 'She is, as it were, a mentor to the entire team.', mean: 'Using idiomatic asides naturally' }
+ ],
+ tips: [
+ 'Write one long academic or professional piece weekly',
+ 'Practice formal debate with precise vocabulary',
+ 'Read editorials and paraphrase them in your own words',
+ 'Learn field-specific vocabulary for your career',
+ 'Get feedback from advanced speakers or teachers'
+ ],
+ resources: ['Cambridge Advanced (CAE) materials', 'The Economist', 'Academic journals', 'Literature & essays', 'Formal English courses'],
+ nextLabel: 'Next Level',
+ nextTitle: 'C2 Proficient',
+ nextDesc: 'Near-native mastery, total precision, and the ability to handle any register.',
+ steps: [
+ 'Maintain precision under pressure: meetings, negotiations, pitches',
+ 'Style-shift between formal, academic, and casual English',
+ 'Read legal, medical, or financial English if relevant to you'
+ ]
+ },
+ C2: {
+ title: 'Proficient', icon: '🏆', accent: '#EF4444',
+ grad: 'linear-gradient(135deg, #EF4444, #F97316)',
+ tint: 'rgba(239, 68, 68, 0.1)', border: 'rgba(239, 68, 68, 0.35)',
+ glowS: 'rgba(239, 68, 68, 0.22)', glowL: 'rgba(239, 68, 68, 0.45)',
+ tagline: 'The summit of English mastery',
+ sub: 'C2 is mastery. You understand virtually everything with ease, express yourself with total precision, and handle English as naturally as your mother tongue.',
+ stats: [ ['C6 of 6', 'position'], ['~10,000+', 'words known'], ['native-like', 'mastery'] ],
+ what: 'C2 (Proficient) is the sixth and highest CEFR level. You can understand with ease virtually everything heard or read, summarize information from different spoken and written sources, and express yourself spontaneously, very fluently, and precisely while differentiating finer shades of meaning.',
+ why: 'C2 is the elite tier — the level of native-like mastery that opens roles in academia, publishing, law, diplomacy, and global leadership. It is proof that you can operate at the very highest level of the language.',
+ contains: [
+ 'Understand virtually everything heard or read',
+ 'Summarize information from many sources',
+ 'Express yourself with total precision',
+ 'Handle academic & legal English',
+ 'Native-level fluency & nuance',
+ 'Finer shades of meaning'
+ ],
+ topics: ['Idiomatic mastery', 'Proverbs & cultural references', 'Legal & medical English', 'Advanced academic writing', 'Implying & inferring', 'Subtext & irony', 'Style-shifting across registers', 'Summative precision', 'Rhetoric & persuasion at the top level'],
+ focus: [
+ 'Maintain precision under pressure: meetings, negotiations, pitches',
+ 'Style-shift between formal, academic, and casual English',
+ 'Expand into specialised fields (law, medicine, finance)',
+ 'Coach others and refine your personal writing voice',
+ 'Keep consuming high-level English daily to stay sharp'
+ ],
+ examples: [
+ { en: 'Her mastery of the subject is nothing short of remarkable.', mean: 'Precise idiomatic praise' },
+ { en: 'The evidence, though scanty, is not entirely lacking in merit.', mean: 'Extreme nuance in evaluation' },
+ { en: 'He has an uncanny ability to read between the lines.', mean: 'Idiomatic understanding of subtext' },
+ { en: 'In a word, the proposal is untenable.', mean: 'Crisp, emphatic judgement' },
+ { en: 'Their rhetoric, however polished, rings hollow.', mean: 'Sophisticated critical analysis' }
+ ],
+ tips: [
+ 'Edit your own writing ruthlessly to near-perfection',
+ 'Teach or coach others — mastery grows by explaining',
+ 'Read law, medicine, or finance English in your field',
+ 'Practise delivering speeches without notes',
+ 'Keep journaling and reviewing to maintain sharpness'
+ ],
+ resources: ['Cambridge Proficiency (CPE) materials', 'Advanced literature', 'Legal & academic texts', 'News analysis & commentary', 'Public speaking courses'],
+ nextLabel: 'Summit Reached',
+ nextTitle: 'You have reached the top',
+ nextDesc: 'There is no level above C2. The next step is to maintain excellence and share what you know by teaching others.',
+ steps: [
+ 'Keep practising daily to stay razor sharp',
+ 'Teach or coach others to deepen mastery',
+ 'Apply your English to real high-value work'
+ ]
+ }
+ };
+
+ var LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+ function populate() {
+ var params = new URLSearchParams(window.location.search);
+ var level = params.get('level') || 'A1';
+ if (LEVELS.indexOf(level) === -1) level = 'A1';
+ var d = LEVEL_DETAILS[level];
+
+ document.title = d.title + ' (' + level + ') Level Guide | Chango';
+ var heroLevelEl = document.getElementById('heroLevel');
+ if (heroLevelEl) heroLevelEl.textContent = 'CEFR ' + level;
+ document.getElementById('heroTitle').textContent = d.title;
+ document.getElementById('heroTagline').textContent = d.tagline;
+ document.getElementById('heroSub').textContent = d.sub;
+ document.getElementById('secTitle').textContent = level + ' ' + d.title;
+ document.getElementById('blockWhat').textContent = d.what;
+ document.getElementById('blockWhy').textContent = d.why;
+
+ var page = document.getElementById('page');
+ page.style.setProperty('--lv-accent', d.accent);
+ page.style.setProperty('--lv-grad', d.grad);
+ page.style.setProperty('--lv-tint', d.tint);
+ page.style.setProperty('--lv-border', d.border);
+ page.style.setProperty('--lv-glow-s', d.glowS);
+ page.style.setProperty('--lv-glow-l', d.glowL);
+
+ fillList('blockContains', d.contains);
+ fillChips('blockTopics', d.topics);
+ fillList('blockFocus', d.focus);
+ fillExamples(d.examples);
+ fillList('blockTips', d.tips);
+ fillChips('blockResources', d.resources);
+
+ document.getElementById('nextLabel').textContent = d.nextLabel;
+ document.getElementById('nextTitle').textContent = d.nextTitle;
+ document.getElementById('nextDesc').textContent = d.nextDesc;
+ document.getElementById('nextIcon').textContent = d.icon;
+ if (d.steps) {
+ document.getElementById('step1').textContent = d.steps[0] || '';
+ document.getElementById('step2').textContent = d.steps[1] || '';
+ document.getElementById('step3').textContent = d.steps[2] || '';
+ }
+
+ // hero stats
+ var statsEl = document.getElementById('heroStats');
+ statsEl.innerHTML = '';
+ d.stats.forEach(function (s) {
+ var div = document.createElement('div');
+ div.className = 'hero-stat';
+ div.innerHTML = '<div class="number">' + s[0] + '</div><div class="label">' + s[1] + '</div>';
+ statsEl.appendChild(div);
+ });
+
+ // next-level CTA
+ var cta = document.getElementById('nextCta');
+ var nextMap = {
+ A1: ['a2.html', 'Next Level: A2 →'],
+ A2: ['level-detail.html?level=B1', 'Next Level: B1 →'],
+ B1: ['level-detail.html?level=B2', 'Next Level: B2 →'],
+ B2: ['level-detail.html?level=C1', 'Next Level: C1 →'],
+ C1: ['level-detail.html?level=C2', 'Next Level: C2 →'],
+ C2: ['test.html', 'Retake the Test']
+ };
+ if (nextMap[level]) {
+ cta.href = nextMap[level][0];
+ cta.textContent = nextMap[level][1];
+ }
+
+ // journey bar
+ var rank = LEVELS.indexOf(level) + 1;
+ document.getElementById('journeyFill').style.width = (rank / 6 * 100) + '%';
+ var pipsEl = document.getElementById('journeyPips');
+ pipsEl.innerHTML = '';
+ LEVELS.forEach(function (l) {
+ var pip = document.createElement('div');
+ pip.className = 'pip' + (l === level ? ' on' : '');
+ pip.innerHTML = '<div class="cir"></div>' + l;
+ pipsEl.appendChild(pip);
+ });
+ }
+
+ function fillList(id, items) {
+ var el = document.getElementById(id);
+ el.innerHTML = '';
+ items.forEach(function (t) {
+ var li = document.createElement('li');
+ li.textContent = t;
+ el.appendChild(li);
+ });
+ }
+
+ function fillChips(id, items) {
+ var el = document.getElementById(id);
+ el.innerHTML = '';
+ items.forEach(function (t) {
+ var c = document.createElement('span');
+ c.className = 'chip';
+ c.textContent = t;
+ el.appendChild(c);
+ });
+ }
+
+ function fillExamples(examples) {
+ var el = document.getElementById('blockExamples');
+ el.innerHTML = '';
+ examples.forEach(function (e) {
+ var box = document.createElement('div');
+ box.className = 'example-box';
+ box.innerHTML = '<div class="en">' + e.en + '</div><div class="mean">' + e.mean + '</div>';
+ el.appendChild(box);
+ });
+ }
+
+ populate();
+
+ const navbar = document.getElementById('navbar');
+ window.addEventListener('scroll', () => {
+ navbar.classList.toggle('scrolled', window.scrollY > 50);
+ });
+
+ const hamburger = document.getElementById('hamburger');
+ const navLinks = document.getElementById('navLinks');
+ hamburger.addEventListener('click', () => {
+ navLinks.classList.toggle('active');
+ });
+
+ navLinks.querySelectorAll('a').forEach(link => {
+ link.addEventListener('click', () => navLinks.classList.remove('active'));
+ });
+
+ const reveals = document.querySelectorAll('.reveal');
+ const observer = new IntersectionObserver((entries) => {
+ entries.forEach((entry, i) => {
+ if (entry.isIntersecting) {
+ setTimeout(() => entry.target.classList.add('visible'), i * 80);
+ observer.unobserve(entry.target);
+ }
+ });
+ }, { threshold: 0.1 });
+ reveals.forEach(el => observer.observe(el));
+ setTimeout(() => document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')), 1500);
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>KI-Deutsch-Stufentest | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="stylesheet" href="../css/app.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <div class="nav-right">
+ <a href="../index.html" class="nav-link">Home</a>
+ <a href="german-level.html" class="nav-link">Stufen</a>
+ <a href="german-test.html" class="nav-link active">Test</a>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ </div>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ var cur = document.documentElement.getAttribute('data-theme');
+ b.textContent = cur === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<main class="test-view" id="testView">
+
+ <div class="hero">
+ <div class="hero-eyebrow">Chango KI-Bewertung</div>
+ <h1>Finde dein Deutsch <span class="gradient-text">Niveau</span></h1>
+ <p>Beantworte ein paar Fragen, schreibe einen kurzen Aufsatz, und die KI gibt dir sofort dein genaues Ergebnis und deine Stufe.</p>
+ <div class="hero-chips">
+ <span class="chip"><b>~15 Min</b></span>
+ <span class="chip"><b>21</b> Fragen</span>
+ <span class="chip"><b>KI-Ergebnis</b> sofort</span>
+ </div>
+ </div>
+
+ <div class="test-bar">
+ <div class="bar-left">
+ <span class="pill" id="answeredPill">Beantwortet <b id="answeredNow">0</b>/<b id="answeredTotal">0</b></span>
+ <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+ </div>
+ <div style="display:flex;align-items:center;gap:0.7rem;">
+ <span class="pill" id="timePill"><span id="timerText">15:00</span></span>
+ <button class="btn btn-primary bar-btn" onclick="submitTest()">Fertig </button>
+ <a href="../index.html" class="btn btn-outline bar-btn exit-btn">Verlassen ✕</a>
+ </div>
+ </div>
+
+ <div class="section-label">
+ <div class="section-step">1</div>
+ <div>
+ <div class="section-title">Grammatik &amp; Wortschatz</div>
+ <div class="section-sub">Wähle die richtige Antwort für jede Frage</div>
+ </div>
+ <div class="section-line"></div>
+ </div>
+ <div id="qList"></div>
+
+ <div class="section-label">
+ <div class="section-step">2</div>
+ <div>
+ <div class="section-title">Lesetext</div>
+ <div class="section-sub">Lies den Text und beantworte dann 3 Fragen</div>
+ </div>
+ <div class="section-line"></div>
+ </div>
+ <div class="reading-wrap" id="readingCard"></div>
+
+ <div class="section-label">
+ <div class="section-step">3</div>
+ <div>
+ <div class="section-title">Kurzaufsatz</div>
+ <div class="section-sub">Optional — schreibe über ein Thema, das du kennst</div>
+ </div>
+ <div class="section-line"></div>
+ </div>
+ <div class="essay-card">
+ <div class="prompt">
+ <b>Schreibe einen kurzen Aufsatz (40–150 Wörter).</b> Wähle ein Thema: deine Berufsziele, ein Hobby, das du gerne machst, oder eine Reise, die du in Erinnerung hast. Verwende vollständige Sätze und klare Ideen — das hilft der KI, dein Schreibniveau zu messen.
+ </div>
+ <textarea id="essayArea" placeholder="Schreibe hier deinen Aufsatz..."></textarea>
+ <div class="essay-foot">
+ <div class="essay-chips"><span class="opt-badge">OPTIONAL</span></div>
+ <div id="essayStats">0 Wörter</div>
+ </div>
+ </div>
+</main>
+
+<div class="submit-bar">
+ <div class="answered">Beantworte alle Fragen und erhalte sofort dein Niveau &amp; Ergebnis.</div>
+ <button class="btn btn-primary submit-btn" onclick="submitTest()">Mein Niveau &amp; Ergebnis erhalten </button>
+</div>
+
+<div class="error-toast" id="errorToast">
+ <div class="err-icon">⚠️</div>
+ <div>
+ <b>Fast geschafft!</b>
+ <span class="err-text" id="errorToastText">Du hast noch unbeantwortete Fragen.</span>
+ </div>
+</div>
+
+<script src="german-test-data.js"></script>
+<script>
+ let testQuestions = [];
+ let answers = [];
+ let readingPassage = null;
+ let readingAnswers = [];
+ let timerSecs = 15 * 60;
+ let timerId = null;
+
+ function shuffle(arr) {
+ const a = arr.slice();
+ for (let i = a.length - 1; i > 0; i--) {
+ const j = Math.floor(Math.random() * (i + 1));
+ [a[i], a[j]] = [a[j], a[i]];
+ }
+ return a;
+ }
+
+ function buildTest() {
+ const chosen = [];
+ LEVELS_ASC.forEach(lvl => {
+ const gramPool = shuffle(QUESTIONS.filter(q => q.level === lvl && q.cat === 'Grammar'));
+ const vocPool = shuffle(QUESTIONS.filter(q => q.level === lvl && q.cat === 'Vocabulary'));
+ [gramPool[0], gramPool[1], vocPool[0]].forEach(q => {
+ if (!q) return;
+ const optIdx = shuffle(q.options.map((_, i) => i));
+ chosen.push({
+ level: q.level,
+ cat: q.cat,
+ q: q.q,
+ options: optIdx.map(i => q.options[i]),
+ correct: optIdx.indexOf(q.correct)
+ });
+ });
+ });
+ return shuffle(chosen);
+ }
+
+ function renderQuiz() {
+ const list = document.getElementById('qList');
+ list.innerHTML = '';
+ answers = new Array(testQuestions.length).fill(null);
+ const letters = ['A', 'B', 'C', 'D'];
+
+ testQuestions.forEach((q, qi) => {
+ const card = document.createElement('div');
+ card.className = 'qcard';
+ card.id = 'qcard' + qi;
+
+ const tagHtml = CAT_INFO[q.cat] ? '<span class="tag ' + CAT_INFO[q.cat].cls + '">' + CAT_INFO[q.cat].label + '</span>' : '';
+
+ card.innerHTML =
+ '<div class="qcard-top">' +
+ '<div class="qnum">' + (qi + 1) + '</div>' +
+ tagHtml +
+ '</div>' +
+ '<div class="qtext">' + q.q + '</div>' +
+ '<div class="options">' + q.options.map((opt, oi) =>
+ '<button class="option" data-q="' + qi + '" data-o="' + oi + '">' +
+ '<span class="opt-char">' + letters[oi] + '</span><span>' + opt + '</span>' +
+ '</button>'
+ ).join('') +
+ '</div>';
+
+ list.appendChild(card);
+ });
+
+ list.querySelectorAll('.option').forEach(btn => {
+ btn.addEventListener('click', () => {
+ const qi = parseInt(btn.dataset.q, 10);
+ const oi = parseInt(btn.dataset.o, 10);
+ const card = document.getElementById('qcard' + qi);
+ card.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+ btn.classList.add('selected');
+ answers[qi] = oi;
+ card.classList.remove('pending');
+ card.classList.add('answered');
+ updateProgress();
+ });
+ });
+ }
+
+ function renderReading(passage) {
+ const card = document.getElementById('readingCard');
+ const letters = ['A', 'B', 'C', 'D'];
+
+ let html = '<div class="passage-head">' +
+ '<div>' +
+ '<div class="passage-title">' + passage.title + '</div>' +
+ '<div class="passage-meta">Lies den Text, beantworte dann die 3 Fragen unten</div>' +
+ '</div>' +
+ '</div>' +
+ '<div class="passage-body">' +
+ '<div class="passage-text">' + passage.text + '</div>';
+
+ passage.questions.forEach((rq, qi) => {
+ html += '<div class="qcard" id="rqcard' + qi + '">' +
+ '<div class="qcard-top">' +
+ '<div class="qnum">Lesen ' + (qi + 1) + '</div>' +
+ '<span class="tag rd">Reading</span>' +
+ '</div>' +
+ '<div class="qtext">' + rq.q + '</div>' +
+ '<div class="options">' + rq.options.map((opt, oi) =>
+ '<button class="option" data-rq="' + qi + '" data-o="' + oi + '">' +
+ '<span class="opt-char">' + letters[oi] + '</span><span>' + opt + '</span>' +
+ '</button>'
+ ).join('') +
+ '</div></div>';
+ });
+
+ html += '</div>';
+ card.innerHTML = html;
+
+ card.querySelectorAll('.option').forEach(btn => {
+ btn.addEventListener('click', () => {
+ const qi = parseInt(btn.dataset.rq, 10);
+ const oi = parseInt(btn.dataset.o, 10);
+ const qcard = document.getElementById('rqcard' + qi);
+ qcard.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+ btn.classList.add('selected');
+ readingAnswers[qi] = oi;
+ qcard.classList.remove('pending');
+ qcard.classList.add('answered');
+ updateProgress();
+ });
+ });
+ }
+
+ function updateProgress() {
+ const done = answers.filter(a => a !== null).length + readingAnswers.filter(a => a !== null).length;
+ const total = testQuestions.length + readingAnswers.length;
+ document.getElementById('answeredNow').textContent = done;
+ document.getElementById('answeredTotal').textContent = total;
+ document.getElementById('progressFill').style.width = (done / total * 100) + '%';
+ }
+
+ function tickTimer() {
+ timerSecs--;
+ if (timerSecs <= 0) {
+ clearInterval(timerId);
+ submitTest(true);
+ return;
+ }
+ const m = Math.floor(timerSecs / 60);
+ const s = timerSecs % 60;
+ document.getElementById('timerText').textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+ document.getElementById('timePill').classList.toggle('warn', timerSecs < 180);
+ }
+
+ function analyzeEssay(text) {
+ const words = text.trim().match(/[a-zA-ZäöüÄÖÜß]+/g) || [];
+ const count = words.length;
+ const sentences = (text.match(/[.!?]+(\s|$)/g) || []).length;
+ const lower = text.toLowerCase();
+ const advanced = ADVANCED_WORDS.filter(w => {
+ const r = new RegExp('(\\s|^)' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(\\s|$|[,.!?;:])', 'g');
+ return r.test(lower);
+ }).length;
+ const connectors = ['jedoch', 'daher', 'obwohl', 'zum Beispiel', 'außerdem', 'darüber hinaus', 'trotzdem', 'ferner', 'schließlich', 'folglich', 'weil', 'beispielsweise', 'als Ergebnis'].filter(w => lower.includes(w)).length;
+
+ let essayLevel = 'A1';
+ if (count >= 300) essayLevel = 'C2';
+ else if (count >= 200) essayLevel = 'C1';
+ else if (count >= 120) essayLevel = 'B2';
+ else if (count >= 50) essayLevel = 'B1';
+ else if (count >= 20) essayLevel = 'A2';
+
+ if (advanced >= 3 && LEVEL_RANK[essayLevel] < 6) essayLevel = LEVELS_ASC[LEVEL_RANK[essayLevel]];
+ if (connectors >= 3 && LEVEL_RANK[essayLevel] < 6) essayLevel = LEVELS_ASC[LEVEL_RANK[essayLevel]];
+
+ return { count, sentences, advanced, connectors, essayLevel, empty: count === 0 };
+ }
+
+ function computeMcq() {
+ const catStats = {};
+ let correct = 0;
+ let total = 0;
+ let readingRight = 0;
+
+ testQuestions.forEach((q, i) => {
+ total++;
+ const isCorrect = answers[i] === q.correct;
+ if (isCorrect) correct++;
+ if (!catStats[q.cat]) catStats[q.cat] = { right: 0, total: 0 };
+ catStats[q.cat].total++;
+ if (isCorrect) catStats[q.cat].right++;
+ });
+
+ readingPassage.questions.forEach((rq, i) => {
+ total++;
+ const isCorrect = readingAnswers[i] === rq.correct;
+ if (isCorrect) { correct++; readingRight++; }
+ if (!catStats['Reading']) catStats['Reading'] = { right: 0, total: 0 };
+ catStats['Reading'].total++;
+ if (isCorrect) catStats['Reading'].right++;
+ });
+
+ const pct = total ? Math.round(correct / total * 100) : 0;
+ return { pct, correct, total, readingRight, catStats };
+ }
+
+ function levelFromDegree(degree) {
+ if (degree >= 88) return 'C2';
+ if (degree >= 75) return 'C1';
+ if (degree >= 60) return 'B2';
+ if (degree >= 45) return 'B1';
+ if (degree >= 30) return 'A2';
+ return 'A1';
+ }
+
+ function oneAbove(lvl) {
+ return LEVELS_ASC[Math.min(LEVEL_RANK[lvl], 5)];
+ }
+
+ let errorTimeout = null;
+ function showError(msg) {
+ const t = document.getElementById('errorToast');
+ document.getElementById('errorToastText').textContent = msg;
+ t.classList.add('show');
+ t.classList.remove('shake');
+ void t.offsetWidth;
+ t.classList.add('shake');
+ clearTimeout(errorTimeout);
+ errorTimeout = setTimeout(() => t.classList.remove('show'), 4000);
+ }
+
+ function buildMistakes() {
+ const items = [];
+ testQuestions.forEach((q, i) => {
+ if (answers[i] !== null && answers[i] !== q.correct) {
+ items.push({ section: 'Abschnitt 1 · Frage ' + (i + 1), q: q.q, yours: q.options[answers[i]], correct: q.options[q.correct] });
+ }
+ });
+ readingPassage.questions.forEach((rq, i) => {
+ if (readingAnswers[i] !== null && readingAnswers[i] !== rq.correct) {
+ items.push({ section: 'Abschnitt 2 · Lesefrage ' + (i + 1), q: rq.q, yours: rq.options[readingAnswers[i]], correct: rq.options[rq.correct] });
+ }
+ });
+ return items;
+ }
+
+ function submitTest(force) {
+ const missing = [];
+ if (!force) {
+ testQuestions.forEach((_, i) => { if (answers[i] === null) missing.push('qcard' + i); });
+ readingPassage.questions.forEach((_, i) => { if (readingAnswers[i] === null) missing.push('rqcard' + i); });
+ }
+
+ if (missing.length) {
+ const mcqMissing = missing.filter(id => id.indexOf('rqcard') !== 0).length;
+ const readMissing = missing.length - mcqMissing;
+ let msg = 'Du hast noch ' + missing.length + ' unbeantwortete Frage' + (missing.length > 1 ? 'n' : '') + ' (' + mcqMissing + ' in Abschnitt 1, ' + readMissing + ' in Abschnitt 2) — beantworte alles, um dein Ergebnis zu sehen.';
+ showError(msg);
+
+ document.getElementById('answeredPill').style.borderColor = '#EF4444';
+ document.getElementById('answeredPill').style.color = '#EF4444';
+ setTimeout(() => {
+ document.getElementById('answeredPill').style.borderColor = '';
+ document.getElementById('answeredPill').style.color = '';
+ }, 2200);
+
+ setTimeout(() => {
+ const el = document.getElementById(missing[0]);
+ el.classList.add('pending');
+ el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+ }, 450);
+ return;
+ }
+
+ clearInterval(timerId);
+
+ const mcq = computeMcq();
+ const essay = analyzeEssay(document.getElementById('essayArea').value);
+
+ const degree = mcq.pct;
+ let level = levelFromDegree(degree);
+
+ if (!essay.empty && essay.count >= 60 && LEVEL_RANK[essay.essayLevel] > LEVEL_RANK[level]) {
+ level = oneAbove(level);
+ }
+
+ const result = {
+ degree: degree,
+ level: level,
+ mcq: mcq,
+ essay: {
+ count: essay.count,
+ sentences: essay.sentences,
+ advanced: essay.advanced,
+ essayLevel: essay.essayLevel,
+ empty: essay.empty
+ },
+ readingTitle: readingPassage.title,
+ mistakes: buildMistakes()
+ };
+
+ try { localStorage.setItem('changoResult', JSON.stringify(result)); } catch (e) {}
+
+ window.location.href = 'german-result.html';
+ }
+
+ testQuestions = buildTest();
+ readingPassage = READING_PASSAGES[Math.floor(Math.random() * READING_PASSAGES.length)];
+ readingAnswers = new Array(readingPassage.questions.length).fill(null);
+ document.getElementById('answeredTotal').textContent = testQuestions.length + readingAnswers.length;
+ document.getElementById('answeredNow').textContent = '0';
+ renderQuiz();
+ renderReading(readingPassage);
+ updateProgress();
+ timerId = setInterval(tickTimer, 1000);
+ tickTimer();
+
+ const essayArea = document.getElementById('essayArea');
+ essayArea.addEventListener('input', () => {
+ const words = (essayArea.value.trim().match(/[a-zA-ZäöüÄÖÜß]+/g) || []).length;
+ document.getElementById('essayStats').textContent = words + ' Wörter';
+ });
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>A2 Elementary Guide | Chango</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+ :root {
+ --primary: #6C3CE1;
+ --primary-light: #8B5CF6;
+ --primary-dark: #5224B5;
+ --accent: #F97316;
+ --accent-light: #FB923C;
+ --bg-dark: #0A0A0F;
+ --bg-card: #12121A;
+ --bg-card-hover: #1A1A25;
+ --text: #F8F8FC;
+ --text-muted: #9CA3AF;
+ --text-dim: #6B7280;
+ --border: #1F1F2E;
+ --gradient-1: linear-gradient(135deg, #6C3CE1, #F97316);
+ --gradient-2: linear-gradient(135deg, #8B5CF6, #6C3CE1);
+ --gradient-3: linear-gradient(135deg, #F97316, #EF4444);
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.35);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.3);
+ --radius: 20px;}
+
+ .theme-toggle {
+ width: 42px; height: 42px; min-width: 42px; border-radius: 12px; border: 1.5px solid var(--border);
+ background: var(--bg-card); color: var(--accent-light); cursor: pointer;
+ font-size: 1.15rem; display: inline-flex; align-items: center; justify-content: center;
+ transition: all 0.25s ease;
+ }
+ .theme-toggle:hover { border-color: var(--primary); box-shadow: var(--glow-purple); transform: translateY(-2px); }
+ [data-theme="light"] {
+ --bg-dark: #F5F6FB;
+ --bg-card: #FFFFFF;
+ --bg-card-hover: #EEF1F7;
+ --text: #14141B;
+ --text-muted: #3E4757;
+ --text-dim: #79808F;
+ --border: #E4E7EF;
+ --glow-purple: 0 0 60px rgba(108, 60, 225, 0.12);
+ --glow-orange: 0 0 60px rgba(249, 115, 22, 0.1);
+ }
+ [data-theme="light"] nav { background: rgba(255, 255, 255, 0.88); }
+ [data-theme="light"] nav.scrolled { background: rgba(255, 255, 255, 0.97); box-shadow: 0 6px 24px rgba(24, 22, 48, 0.06); }
+ [data-theme="light"] .nav-links.active { background: rgba(255, 255, 255, 0.98); }
+ [data-theme="light"] .btn-outline { background: #FFFFFF; }
+ [data-theme="light"] .topic-card, [data-theme="light"] .info-card, [data-theme="light"] .vocab-card,
+ [data-theme="light"] .phrase-card, [data-theme="light"] .cando-card, [data-theme="light"] .next-card, [data-theme="light"] .tip-card {
+ box-shadow: 0 12px 34px rgba(24, 22, 48, 0.07);
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+
+ body {
+ font-family: 'Inter', sans-serif;
+ background: var(--bg-dark);
+ color: var(--text);
+ overflow-x: hidden;
+ line-height: 1.7;
+ }
+
+ ::-webkit-scrollbar { width: 10px; }
+ ::-webkit-scrollbar-track { background: transparent; }
+ ::-webkit-scrollbar-thumb { background: rgba(148, 148, 175, 0.35); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+ ::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.7); border: 2px solid transparent; background-clip: padding-box; }
+ html { scrollbar-width: thin; scrollbar-color: rgba(148, 148, 175, 0.35) transparent; }
+
+ /* A2 theme */
+ .page {
+ --lv-accent: #3B82F6;
+ --lv-grad: linear-gradient(135deg, #3B82F6, #8B5CF6);
+ --lv-tint: rgba(59, 130, 246, 0.12);
+ --lv-border: rgba(59, 130, 246, 0.4);
+ --lv-glow-s: rgba(59, 130, 246, 0.22);
+ --lv-glow-l: rgba(59, 130, 246, 0.45);
+ }
+
+ /* NAV */
+ nav {
+ position: fixed;
+ top: 0; left: 0; right: 0;
+ z-index: 1000;
+ padding: 1rem 2rem;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ backdrop-filter: blur(20px);
+ background: rgba(10, 10, 15, 0.8);
+ border-bottom: 1px solid var(--border);
+ transition: all 0.3s ease;
+ }
+ nav.scrolled { padding: 0.6rem 2rem; background: rgba(10, 10, 15, 0.95); }
+
+ .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+ .logo-icon {
+ width: 42px; height: 42px; background: var(--gradient-1); border-radius: 12px;
+ display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: var(--glow-purple);
+ }
+ .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+ .logo-text {
+ font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700;
+ background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+ }
+
+ .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+ .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; position: relative; }
+ .nav-links a:hover { color: var(--text); }
+ .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--gradient-1); transition: width 0.3s; }
+ .nav-links a:hover::after { width: 100%; }
+
+ .btn {
+ display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+ padding: 0.7rem 1.6rem; border-radius: 12px; font-weight: 700; font-size: 0.9rem;
+ text-decoration: none; transition: all 0.3s ease; cursor: pointer;
+ border: none; font-family: 'Inter', sans-serif;
+ }
+ .btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 20px rgba(108, 60, 225, 0.4); }
+ .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108, 60, 225, 0.6); }
+ .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+ .btn-outline:hover { border-color: var(--primary); background: rgba(108, 60, 225, 0.1); }
+ .btn-large { padding: 1rem 2.2rem; font-size: 1rem; border-radius: 14px; }
+
+ .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+ .hamburger span { width: 25px; height: 2px; background: var(--text); transition: 0.3s; }
+
+ /* HERO */
+ .hero {
+ min-height: 100vh;
+ display: flex; align-items: center; justify-content: center; text-align: center;
+ padding: 8rem 2rem 4rem; position: relative; overflow: hidden;
+ }
+ .hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+ .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.5; animation: float 8s ease-in-out infinite; }
+ .orb-1 { width: 420px; height: 420px; background: var(--lv-accent); top: -10%; left: -5%; opacity: 0.4; }
+ .orb-2 { width: 380px; height: 380px; background: var(--primary); bottom: -10%; right: -5%; animation-delay: 2s; }
+ .orb-3 { width: 260px; height: 260px; background: #EC4899; top: 40%; left: 45%; animation-delay: 4s; opacity: 0.25; }
+
+ @keyframes float {
+ 0%, 100% { transform: translateY(0); }
+ 50% { transform: translateY(-40px); }
+ }
+
+ .hero-grid {
+ position: absolute; inset: 0;
+ background-image:
+ linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
+ linear-gradient(90deg, rgba(139, 92, 246, 0.06) 1px, transparent 1px);
+ background-size: 60px 60px;
+ mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 75%);
+ }
+
+ .hero-content { position: relative; z-index: 2; max-width: 900px; width: 100%; }
+
+ .hero-badge {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ background: var(--lv-tint); border: 1px solid var(--lv-border);
+ backdrop-filter: blur(8px); color: var(--lv-accent);
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 0.95rem; font-weight: 700; letter-spacing: 2px;
+ padding: 0.5rem 1.4rem; border-radius: 50px; margin-bottom: 1.5rem;
+ }
+ .hero-badge .dot { width: 8px; height: 8px; background: var(--lv-accent); border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
+ @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+
+ h1 {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: clamp(2.8rem, 6vw, 4.6rem); font-weight: 800; line-height: 1.1;
+ margin-bottom: 0.6rem; color: var(--text);
+ }
+ .level-name { font-size: clamp(1.4rem, 3.4vw, 2rem); color: var(--text-muted); font-weight: 600; margin-bottom: 1.2rem; }
+ .hero-sub { font-size: 1.1rem; color: var(--text-muted); max-width: 640px; margin: 0 auto 2.5rem; line-height: 1.8; }
+
+ .hero-stats { display: flex; align-items: center; justify-content: center; gap: 2.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+ .hero-stat .number {
+ font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700;
+ background: var(--lv-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+ }
+ .hero-stat .label { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+ .journey-line { height: 2px; background: var(--border); border-radius: 2px; position: relative; max-width: 640px; margin: 0 auto 0.4rem; }
+ .journey-line .fill {
+ position: absolute; top: 0; left: 0; height: 100%; border-radius: 2px;
+ background: var(--lv-grad);
+ }
+ .journey-pips { display: flex; justify-content: space-between; max-width: 640px; margin: 0.6rem auto 0; }
+ .journey-pips .pip { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; font-size: 0.72rem; color: var(--text-dim); }
+ .journey-pips .pip .cir {
+ width: 14px; height: 14px; border-radius: 50%; background: var(--bg-card);
+ border: 2px solid var(--border); transition: all 0.3s;
+ }
+ .journey-pips .pip.on .cir { background: var(--lv-grad); border-color: transparent; box-shadow: var(--lv-glow-s); }
+ .journey-pips .pip.on { color: var(--text); font-weight: 700; }
+ .journey-pips .pip.done .cir { background: var(--lv-tint); border-color: var(--lv-border); }
+
+ /* CONTENT */
+ .content { max-width: 1080px; margin: 0 auto; padding: 4rem 1.25rem 7rem; position: relative; z-index: 2; }
+
+ .section-head { text-align: center; margin-bottom: 2.5rem; }
+ .section-eyebrow {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+ color: var(--lv-accent); margin-bottom: 0.8rem;
+ }
+ .section-eyebrow .line { width: 30px; height: 2px; background: var(--lv-grad); border-radius: 2px; }
+ .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 700; line-height: 1.2; }
+ .section-sub { color: var(--text-muted); font-size: 1rem; margin-top: 0.6rem; }
+
+ .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+
+ .info-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px;
+ padding: 2rem; position: relative; overflow: hidden;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .info-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--lv-grad); opacity: 0; transition: opacity 0.3s; }
+ .info-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .info-card:hover::before { opacity: 1; }
+ .info-card-icon { width: 54px; height: 54px; border-radius: 16px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+ .info-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+ .info-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; }
+
+ /* Featured photo banner */
+ .photo-banner {
+ position: relative; border-radius: 24px; overflow: hidden; margin-bottom: 3rem;
+ height: 320px; display: flex; align-items: flex-end;
+ }
+ .photo-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+ .photo-banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(4, 6, 10, 0.9)); }
+ .photo-banner .pb-text { position: relative; z-index: 2; padding: 2rem; }
+ .photo-banner .pb-text b { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: #FFFFFF; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55); }
+ .photo-banner .pb-text span { display: block; font-size: 0.9rem; color: rgba(255, 255, 255, 0.85); margin-top: 0.3rem; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5); }
+
+ /* Grammar topics */
+ .topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+ .topic-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; border-top: 3px solid var(--lv-accent);
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .topic-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .topic-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.6rem; }
+ .topic-head .t-ic { width: 40px; height: 40px; min-width: 40px; border-radius: 12px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; }
+ .topic-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; }
+ .topic-note { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1rem; line-height: 1.6; }
+ .example-box { background: var(--bg-card-hover); border: 1px solid var(--border); border-left: 3px solid var(--lv-accent); border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 0.6rem; }
+ .example-box .en { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+ .example-box .mean { font-size: 0.82rem; color: var(--text-dim); margin-top: 0.15rem; }
+
+ /* Vocabulary */
+ .vocab-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+ .vocab-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .vocab-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .vocab-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+ .vocab-head .v-ic { font-size: 1.3rem; }
+ .vocab-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; }
+ .word-row { display: flex; flex-direction: column; padding: 0.55rem 0; border-bottom: 1px dashed var(--border); }
+ .word-row:last-child { border-bottom: none; }
+ .word-row .w {
+ font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.98rem; color: var(--lv-accent);
+ }
+ .word-row .wex { font-size: 0.8rem; color: var(--text-dim); }
+
+ /* Phrases */
+ .phrase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+ .phrase-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .phrase-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .phrase-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+ .phrase-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; }
+ .chat { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.6rem; }
+ .chat .who {
+ min-width: 26px; height: 26px; border-radius: 50%; background: var(--lv-tint);
+ color: var(--lv-accent); font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+ }
+ .chat .txt { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 14px; padding: 0.5rem 0.85rem; font-size: 0.9rem; }
+
+ /* Can-do */
+ .cando-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 3rem; }
+ .cando-card {
+ display: flex; gap: 1rem; align-items: flex-start;
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+ padding: 1.3rem; transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .cando-card:hover { transform: translateY(-3px); box-shadow: var(--lv-glow-s); }
+ .cando-ic { min-width: 46px; height: 46px; border-radius: 14px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+ .cando-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.98rem; margin-bottom: 0.3rem; }
+ .cando-en { font-size: 0.9rem; color: var(--text); font-weight: 600; }
+ .cando-mean { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+ /* Speaking */
+ .speak-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+ .speak-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; position: relative; overflow: hidden;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .speak-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .speak-num {
+ position: absolute; top: 1rem; right: 1.2rem; font-family: 'Space Grotesk', sans-serif;
+ font-size: 3rem; font-weight: 800; color: var(--lv-tint); line-height: 1; pointer-events: none;
+ }
+ .speak-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.6rem; }
+ .speak-head .s-ic { width: 40px; height: 40px; min-width: 40px; border-radius: 12px; background: var(--lv-tint); border: 1px solid var(--lv-border); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; }
+ .speak-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; }
+ .speak-prompt { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.9rem; }
+ .model-box { background: var(--bg-card-hover); border: 1px solid var(--border); border-left: 3px solid var(--lv-accent); border-radius: 12px; padding: 0.8rem 1rem; }
+ .model-box .ml { font-size: 0.6rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--lv-accent); margin-bottom: 0.25rem; }
+ .model-box .en { font-size: 0.93rem; font-weight: 600; color: var(--text); }
+ .model-box .me { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+ /* Pronunciation */
+ .pron-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+ .sound-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+ padding: 1.6rem; transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ .sound-card:hover { transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .sound-phone {
+ display: inline-block; font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 700;
+ color: var(--lv-accent); background: var(--lv-tint); border: 1px solid var(--lv-border);
+ padding: 0.2rem 0.7rem; border-radius: 8px; margin-bottom: 0.6rem;
+ }
+ .sound-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+ .pair { display: flex; align-items: center; gap: 0.9rem; font-size: 0.85rem; padding: 0.45rem 0; border-bottom: 1px dashed var(--border); flex-wrap: wrap; }
+ .pair:last-child { border-bottom: none; }
+ .pair .vs { color: var(--text-dim); font-size: 0.72rem; font-weight: 700; }
+ .pair .pw { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; color: var(--text); }
+ .pair .pw em { color: var(--text-dim); font-style: normal; font-size: 0.72rem; font-weight: 600; }
+ .accent-tips { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 3rem; }
+ .accent-tips li { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 0.9rem 1.1rem 0.9rem 2.1rem; font-size: 0.9rem; color: var(--text-muted); position: relative; }
+ .accent-tips li::before { content: '🔊'; position: absolute; left: 0.8rem; top: 0.85rem; font-size: 0.95rem; }
+
+ /* Audio buttons */
+ .spk {
+ display: inline-flex; align-items: center; justify-content: center;
+ width: 26px; height: 26px; min-width: 26px; border-radius: 8px;
+ border: 1px solid var(--lv-border); background: var(--lv-tint);
+ color: var(--lv-accent); cursor: pointer; font-size: 0.85rem; line-height: 1;
+ padding: 0; transition: all 0.2s ease; font-family: inherit;
+ }
+ .spk:hover { background: var(--lv-accent); color: #fff; transform: scale(1.12); }
+ .sound-phone-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+ .sound-phone-row .sound-phone { margin-bottom: 0; }
+ .sound-w { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+ .word-pill {
+ display: inline-flex; align-items: center; gap: 0.4rem;
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 30px;
+ padding: 0.25rem 0.75rem 0.25rem 0.35rem; font-size: 0.85rem; font-weight: 700; color: var(--text);
+ }
+ .word-pill .pm { color: var(--text-dim); font-weight: 600; font-size: 0.72rem; }
+
+ /* Quizzes */
+ .quiz-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 1.8rem 2rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+ }
+ .quiz-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .quiz-toolbar { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; }
+ .quiz-toolbar b { font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; }
+ .quiz-score {
+ margin-left: auto; font-size: 0.8rem; font-weight: 800; color: var(--lv-accent);
+ background: var(--lv-tint); border: 1px solid var(--lv-border);
+ padding: 0.35rem 0.95rem; border-radius: 30px; white-space: nowrap;
+ }
+ .q-block { padding: 1rem 0; }
+ .q-block + .q-block { border-top: 1px dashed var(--border); }
+ .q-text { font-weight: 800; font-size: 0.98rem; margin-bottom: 0.7rem; }
+ .q-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+ .q-opt {
+ display: flex; align-items: center; gap: 0.6rem;
+ background: var(--bg-card-hover); border: 1.5px solid var(--border); border-radius: 12px;
+ padding: 0.55rem 0.85rem; font-size: 0.9rem; font-weight: 600; color: var(--text);
+ text-align: left; cursor: pointer; transition: all 0.2s ease; font-family: inherit;
+ }
+ .q-opt:hover:not(.locked) { border-color: var(--lv-border); transform: translateY(-2px); }
+ .q-opt .q-let {
+ width: 22px; height: 22px; min-width: 22px; border-radius: 7px;
+ display: inline-flex; align-items: center; justify-content: center;
+ background: var(--lv-tint); color: var(--lv-accent);
+ font-size: 0.72rem; font-weight: 800;
+ }
+ .q-opt.ok { background: rgba(16, 185, 129, 0.12); border-color: #10B981; color: #10B981; }
+ .q-opt.ok .q-let { background: #10B981; color: #fff; }
+ .q-opt.bad { background: rgba(239, 68, 68, 0.12); border-color: #EF4444; color: #EF4444; }
+ .q-opt.bad .q-let { background: #EF4444; color: #fff; }
+ .q-opt.locked { cursor: default; }
+ .q-fb { min-height: 1.5rem; font-size: 0.9rem; margin-top: 0.6rem; font-weight: 700; }
+ .q-fb.good { color: #10B981; }
+ .q-fb.bad-fb { color: var(--text-muted); font-weight: 500; font-size: 0.84rem; }
+ .quiz-reset { margin-top: 0.4rem; }
+
+ /* Listening actions */
+ .listen-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 1rem; }
+ .btn-mini {
+ display: inline-flex; align-items: center; gap: 0.45rem;
+ padding: 0.55rem 1.15rem; border-radius: 12px; font-weight: 700; font-size: 0.85rem;
+ border: 1.5px solid var(--lv-border); background: var(--lv-tint); color: var(--lv-accent);
+ cursor: pointer; transition: all 0.25s ease; font-family: inherit;
+ }
+ .btn-mini:hover { background: var(--lv-accent); color: #fff; transform: translateY(-2px); box-shadow: var(--lv-glow-s); }
+ .listen-note { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 1rem; line-height: 1.7; }
+ .listen-transcript.hidden { display: none; }
+ .listen-card .quiz-card { margin-top: 1.5rem; }
+
+ /* Reading */
+ .story-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2rem 2rem 1.5rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+ }
+ .story-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .story-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; }
+ .story-head .st-ic { font-size: 1.5rem; }
+ .story-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; }
+ .story-text { font-size: 1.02rem; line-height: 2; color: var(--text-muted); max-width: 760px; }
+ .story-text b { color: var(--lv-accent); font-weight: 600; }
+ .story-gloss { font-size: 0.8rem; color: var(--text-dim); margin-top: 1rem; border-top: 1px dashed var(--border); padding-top: 0.8rem; }
+ .story-gloss .kg { display: inline-block; background: var(--lv-tint); border: 1px solid var(--lv-border); color: var(--lv-accent); font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 30px; margin: 0.2rem 0.15rem 0; }
+ .story-questions, .listen-questions { list-style: none; margin-top: 1.2rem; display: grid; gap: 0.6rem; }
+ .story-questions li, .listen-questions li { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 12px; padding: 0.7rem 1rem; font-size: 0.9rem; color: var(--text-muted); }
+ .story-questions li b, .listen-questions li b { color: var(--lv-accent); }
+
+ /* Listening */
+ .listen-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2rem 2rem 1.5rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+ }
+ .listen-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .listen-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; }
+ .listen-head .ls-ic { font-size: 1.5rem; }
+ .listen-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; }
+ .listen-badge { margin-left: auto; font-size: 0.72rem; font-weight: 700; color: var(--lv-accent); background: var(--lv-tint); border: 1px solid var(--lv-border); padding: 0.35rem 0.8rem; border-radius: 30px; letter-spacing: 1px; white-space: nowrap; }
+ .listen-transcript { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem 1.6rem; font-size: 1.02rem; line-height: 2; color: var(--text-muted); }
+ .listen-transcript b { color: var(--lv-accent); font-weight: 600; }
+ .listen-glance { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+ .listen-glance span { font-size: 0.78rem; font-weight: 600; color: var(--lv-accent); background: var(--lv-tint); border: 1px solid var(--lv-border); padding: 0.3rem 0.8rem; border-radius: 30px; }
+
+ /* Photo gallery */
+ .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 3rem; }
+ .photo-card { position: relative; border-radius: 18px; overflow: hidden; height: 230px; cursor: pointer; }
+ a.photo-card { display: block; text-decoration: none; color: inherit; outline: none; }
+ a.photo-card:focus-visible { outline: 2px solid var(--lv-accent); outline-offset: 3px; }
+ .photo-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+ .photo-card:hover img { transform: scale(1.06); }
+ .photo-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(4, 6, 10, 0.92)); }
+ .photo-info { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.1rem; z-index: 2; }
+ .photo-info b { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 700; display: block; color: #FFFFFF; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); }
+ .photo-info span { font-size: 0.78rem; color: rgba(255, 255, 255, 0.8); text-shadow: 0 1px 5px rgba(0, 0, 0, 0.45); }
+
+ /* Tips */
+ .tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
+ .tip-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+ padding: 1.3rem; text-align: center; transition: all 0.3s ease;
+ }
+ .tip-card:hover { border-color: var(--lv-border); transform: translateY(-4px); box-shadow: var(--lv-glow-s); }
+ .tip-ic { font-size: 1.7rem; margin-bottom: 0.6rem; }
+ .tip-card b { font-family: 'Space Grotesk', sans-serif; font-size: 0.98rem; display: block; margin-bottom: 0.4rem; }
+ .tip-card p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+
+ /* Next level */
+ .next-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden; margin-top: 2rem;
+ }
+ .next-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--lv-grad); }
+ .next-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, var(--lv-tint), transparent 60%); pointer-events: none; }
+ .next-card > * { position: relative; z-index: 2; }
+ .next-icon { font-size: 2.6rem; margin-bottom: 1rem; }
+ .next-card .nk-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--lv-accent); margin-bottom: 0.5rem; }
+ .next-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+ .next-card p { color: var(--text-muted); font-size: 0.98rem; max-width: 620px; margin: 0 auto 1.6rem; }
+ .next-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 760px; margin: 0 auto 2rem; }
+ .next-step { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.1rem; text-align: center; transition: all 0.25s; }
+ .next-step:hover { border-color: var(--lv-border); transform: translateY(-3px); }
+ .next-step .ns-ic { font-size: 1.4rem; margin-bottom: 0.4rem; }
+ .next-step b { font-size: 0.9rem; display: block; margin-bottom: 0.3rem; }
+ .next-step span { font-size: 0.78rem; color: var(--text-muted); }
+
+ /* Career English bootcamp */
+ .bootcamp-card {
+ background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+ padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden; margin-top: 2rem;
+ }
+ .bootcamp-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, #F59E0B, #EF4444); }
+ .bootcamp-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.12), transparent 60%); pointer-events: none; }
+ .bootcamp-card > * { position: relative; z-index: 2; }
+ .bootcamp-icon { font-size: 2.6rem; margin-bottom: 1rem; }
+ .bootcamp-tag {
+ display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+ color: #F59E0B; margin-bottom: 0.5rem;
+ }
+ .bootcamp-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+ .bootcamp-card p { color: var(--text-muted); font-size: 0.98rem; max-width: 640px; margin: 0 auto 1.6rem; }
+ .bootcamp-feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 760px; margin: 0 auto 2rem; }
+ .bootcamp-feat { background: var(--bg-card-hover); border: 1px solid var(--border); border-radius: 16px; padding: 1.1rem; text-align: center; transition: all 0.25s; }
+ .bootcamp-feat:hover { border-color: rgba(245, 158, 11, 0.5); transform: translateY(-3px); }
+ .bootcamp-feat .bf-ic { font-size: 1.4rem; margin-bottom: 0.4rem; }
+ .bootcamp-feat b { font-size: 0.9rem; display: block; margin-bottom: 0.3rem; }
+ .bootcamp-feat span { font-size: 0.78rem; color: var(--text-muted); }
+ .bootcamp-cta {
+ display: inline-flex; align-items: center; gap: 0.5rem;
+ background: linear-gradient(135deg, #F59E0B, #EF4444); color: #fff;
+ padding: 1rem 2.2rem; border-radius: 14px; font-weight: 600; font-size: 1rem;
+ text-decoration: none; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4); transition: all 0.3s;
+ }
+ .bootcamp-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245, 158, 11, 0.6); }
+
+ .actions { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+
+ .cta-note { margin-top: 2rem; color: var(--text-dim); font-size: 0.95rem; text-align: center; }
+ .cta-note a { color: var(--lv-accent); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--lv-border); transition: color 0.3s; }
+ .cta-note a:hover { color: var(--primary-light); }
+
+ .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+ .reveal.visible { opacity: 1; transform: translateY(0); }
+
+ /* FOOTER */
+ footer { background: #08080D; border-top: 1px solid var(--border); padding: 4rem 2rem 2rem; }
+ .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+ .footer-bottom p { font-size: 0.82rem; color: var(--text-dim); }
+ .footer-social { display: flex; gap: 1rem; }
+ .footer-social a { width: 38px; height: 38px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-dim); text-decoration: none; transition: all 0.3s; font-size: 0.85rem; }
+ .footer-social a:hover { border-color: var(--primary); color: var(--text); }
+
+ @media (max-width: 1024px) {
+ .vocab-grid, .photo-grid, .tips-grid, .pron-grid { grid-template-columns: repeat(2, 1fr); }
+ }
+
+ @media (max-width: 768px) {
+ .grid-2, .topic-grid, .phrase-grid, .cando-grid, .speak-grid, .accent-tips { grid-template-columns: 1fr; }
+ .vocab-grid, .photo-grid, .tips-grid, .pron-grid { grid-template-columns: 1fr; }
+ .next-steps, .bootcamp-feats { grid-template-columns: 1fr; }
+ .hero-stats { gap: 1.5rem; }
+ .photo-banner { height: 240px; }
+ .q-opts { grid-template-columns: 1fr; }
+ .nav-links {
+ display: none;
+ position: fixed; top: 0; right: 0; width: 70%; height: 100vh;
+ background: rgba(10, 10, 15, 0.98);
+ flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+ transition: right 0.4s ease; z-index: 999;
+ }
+ [data-theme="light"] .nav-links { background: rgba(255, 255, 255, 0.98); }
+ .nav-links.active { display: flex; }
+ .hamburger { display: flex; position: relative; z-index: 1001; }
+ .nav-links .btn { padding: 0.6rem 1.3rem; }
+ }
+ </style>
+</head>
+<body class="page" id="page">
+
+<!-- NAV -->
+<nav id="navbar">
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <ul class="nav-links" id="navLinks">
+ <li><a href="../index.html">Home</a></li>
+ <li><a href="level.html">Levels</a></li>
+ <li><a href="test.html">Level Test</a></li>
+ <li><a href="test.html" class="btn btn-primary" style="padding: 0.5rem 1.2rem;">Take the Test</a></li>
+ </ul>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ <button class="hamburger" id="hamburger" aria-label="Menu">
+ <span></span><span></span><span></span>
+ </button>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+ <div class="hero-bg">
+ <div class="orb orb-1"></div>
+ <div class="orb orb-2"></div>
+ <div class="orb orb-3"></div>
+ <div class="hero-grid"></div>
+ </div>
+ <div class="hero-content">
+ <h1 class="reveal">Elementary</h1>
+ <div class="level-name reveal">Real conversations about your everyday life</div>
+ <p class="hero-sub reveal">Past events, plans, opinions and mini-chats — real grammar with real examples, the best everyday words, and phrases you can use today.</p>
+ <div class="hero-stats reveal">
+ <div class="hero-stat"><div class="number">2 of 6</div><div class="label">Level position</div></div>
+ <div class="hero-stat"><div class="number">1000–1400</div><div class="label">Words known</div></div>
+ <div class="hero-stat"><div class="number">Routines</div><div class="label">Converse with ease</div></div>
+ </div>
+ <div class="journey-line reveal"><div class="fill" style="width:33.3%;"></div></div>
+ <div class="journey-pips reveal">
+ <div class="pip done"><div class="cir"></div>A1</div>
+ <div class="pip on"><div class="cir"></div>A2</div>
+ <div class="pip"><div class="cir"></div>B1</div>
+ <div class="pip"><div class="cir"></div>B2</div>
+ <div class="pip"><div class="cir"></div>C1</div>
+ <div class="pip"><div class="cir"></div>C2</div>
+ </div>
+ <div class="actions reveal">
+ <a href="level-detail.html?level=B1" class="btn btn-primary btn-large">Next Level: B1 →</a>
+ <a href="a1.html" class="btn btn-outline btn-large">Back to A1</a>
+ </div>
+ </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🌿 Level Guide</div>
+ <h2 class="section-title">All About <span style="color:var(--lv-accent);">A2 Elementary</span></h2>
+ <p class="section-sub">Grammar with real examples, the best everyday words, useful dialogs and photos</p>
+ </div>
+
+ <div class="grid-2">
+ <div class="info-card reveal">
+ 
+ <div class="info-card-icon">🌿</div>
+  <h3>What makes A2 special?</h3>
+ <p>A2 is where English becomes <b>useful</b>. You start talking about your past (“Yesterday I…”), your plans (“I’m going to…”), your opinions and your health. You can shop, travel, order food and hold a real mini-conversation without panic.</p>
+ </div>
+ <div class="info-card reveal">
+ 
+ <div class="info-card-icon">💡</div>
+  <h3>Why is A2 worth it?</h3>
+ <p>A2 is the bridge between <b>surviving</b> and <b>thriving</b> in English. It gives you the past tense, the future, comparisons and thousands of everyday words — the exact tools you need before jumping into the intermediate level.</p>
+ </div>
+ </div>
+
+ <div class="photo-banner reveal">
+ <img src="https://picsum.photos/seed/a2-featured/1200/520" alt="Elementary learner enjoying day-to-day English" loading="lazy">
+ <div class="pb-text">
+ <b>This is where English feels easy </b>
+ <span>When you can talk about yesterday and plan tomorrow, you are officially on your way.</span>
+ </div>
+ </div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🧠 Grammar with examples</div>
+ <h2 class="section-title">12 Grammar Topics <span style="color:var(--lv-accent);">For Everyday Life</span></h2>
+ <p class="section-sub">The structures that unlock past, future, opinions and choices — each with real examples</p>
+ </div>
+ <div class="topic-grid" id="grammarGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🗣️ Speaking practice</div>
+ <h2 class="section-title">Speaking Tasks <span style="color:var(--lv-accent);">You Can Do Today</span></h2>
+ <p class="section-sub">Read the model answer, then say it about YOUR life — out loud</p>
+ </div>
+ <div class="speak-grid" id="speakGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🔊, Pronunciation & accent</div>
+ <h2 class="section-title">Sounds & Accent <span style="color:var(--lv-accent);">For Elementary</span></h2>
+ <p class="section-sub">Past-endings, tricky vowels and connected speech — with pairs to practice</p>
+ </div>
+ <div class="pron-grid" id="pronGrid"></div>
+ <ul class="accent-tips" id="accentTips"></ul>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 📖 Reading</div>
+ <h2 class="section-title">A Story <span style="color:var(--lv-accent);">For Your Level</span></h2>
+ <p class="section-sub">Read it slowly twice — then try to retell it in your own words</p>
+ </div>
+ <div class="story-card reveal" id="storyCard"></div>
+ <div class="quiz-card reveal" id="storyQuiz"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🎧 Listening</div>
+ <h2 class="section-title">Listen & Learn <span style="color:var(--lv-accent);">Grammar in Real Speech</span></h2>
+ <p class="section-sub">Press play, listen with your ears only, then answer the questions</p>
+ </div>
+ <div class="listen-card reveal" id="listenCard"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 📚 Vocabulary</div>
+ <h2 class="section-title">The Best <span style="color:var(--lv-accent);">Words</span> for Daily Life</h2>
+ <p class="section-sub">High-frequency words for work, travel, health, hobbies and feelings</p>
+ </div>
+ <div class="vocab-grid" id="vocabGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 💬 Everyday phrases</div>
+ <h2 class="section-title">Mini Dialogs <span style="color:var(--lv-accent);">For Real Situations</span></h2>
+ <p class="section-sub">Five real conversations — in a restaurant, a shop, the street, the doctor and the phone</p>
+ </div>
+ <div class="phrase-grid" id="phraseGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> ✅ Can-do statements</div>
+ <h2 class="section-title">What You Can Say <span style="color:var(--lv-accent);">At A2</span></h2>
+ <p class="section-sub">The six things every elementary learner should be able to do — with model sentences</p>
+ </div>
+ <div class="cando-grid" id="candoGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 🖼️ Photos</div>
+ <h2 class="section-title">A2 English <span style="color:var(--lv-accent);">In Real Life</span></h2>
+ <p class="section-sub">Everyday moments where elementary English opens doors for you</p>
+ </div>
+ <div class="photo-grid" id="photosGrid"></div>
+
+ <div class="section-head reveal">
+ <div class="section-eyebrow"><span class="line"></span> 💡 Study tips</div>
+ <h2 class="section-title">6 Tips to Move <span style="color:var(--lv-accent);">From A2 to B1</span></h2>
+ <p class="section-sub">Daily habits that push you into the intermediate level</p>
+ </div>
+ <div class="tips-grid" id="tipsGrid"></div>
+
+ <div class="bootcamp-card reveal">
+ <div class="bootcamp-icon">💼</div>
+ <div class="bootcamp-tag">Career English Bootcamp</div>
+ <h3>Your English, Your Future Job</h3>
+ <p>One structured program that turns the English you learn here into real career skills — interviews, CVs, workplace English, and clear professional communication.</p>
+ <div class="bootcamp-feats">
+ <div class="bootcamp-feat"><div class="bf-ic">🗣️</div><b>Job Interviews</b><span>Answer confidently in clear English</span></div>
+ <div class="bootcamp-feat"><div class="bf-ic">✍️</div><b>CV & Emails</b><span>Write strong professional documents</span></div>
+ <div class="bootcamp-feat"><div class="bf-ic">🤝</div><b>Workplace English</b><span>Meetings, calls and everyday work talk</span></div>
+ </div>
+ <div class="actions">
+ <a href="../index.html#pricing" class="btn bootcamp-cta">Explore The Bootcamp →</a>
+ <a href="test.html" class="btn btn-outline btn-large">Take the Free Test</a>
+ </div>
+ </div>
+
+ <div class="next-card reveal">
+ 
+ <div class="next-icon">🎯</div>
+  <div class="nk-label">Next Level</div>
+ <h3>B1 Intermediate</h3>
+ <p>B1 is coming soon — but you can already explore the full level guide and keep your English climbing.</p>
+ <div class="next-steps">
+ <div class="next-step"><div class="ns-ic">🗣️</div><b>Speak in detail</b><span>Describe experiences, opinions and plans</span></div>
+ <div class="next-step"><div class="ns-ic">📻</div><b>Follow real media</b><span>Radio, TV and travel situations</span></div>
+ <div class="next-step"><div class="ns-ic">✍️</div><b>Write more</b><span>Short essays and emails in English</span></div>
+ </div>
+ <div class="actions">
+ <a href="level-detail.html?level=B1" class="btn btn-primary btn-large">Explore B1 →</a>
+ <a href="test.html" class="btn btn-outline btn-large">Take the Free Test</a>
+ </div>
+ </div>
+
+ <p class="cta-note reveal">Not sure of your level? <a href="test.html">Take the Chango level test</a> — it takes about 5 minutes.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+ <div class="footer-bottom">
+ <p>© 2026 Chango. Learn English for the real world.</p>
+ <div class="footer-social">
+ <a href="../index.html" title="Home"></a>
+ <a href="level.html" title="Levels"></a>
+ <a href="test.html" title="Take the test"></a>
+ </div>
+ </div>
+</footer>
+
+<script>
+ var TOPICS = [
+ { t: 'Past Simple', note: 'Talk about finished actions in the past. Regular verbs add -ed; common verbs are irregular.', ex: [
+ { en: 'I visited my grandmother yesterday.', me: 'زرت جدتي أمس.' },
+ { en: 'She bought a new dress last week.', me: 'اشترت فستاناً جديداً الأسبوع الماضي.' },
+ { en: 'We didn’t go out because it rained.', me: 'لم نخرج لأنها أمطرت.' }, { en: 'They went to the cinema last night.', me: 'ذهبوا إلى السينما الليلة الماضية.' } ] },
+ { t: 'going to / will', note: 'Plan the future: going to for plans, will for predictions and quick decisions.', ex: [
+ { en: 'I’m going to travel to London next month.', me: 'سأسافر إلى لندن الشهر القادم.' },
+ { en: 'It will rain tomorrow. Take an umbrella.', me: 'ستمطر غداً، خذ مظلة.' },
+ { en: 'We are going to have a meeting at nine.', me: 'سيكون لدينا اجتماع في التاسعة.' }, { en: 'Are you going to come to the party?', me: 'هل ستأتي إلى الحفلة؟' } ] },
+ { t: 'Comparatives & superlatives', note: 'Compare two things (bigger, easier) and three or more (the best, the biggest).', ex: [
+ { en: 'My car is bigger than yours.', me: 'سيارتي أكبر من سيارتك.' },
+ { en: 'This is the best restaurant in town.', me: 'هذا أفضل مطعم في المدينة.' },
+ { en: 'English is easier than Japanese for me.', me: 'الإنجليزية أسهل من اليابانية بالنسبة لي.' }, { en: 'This phone is more expensive than mine.', me: 'هذا الهاتف أغلى من هاتفي.' } ] },
+ { t: 'Present perfect (just / already / yet)', note: 'Connect the past with now: recent actions and life experiences.', ex: [
+ { en: 'I’ve just finished my homework.', me: 'لقد أنهيت واجبي للتو.' },
+ { en: 'We have already booked the hotel.', me: 'لقد حجزنا الفندق بالفعل.' },
+ { en: 'Have you ever been to Cairo?', me: 'هل سبق لك الذهاب إلى القاهرة؟' }, { en: 'She hasn’t finished her homework yet.', me: 'لم تنهِ واجبها بعد.' } ] },
+ { t: 'some / any / much / many', note: 'Talk about amounts: some for positive, any for negative and questions.', ex: [
+ { en: 'I need some sugar for the tea.', me: 'أحتاج بعض السكر للشاي.' },
+ { en: 'There aren’t any eggs in the fridge.', me: 'لا توجد أي بيض في الثلاجة.' },
+ { en: 'How much does this cost?', me: 'كم تبلغ تكلفة هذا؟' }, { en: 'Do you have any questions?', me: 'هل لديك أي أسئلة؟' } ] },
+ { t: 'Adverbs of frequency', note: 'always, usually, often, sometimes, never — say how often you do things.', ex: [
+ { en: 'I always drink tea in the morning.', me: 'أشرب الشاي دائماً في الصباح.' },
+ { en: 'She sometimes walks to work.', me: 'أحياناً تمشي إلى العمل.' },
+ { en: 'We never eat fast food.', me: 'لا نأكل الوجبات السريعة أبداً.' }, { en: 'He usually takes the bus to work.', me: 'عادة ما يأخذ الحافلة إلى العمل.' } ] },
+ { t: 'Modals: should / must / have to', note: 'Give advice, express obligation and rules.', ex: [
+ { en: 'You should rest when you are tired.', me: 'يجب أن ترتاح عندما تكون متعباً.' },
+ { en: 'I have to finish this report by Friday.', me: 'يجب أن أنهي هذا التقرير بحلول الجمعة.' },
+ { en: 'You must turn off your phone here.', me: 'يجب عليك إيقاف هاتفك هنا.' }, { en: 'You shouldn’t eat too much sugar.', me: 'لا يجب أن تأكل الكثير من السكر.' } ] },
+ { t: 'Prepositions of time', note: 'in for longer periods, on for days, at for exact times.', ex: [
+ { en: 'The class starts at five o’clock.', me: 'يبدأ الدرس في الخامسة.' },
+ { en: 'I relax on weekends.', me: 'أرتاح في عطلة نهاية الأسبوع.' },
+ { en: 'The shop closes in the evening.', me: 'يغلق المتجر في المساء.' }, { en: 'We met on a cold January morning.', me: 'التقينا في صباح بارد من يناير.' } ] },
+ { t: 'Conjunctions: and / but / so / because', note: 'Join ideas and explain the reason or the result.', ex: [
+ { en: 'I was tired, so I went to bed early.', me: 'كنت متعباً، لذا نمت مبكراً.' },
+ { en: 'She is smart and hard-working.', me: 'إنها ذكية ومجتهدة.' },
+ { en: 'He stayed home because it was raining.', me: 'بقي في المنزل لأنها كانت تمطر.' }, { en: 'She studied hard, but she didn’t pass.', me: 'درست بجد لكنها لم تنجح.' } ] },
+ { t: 'Countable & uncountable nouns', note: 'Some things you count (apples), some you don’t (milk, time, water).', ex: [
+ { en: 'I have two apples and some bread.', me: 'لدي تفاحتان وبعض الخبز.' },
+ { en: 'There is little time. Hurry up!', me: 'لدينا وقت قليل، أسرع!' },
+ { en: 'Can I have some water?', me: 'هل يمكنني الحصول على بعض الماء؟' }, { en: 'I bought two loaves of bread.', me: 'اشتريت رغيفين من الخبز.' } ] },
+ { t: 'whose & possessive pronouns', note: 'mine, yours, his, hers, ours, theirs — and whose for asking.', ex: [
+ { en: 'Whose bag is this? — It’s mine.', me: 'لمن هذه الحقيبة؟ — إنها لي.' },
+ { en: 'Our flat is smaller than theirs.', me: 'شقتنا أصغر من شقتهم.' }, { en: 'Whose car is parked outside?', me: 'لمن هذه السيارة المتوقفة بالخارج؟' }, { en: 'This book is mine, not yours.', me: 'هذا الكتاب لي وليس لك.' } ] },
+ { t: 'Relative clauses (basics)', note: 'Add information with who (people) and that / which (things).', ex: [
+ { en: 'The man who lives next door is a doctor.', me: 'الرجل الذي يسكن بجوارنا طبيب.' },
+ { en: 'The book that I borrowed is interesting.', me: 'الكتاب الذي استعرته ممتع.' }, { en: 'That is the shop where we met.', me: 'تلك هي المحل الذي التقينا فيه.' }, { en: 'The woman who lives upstairs is a nurse.', me: 'المرأة التي تسكن في الطابق العلوي ممرضة.' } ] }
+ ];
+
+ var VOCAB = [
+ { g: 'Work & study', words: [
+ { w: 'job', ex: 'She found a new job.' },
+ { w: 'meeting', ex: 'The meeting starts at ten.' },
+ { w: 'homework', ex: 'I did my homework last night.' },
+ { w: 'exam', ex: 'I have an English exam on Friday.' },
+ { w: 'salary', ex: 'My salary is paid monthly.' } ] },
+ { g: 'Travel', words: [
+ { w: 'ticket', ex: 'I bought a ticket for the train.' },
+ { w: 'bag', ex: 'My bag is very heavy.' },
+ { w: 'airport', ex: 'We arrived at the airport on time.' },
+ { w: 'hotel', ex: 'The hotel has a swimming pool.' },
+ { w: 'passport', ex: 'Don’t forget your passport!' } ] },
+ { g: 'Health', words: [
+ { w: 'doctor', ex: 'You should see a doctor.' },
+ { w: 'medicine', ex: 'Take this medicine twice a day.' },
+ { w: 'healthy', ex: 'Fruit keeps you healthy.' },
+ { w: 'headache', ex: 'I have a bad headache.' },
+ { w: 'rest', ex: 'Get some rest and drink water.' } ] },
+ { g: 'Hobbies & fun', words: [
+ { w: 'movie', ex: 'We watched a funny movie.' },
+ { w: 'music', ex: 'I listen to music every day.' },
+ { w: 'football', ex: 'He plays football on Fridays.' },
+ { w: 'painting', ex: 'Painting is a great hobby.' },
+ { w: 'cooking', ex: 'I love cooking pasta.' } ] },
+ { g: 'Feelings', words: [
+ { w: 'excited', ex: 'I am excited about the trip.' },
+ { w: 'nervous', ex: 'She felt nervous before the exam.' },
+ { w: 'proud', ex: 'I am so proud of you.' },
+ { w: 'bored', ex: 'I am bored. Let’s do something.' },
+ { w: 'worried', ex: 'Don’t be worried; everything is fine.' } ] }
+ ];
+
+ var PHRASES = [
+ { t: 'At a restaurant', lines: [
+ { p: 'A', t: 'Could I see the menu, please?' },
+ { p: 'B', t: 'Of course. Would you like something to drink?' },
+ { p: 'A', t: 'Yes, some orange juice, please.' },
+ { p: 'B', t: 'Great. I’ll bring it right away.' } ] },
+ { t: 'Shopping for clothes', lines: [
+ { p: 'A', t: 'Excuse me, can I try this on?' },
+ { p: 'B', t: 'Sure, the changing room is over there.' },
+ { p: 'A', t: 'Do you have it in a smaller size?' },
+ { p: 'B', t: 'Let me check for you.' } ] },
+ { t: 'Giving directions', lines: [
+ { p: 'A', t: 'Excuse me, how do I get to the station?' },
+ { p: 'B', t: 'Go straight, then turn left at the bank.' },
+ { p: 'A', t: 'Is it far from here?' },
+ { p: 'B', t: 'No, it takes about five minutes on foot.' },
+ { p: 'A', t: 'Thank you so much!' } ] },
+ { t: 'At the doctor', lines: [
+ { p: 'A', t: 'Good morning. Where does it hurt?' },
+ { p: 'B', t: 'I have a headache and a sore throat.' },
+ { p: 'A', t: 'How long have you felt like this?' },
+ { p: 'B', t: 'Since yesterday morning.' },
+ { p: 'A', t: 'Take this medicine and rest for two days.' } ] },
+ { t: 'On the phone', lines: [
+ { p: 'A', t: 'Hello, could I speak to Mr Ali, please?' },
+ { p: 'B', t: 'I’m sorry, he’s in a meeting right now.' },
+ { p: 'A', t: 'Could you tell him Sara called?' },
+ { p: 'B', t: 'Of course. I’ll give him the message.' } ] }
+ ];
+
+ var CANDO = [
+ { t: 'Talk about the past', en: 'Last summer I went to the beach with my family.', me: 'الصيف الماضي ذهبت إلى الشاطئ مع عائلتي.' },
+ { t: 'Make plans', en: 'I’m going to start a new job in October.', me: 'سأبدأ عملاً جديداً في أكتوبر.' },
+ { t: 'Give opinions', en: 'I think this movie is fantastic. You should watch it.', me: 'أعتقد أن هذا الفيلم رائع، يجب أن تشاهده.' },
+ { t: 'Make suggestions', en: 'Why don’t we go for a walk? — Good idea!', me: 'لماذا لا نذهب في نزهة؟ — فكرة جيدة!' },
+ { t: 'Ask for and give directions', en: 'Excuse me, where is the nearest bank? — It’s two streets away.', me: 'عذراً، أين أقرب بنك؟ — يبعد شارعين.' },
+ { t: 'Talk about health', en: 'I feel much better today, thank you.', me: 'أشعر بتحسن كبير اليوم، شكراً لك.' }
+ ];
+
+ var PHOTOS = [
+ { seed: 'a2-restaurant', cap: 'Order a meal like a local', note: '“Could I see the menu, please?”' },
+ { seed: 'a2-travel', cap: 'Travel with confidence', note: 'Tickets, hotels and airports' },
+ { seed: 'a2-directions', cap: 'Never get lost again', note: '“Turn left at the bank”' },
+ { seed: 'a2-past', cap: 'Share your memories', note: '“Last summer I went…”' },
+ { seed: 'a2-job', cap: 'Grow at work', note: 'Meetings, emails and interviews' },
+ { seed: 'a2-friends', cap: 'Make plans with friends', note: '“Let’s… / Why don’t we…”' }
+ ];
+
+ var TIPS = [
+ { t: 'Write a short paragraph daily', p: 'Describe your day, your plans, or your favourite film in 4–5 sentences.' },
+ { t: 'Watch series with English subtitles', p: 'Start with content you already know — it trains your ear naturally.' },
+ { t: 'Keep a vocabulary notebook', p: 'Write new words in full sentences, not alone, and review them weekly.' },
+ { t: 'Speak 15 minutes a day', p: 'Use a language partner or talk to yourself out loud — every day counts.' },
+ { t: 'Learn phrases, not words', p: 'Learn “I’m looking for…” instead of just “look”. Phrases stick better.' },
+ { t: 'Use new words the same day', p: 'Use each new word in 3 sentences of your own before the day ends.' }
+ ];
+
+ var SPEAKING = [
+ { t: 'Talk about your weekend', prompt: 'Say two things you did last weekend.', model: 'Last weekend I visited my grandmother. We had lunch together, then I watched a movie.', me: 'في نهاية الأسبوع الماضية زرت جدتي. تناولنا الغداء معاً ثم شاهدت فيلماً.' },
+ { t: 'Talk about your plans', prompt: 'Say one plan and one prediction.', model: 'I’m going to start a new job next month. I will buy a new phone too.', me: 'سأبدأ عملاً جديداً الشهر القادم. سأشتري هاتفاً جديداً أيضاً.' },
+ { t: 'Give your opinion', prompt: 'Opinion + reason about a film, food or a place.', model: 'I think this film is great. The actors are very good, and the story is interesting.', me: 'أعتقد أن هذا الفيلم رائع. الممثلون جيدون جداً والقصة مثيرة.' },
+ { t: 'Talk about your health', prompt: 'Say what happened and how you feel now.', model: 'I had a headache yesterday, but today I feel much better.', me: 'كان عندي صداع أمس، لكنني اليوم أشعر بتحسن كبير.' },
+ { t: 'Make suggestions', prompt: 'Suggest an idea and react to a friend’s idea.', model: 'Why don’t we go to the beach on Friday? — That sounds great!', me: 'لماذا لا نذهب إلى الشاطئ يوم الجمعة؟ — تبدو فكرة رائعة!' }
+ ];
+
+ var SOUNDS = [
+ { s: '-ed endings', read: 'walked, played, wanted — three past endings', w: [
+ { w: 'walked', p: 'مشى' }, { w: 'played', p: 'لعب' }, { w: 'wanted', p: 'أراد' } ],
+ tip: 'After k, p, s, sh → /t/. After vowels, m, n, g, l → /d/. After t and d → /ɪd/.',
+ pairs: [ [{ w: 'walked', p: 'مشى' }, { w: 'worked', p: 'عمل' }], [{ w: 'played', p: 'لعب' }, { w: 'lived', p: 'عاش' }], [{ w: 'wanted', p: 'أراد' }, { w: 'needed', p: 'احتاج' }] ] },
+ { s: '/æ/ vs /e/', read: 'bad versus bed — the a sound and the e sound', w: [
+ { w: 'bad', p: 'سيء' }, { w: 'bed', p: 'سرير' }, { w: 'man', p: 'رجل' } ],
+ tip: '/æ/ is wide and long; /e/ is short and relaxed.',
+ pairs: [ [{ w: 'bad', p: 'سيء' }, { w: 'bed', p: 'سرير' }], [{ w: 'man', p: 'رجل' }, { w: 'men', p: 'رجال' }], [{ w: 'hand', p: 'يد' }, { w: 'hen', p: 'دجاجة' }] ] },
+ { s: '/θ/ vs /ð/', read: 'think versus this — two th sounds', w: [
+ { w: 'think', p: 'يفكر' }, { w: 'three', p: 'ثلاثة' }, { w: 'this', p: 'هذا' } ],
+ tip: 'Tongue between the teeth. /θ/ blows air, /ð/ vibrates.',
+ pairs: [ [{ w: 'think', p: 'يفكر' }, { w: 'sink', p: 'مغسلة' }], [{ w: 'three', p: 'ثلاثة' }, { w: 'tree', p: 'شجرة' }], [{ w: 'this', p: 'هذا' }, { w: 'zip', p: 'سحاب' }] ] },
+ { s: 'plural -s/-es', read: 'books, bags, classes — three plural endings', w: [
+ { w: 'books', p: 'كتب' }, { w: 'bags', p: 'حقائب' }, { w: 'classes', p: 'فصول' } ],
+ tip: 'Plural endings follow the same sound rule as -ed.',
+ pairs: [ [{ w: 'books', p: 'كتب' }, { w: 'bags', p: 'حقائب' }], [{ w: 'cats', p: 'قطط' }, { w: 'dogs', p: 'كلاب' }], [{ w: 'classes', p: 'فصول' }, { w: 'houses', p: 'منازل' }] ] },
+ { s: 'connected speech', read: 'wanna, gonna, gotta — connected speech', w: [
+ { w: 'wanna', p: 'أريد أن' }, { w: 'gonna', p: 'سوف' }, { w: 'gotta', p: 'يجب أن' } ],
+ tip: 'Native speakers join words. These are casual, natural forms heard in fast speech.',
+ pairs: [ [{ w: 'gonna', p: 'سوف' }, { w: 'going to', p: 'سوف (رسمية)' }], [{ w: 'wanna', p: 'أريد أن' }, { w: 'want to', p: 'تريد أن (رسمية)' }], [{ w: 'gotta', p: 'يجب أن' }, { w: 'have to', p: 'يجب أن (رسمية)' }] ] },
+ { s: 'word stress', read: 'computer, hotel, direction — word stress', w: [
+ { w: 'computer', p: 'حاسوب' }, { w: 'direction', p: 'اتجاه' }, { w: 'hotel', p: 'فندق' } ],
+ tip: 'One syllable is loud and long; the others are soft and quick.',
+ pairs: [ [{ w: 'computer', p: 'حاسوب' }, { w: 'hotel', p: 'فندق' }], [{ w: 'direction', p: 'اتجاه' }, { w: 'apartment', p: 'شقة' }] ] }
+ ];
+
+ var ACCENT = [
+ 'English is stress-timed: strong words are loud, small words are soft. “I WENT to the STORE.”',
+ 'Tag questions go UP: “It’s a nice day, isn’t it?”',
+ 'Vowel length matters — “ship” (short) and “sheep” (long) are different words!',
+ 'Shadowing: copy a short scene from a series — same speed, same intonation.'
+ ];
+
+ var STORY = {
+ title: 'The Lost Key',
+ para: '<b>Mark lost his keys</b> yesterday afternoon. He was at the office all morning, and at five o’clock he went to the café. He had a coffee and some cake. Then he walked home.<br><br>But at home, the <b>door was locked</b>. He looked <b>in his bag</b>. No keys! He was tired and worried.<br><br>“So where are my keys?” he thought. Suddenly, he remembered. He <b>left them on the table</b>!<br><br>He ran back to the café. The <b>waiter</b> was friendly and helpful. “<b>These are your keys, right?</b>” he asked.<br>“Yes! <b>Thank you so much</b>!” Mark was very happy.<br><br>Now Mark always puts his keys <b>in his pocket</b>. Lesson learned!',
+ words: ['keys', 'café', 'locked', 'bag', 'waiter', 'pocket', 'helpful', 'right?'],
+ note: 'Grammar in this story: the past simple (lost, went, had, ran, left), some / a / an, and prepositions of time and place (at five o’clock, in his bag, on the table).',
+ qa: [['When did Mark lose his keys?', 'Yesterday afternoon.'], ['What did he have at the café?', 'A coffee and some cake.'], ['Where were his keys?', 'On the café table.'], ['Where does Mark keep his keys now?', 'In his pocket.']]
+ };
+
+ var LISTEN = {
+ title: 'A Trip to London',
+ trans: 'Last week I <b>went to London</b> with my sister. We <b>flew</b> on Friday morning. The flight was three hours long. When we arrived, <b>the weather was better than I expected</b> — sunny and warm!<br><br>We stayed in a small hotel near the river. On Saturday, we <b>visited the Tower Bridge</b> and <b>took a boat trip</b>. My sister took many photos.<br><br>Tomorrow we <b>are going to return</b> home. I <b>should buy</b> some presents for my parents. The shops are expensive, so I <b>will look</b> for <b>cheaper</b> gifts.<br><br>I think London is <b>the best city</b> I have seen!',
+ glance: ['Past simple: went, flew, arrived, stayed, took, visited', 'Comparatives & superlatives: better, cheaper, the best', 'Future: are going to return, will look', 'Modal: should buy'],
+ qa: [['When did they fly to London?', 'On Friday morning.'], ['How was the weather?', 'Sunny and warm — better than expected.'], ['What did they do on Saturday?', 'Visited the Tower Bridge and took a boat trip.'], ['What should the speaker buy?', 'Some presents for his parents.']]
+ };
+
+ var QUIZ_STORY = [
+ { q: 'When did Mark lose his keys?', opts: ['This morning', 'Yesterday afternoon', 'Last night'], a: 1 },
+ { q: 'What did he have at the café?', opts: ['A sandwich and tea', 'A coffee and some cake', 'Only coffee'], a: 1 },
+ { q: 'Where were his keys?', opts: ['In his bag', 'On the café table', 'At the office'], a: 1 },
+ { q: 'Where does Mark keep his keys now?', opts: ['In his pocket', 'On the table', 'With the waiter'], a: 0 }
+ ];
+
+ var QUIZ_LISTEN = [
+ { q: 'When did they fly to London?', opts: ['On Saturday evening', 'On Friday morning', 'On Thursday night'], a: 1 },
+ { q: 'How was the weather?', opts: ['Cold and rainy', 'Windy and cloudy', 'Sunny and warm'], a: 2 },
+ { q: 'What did they do on Saturday?', opts: ['Visited the museum', 'Went shopping all day', 'Visited the Tower Bridge and took a boat trip'], a: 2 },
+ { q: 'What should the speaker buy?', opts: ['New clothes', 'A boat ticket', 'Presents for his parents'], a: 2 }
+ ];
+
+ function renderSpeaking() {
+ var el = document.getElementById('speakGrid');
+ el.innerHTML = SPEAKING.map(function (sp, i) {
+ return '<div class="speak-card"><div class="speak-num">' + (i + 1) + '</div><div class="speak-head"><span class="s-ic">🗣️</span><h3>' + sp.t + '</h3></div><p class="speak-prompt">' + sp.prompt + '</p><div class="model-box"><div class="ml">Model answer</div><div class="en">' + sp.model + '</div><div class="me">' + sp.me + '</div></div></div>';
+ }).join('');
+ }
+
+ function renderSounds() {
+ var el = document.getElementById('pronGrid');
+ el.innerHTML = SOUNDS.map(function (s) {
+ var pills = s.w.map(function (wd) {
+ return '<span class="word-pill"><button type="button" class="spk" onclick="speak(\'' + wd.w + '\')">🔊</button> ' + wd.w + '<span class="pm">' + wd.p + '</span></span>';
+ }).join('');
+ var pairs = s.pairs.map(function (pr) {
+ return '<div class="pair"><span class="pw">' + pr[0].w + ' <button type="button" class="spk" onclick="speak(\'' + pr[0].w + '\')">🔊</button> <em>' + pr[0].p + '</em></span><span class="vs">vs</span><span class="pw">' + pr[1].w + ' <button type="button" class="spk" onclick="speak(\'' + pr[1].w + '\')">🔊</button> <em>' + pr[1].p + '</em></span></div>';
+ }).join('');
+ return '<div class="sound-card"><div class="sound-phone-row"><span class="sound-phone">' + s.s + '</span><button type="button" class="spk" onclick="speak(\'' + s.read + '\')">🔊</button></div><div class="sound-w">' + pills + '</div><p>' + s.tip + '</p>' + pairs + '</div>';
+ }).join('');
+ var tips = document.getElementById('accentTips');
+ tips.innerHTML = ACCENT.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+ }
+
+ function renderStory() {
+ var el = document.getElementById('storyCard');
+ var chips = STORY.words.map(function (w) { return '<span class="kg">' + w + '</span>'; }).join('');
+ el.innerHTML = '<div class="story-head"><span class="st-ic">📖</span><h3>' + STORY.title + '</h3></div><div class="story-text">' + STORY.para + '</div><div class="story-gloss"><b>Story words to learn:</b><div>' + chips + '</div><div style="margin-top:0.6rem;">' + STORY.note + '</div></div>';
+ }
+
+ function renderListen() {
+ var el = document.getElementById('listenCard');
+ if (!el) return;
+ var glance = LISTEN.glance.map(function (g) { return '<span>' + g + '</span>'; }).join('');
+ el.innerHTML = '<div class="listen-head"><span class="ls-ic">🎧</span><h3>' + LISTEN.title + '</h3><span class="listen-badge">LISTENING TEST</span></div>'
+ + '<div class="listen-actions"><button type="button" class="btn-mini" onclick="playListen(this)">🔊 Play audio</button><button type="button" class="btn-mini" onclick="stopSpeak(this)">⏹ Stop</button><button type="button" class="btn-mini" onclick="toggleTranscript(this)">Show text</button></div>'
+ + '<p class="listen-note">The text is hidden on purpose. Play the audio and try to understand it with your ears only — then answer the questions below. When you finish, you can check the text.</p>'
+ + '<div class="listen-transcript hidden" id="listenTrans">' + LISTEN.trans + '</div>'
+ + '<div class="listen-glance">' + glance + '</div>'
+ + '<div class="quiz-card" id="listenQuiz"></div>';
+ renderQuiz('listenQuiz', QUIZ_LISTEN, 'listenScore');
+ }
+
+ function pickVoice() {
+ try {
+ var voices = window.speechSynthesis.getVoices();
+ var prefs = ['Google US English', 'Microsoft David - English (United States)', 'Microsoft Mark - English (United States)', 'Microsoft Zira - English (United States)', 'Samantha', 'Microsoft Aria - English (United States)', 'Microsoft Jenny - English (United States)', 'Microsoft Guy - English (United States)', 'Google UK English Female', 'Google UK English Male'];
+ for (var i = 0; i < prefs.length; i++) {
+ for (var j = 0; j < voices.length; j++) {
+ if (voices[j].name === prefs[i]) return voices[j];
+ }
+ }
+ for (var k = 0; k < voices.length; k++) {
+ if ((voices[k].lang || '').toLowerCase().indexOf('en-us') === 0) return voices[k];
+ }
+ for (var m = 0; m < voices.length; m++) {
+ if ((voices[m].lang || '').toLowerCase().indexOf('en') === 0) return voices[m];
+ }
+ } catch (e) {}
+ return null;
+ }
+
+ function resetBusyButtons() {
+ var btns = document.querySelectorAll('button[data-playing]');
+ for (var i = 0; i < btns.length; i++) {
+ var label = btns[i].getAttribute('data-playing');
+ btns[i].textContent = label;
+ btns[i].removeAttribute('data-playing');
+ btns[i].disabled = false;
+ }
+ }
+
+ function stopSpeak(btn) {
+ try { if ('speechSynthesis' in window && window.speechSynthesis.cancel) window.speechSynthesis.cancel(); } catch (e) {}
+ resetBusyButtons();
+ }
+
+ function speak(text, after) {
+ try {
+ if (!('speechSynthesis' in window)) { alert('Your browser does not support text-to-speech. Try Chrome, Edge or Safari.'); return; }
+ resetBusyButtons();
+ window.speechSynthesis.cancel();
+ var u = new SpeechSynthesisUtterance(text);
+ u.lang = 'en-US';
+ u.rate = 0.9;
+ var v = pickVoice();
+ if (v) u.voice = v;
+ u.onend = function () { if (after) after(); };
+ u.onerror = function () { if (after) after(); };
+ window.speechSynthesis.speak(u);
+ } catch (e) { resetBusyButtons(); if (after) after(); }
+ }
+
+ function playListen(btn) {
+ if (btn.getAttribute('data-playing') !== null) { stopSpeak(); return; }
+ var text = LISTEN.trans.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+ var old = btn.textContent;
+ btn.setAttribute('data-playing', old);
+ btn.textContent = '⏸ Playing…';
+ btn.disabled = true;
+ speak(text, function () {
+ var label = btn.getAttribute('data-playing');
+ if (label !== null) {
+ btn.textContent = label;
+ btn.removeAttribute('data-playing');
+ btn.disabled = false;
+ }
+ });
+ }
+
+ function toggleTranscript(btn) {
+ var t = document.getElementById('listenTrans');
+ if (!t) return;
+ var isHidden = t.classList.contains('hidden');
+ t.classList.toggle('hidden');
+ btn.textContent = isHidden ? 'Hide text' : 'Show text';
+ }
+
+ var PRAISE = ['Excellent! Correct!', 'Amazing — that’s right!', 'Well done!', 'Perfect answer!', 'Exactly right!'];
+
+ function renderQuiz(cid, list, sid) {
+ var el = document.getElementById(cid);
+ if (!el) return;
+ window.QUIZZES = window.QUIZZES || {};
+ window.QUIZZES[cid] = { list: list, score: 0, used: {}, sid: sid };
+ var qs = list.map(function (qi, i) {
+ var opts = qi.opts.map(function (o, oi) {
+ return '<button type="button" class="q-opt" onclick="answerQuiz(\'' + cid + '\',' + i + ',' + oi + ',this)"><span class="q-let">' + String.fromCharCode(65 + oi) + '</span>' + o + '</button>';
+ }).join('');
+ return '<div class="q-block" id="' + cid + '-q' + i + '"><div class="q-text">' + (i + 1) + '. ' + qi.q + '</div><div class="q-opts">' + opts + '</div><div class="q-fb"></div></div>';
+ }).join('');
+ el.innerHTML = '<div class="quiz-toolbar"><span style="font-size:1.15rem;"></span><b>Check your understanding</b><span class="quiz-score" id="' + sid + '">Score: 0 / ' + list.length + '</span></div>' + qs + '<button type="button" class="btn-mini quiz-reset" onclick="resetQuiz(\'' + cid + '\',\'' + sid + '\')">↺ Try again</button>';
+ }
+
+ function answerQuiz(cid, qi, oi, btn) {
+ var quiz = window.QUIZZES && window.QUIZZES[cid];
+ if (!quiz) return;
+ var key = 'q' + qi;
+ if (quiz.used[key]) return;
+ var q = quiz.list[qi];
+ var btns = btn.parentNode.querySelectorAll('.q-opt');
+ var fbs = document.getElementById(cid + '-q' + qi).querySelector('.q-fb');
+ for (var i = 0; i < btns.length; i++) {
+ btns[i].classList.add('locked');
+ if (i === q.a) btns[i].classList.add('ok');
+ else if (i === oi) btns[i].classList.add('bad');
+ }
+ if (oi === q.a) {
+ quiz.score++;
+ fbs.textContent = PRAISE[Math.floor(Math.random() * PRAISE.length)];
+ fbs.className = 'q-fb good';
+ } else {
+ fbs.textContent = 'Not quite — the correct answer is ' + String.fromCharCode(65 + q.a) + ': ' + q.opts[q.a];
+ fbs.className = 'q-fb bad-fb';
+ }
+ quiz.used[key] = true;
+ var scoreEl = document.getElementById(quiz.sid);
+ if (scoreEl) scoreEl.textContent = 'Score: ' + quiz.score + ' / ' + quiz.list.length;
+ if (Object.keys(quiz.used).length === quiz.list.length) {
+ var msg = quiz.score === quiz.list.length
+ ? '🏆 Perfect! ' + quiz.score + ' / ' + quiz.list.length + ' — amazing job!'
+ : 'You finished! Score: ' + quiz.score + ' / ' + quiz.list.length + '. Tap “Try again” to improve.';
+ setTimeout(function () { alert(msg); }, 250);
+ }
+ }
+
+ function resetQuiz(cid, sid) {
+ var quiz = window.QUIZZES && window.QUIZZES[cid];
+ if (!quiz) return;
+ quiz.score = 0;
+ quiz.used = {};
+ var els = document.querySelectorAll('#' + cid + ' .q-opt');
+ for (var i = 0; i < els.length; i++) els[i].classList.remove('ok', 'bad', 'locked');
+ var fbs = document.querySelectorAll('#' + cid + ' .q-fb');
+ for (var j = 0; j < fbs.length; j++) { fbs[j].textContent = ''; fbs[j].className = 'q-fb'; }
+ var scoreEl = document.getElementById(sid);
+ if (scoreEl) scoreEl.textContent = 'Score: 0 / ' + quiz.list.length;
+ }
+
+ function renderTopics() {
+ var el = document.getElementById('grammarGrid');
+ el.innerHTML = TOPICS.map(function (t) {
+ var exs = t.ex.map(function (e) {
+ return '<div class="example-box"><div class="en">' + e.en + '</div><div class="mean">' + e.me + '</div></div>';
+ }).join('');
+ return '<div class="topic-card"><div class="topic-head"><span class="t-ic">🧠</span><h3>' + t.t + '</h3></div><p class="topic-note">' + t.note + '</p>' + exs + '</div>';
+ }).join('');
+ }
+
+ function renderVocab() {
+ var el = document.getElementById('vocabGrid');
+ el.innerHTML = VOCAB.map(function (g) {
+ var rows = g.words.map(function (w) {
+ return '<div class="word-row"><span class="w">' + w.w + '</span><span class="wex">' + w.ex + '</span></div>';
+ }).join('');
+ return '<div class="vocab-card"><div class="vocab-head"><span class="v-ic">📚</span><h3>' + g.g + '</h3></div>' + rows + '</div>';
+ }).join('');
+ }
+
+ function renderPhrases() {
+ var el = document.getElementById('phraseGrid');
+ el.innerHTML = PHRASES.map(function (d) {
+ var lines = d.lines.map(function (l) {
+ return '<div class="chat"><div class="who">' + l.p + '</div><div class="txt">' + l.t + '</div></div>';
+ }).join('');
+ return '<div class="phrase-card"><div class="phrase-head"><h3>💬 ' + d.t + '</h3></div>' + lines + '</div>';
+ }).join('');
+ }
+
+ function renderCanDo() {
+ var el = document.getElementById('candoGrid');
+ el.innerHTML = CANDO.map(function (c) {
+ return '<div class="cando-card"><div class="cando-ic">✅</div><div><div class="cando-title">' + c.t + '</div><div class="cando-en">' + c.en + '</div><div class="cando-mean">' + c.me + '</div></div></div>';
+ }).join('');
+ }
+
+ function renderPhotos() {
+ var el = document.getElementById('photosGrid');
+ el.innerHTML = PHOTOS.map(function (p, i) {
+ return '<a class="photo-card" href="photo-detail.html?level=A2&pid=' + i + '" title="Open the story behind this picture"><img src="https://picsum.photos/seed/' + p.seed + '/640/420" alt="' + p.cap + '" loading="lazy"><div class="photo-info"><b>' + p.cap + '</b><span>▶ ' + p.note + '</span></div></a>';
+ }).join('');
+ }
+
+ function renderTips() {
+ var el = document.getElementById('tipsGrid');
+ el.innerHTML = TIPS.map(function (t) {
+ return '<div class="tip-card"><div class="tip-ic">💡</div><b>' + t.t + '</b><p>' + t.p + '</p></div>';
+ }).join('');
+ }
+
+ renderTopics();
+ renderSpeaking();
+ renderSounds();
+ renderStory();
+ renderQuiz('storyQuiz', QUIZ_STORY, 'storyScore');
+ renderListen();
+ renderVocab();
+ renderPhrases();
+ renderCanDo();
+ renderPhotos();
+ renderTips();
+
+ const navbar = document.getElementById('navbar');
+ window.addEventListener('scroll', () => {
+ navbar.classList.toggle('scrolled', window.scrollY > 50);
+ });
+
+ const hamburger = document.getElementById('hamburger');
+ const navLinks = document.getElementById('navLinks');
+ hamburger.addEventListener('click', () => {
+ navLinks.classList.toggle('active');
+ });
+ navLinks.querySelectorAll('a').forEach(link => {
+ link.addEventListener('click', () => navLinks.classList.remove('active'));
+ });
+
+ const reveals = document.querySelectorAll('.reveal');
+ const observer = new IntersectionObserver((entries) => {
+ entries.forEach((entry, i) => {
+ if (entry.isIntersecting) {
+ setTimeout(() => entry.target.classList.add('visible'), i * 80);
+ observer.unobserve(entry.target);
+ }
+ });
+ }, { threshold: 0.1 });
+ reveals.forEach(el => observer.observe(el));
+ setTimeout(() => document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')), 1500);
+ try { if (window.speechSynthesis && window.speechSynthesis.getVoices) window.speechSynthesis.getVoices(); } catch (e) {}
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

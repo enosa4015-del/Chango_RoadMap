@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Your Chango Gym Plan</title>
+ <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+ <link rel="stylesheet" href="gym-app.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+ <a href="../index.html" class="logo">
+ <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+ <span class="logo-text">Chango</span>
+ </a>
+ <div class="nav-right">
+ <a href="../index.html" class="nav-link">Home</a>
+ <a href="../journey.html" class="nav-link">Journeys</a>
+ <a href="gym.html" class="nav-link active">Gym</a>
+ <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+ </div>
+</nav>
+
+<script>
+ (function () {
+ var saved = 'dark';
+ try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+ document.documentElement.setAttribute('data-theme', saved);
+ function refresh() {
+ var b = document.getElementById('themeToggle');
+ if (!b) return;
+ b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+ }
+ window.toggleTheme = function () {
+ var cur = document.documentElement.getAttribute('data-theme');
+ var next = cur === 'dark' ? 'light' : 'dark';
+ try { localStorage.setItem('changoTheme', next); } catch (e) {}
+ document.documentElement.setAttribute('data-theme', next);
+ refresh();
+ };
+ refresh();
+ document.addEventListener('DOMContentLoaded', refresh);
+ })();
+</script>
+
+<div class="page page-wide" id="planApp"></div>
+
+<script src="gym-data.js"></script>
+<script>
+(function () {
+ var profile = gymLoadProfile();
+ if (!profile) { window.location.href = 'gym.html'; return; }
+
+ var plan = buildWeeklyPlan(profile);
+ var nutrition = computeNutrition(profile);
+ var progress = gymLoadProgress(profile);
+var deltas = gymDelta(progress.logs) || {};
+  var strength = gymStrengthSample(profile);
+  var leadUrl = gymLeadLink(profile);
+  var app = document.getElementById('planApp');
+
+  var wDelta = deltas.weight || 0;
+  var cDelta = deltas.consistency || 0;
+  var eDelta = deltas.energy || 0;
+  var pDelta = deltas.performance || 0;
+ var goodWeight = (wDelta !== 0) && ((profile.goal === 'lose_fat' || profile.goal === 'fitness') ? (wDelta > 0) : (wDelta < 0));
+ var wSign = wDelta > 0 ? '\u2212' : '';
+ var wDeltaHtml = wDelta === 0 ? '' : ' <span class="' + (goodWeight ? 'gv' : 'rv') + '">' + wSign + Math.abs(wDelta) + '</span>';
+
+ var html = '';
+
+ html += '<div class="plan-head">';
+ html += '<div class="plan-eyebrow">Chango Coach</div>';
+ html += '<div class="plan-title">Your <span class="accent-text">Chango</span> Plan</div>';
+ html += '<div class="plan-sub">A free starter plan based on your goal, level, and available days. Every exercise shows you what muscle it targets — so you always know what you\'re training and why.</div>';
+ html += '<div class="plan-chips">';
+ html += '<span class="pchip"><b>' + gymGoalShort(profile.goal) + '</b></span>';
+ html += '<span class="pchip"><b>' + gymLevelLabel(profile.level) + '</b></span>';
+ html += '<span class="pchip"><b>' + profile.days + ' days</b></span>';
+ html += '<span class="pchip"><b>' + gymPlaceLabel(profile.place) + '</b></span>';
+ html += '<span class="pchip"><b>' + profile.weight + ' kg</b></span>';
+ html += '</div></div>';
+
+ html += '<div class="section-label-row">';
+ html += '<div class="section-step">1</div>';
+ html += '<div><div class="sec-title">🏋️ Weekly Workout</div><div class="sec-sub">This is your Week 1 plan — repeat it for 4 weeks, progressing the weight each week.</div></div>';
+ html += '<div class="section-line"></div></div>';
+
+ html += '<div class="day-grid">';
+ var days = plan.week;
+ for (var d = 0; d < days.length; d++) {
+ var day = days[d];
+ if (day.type === 'rest') {
+ html += '<div class="rest-card">';
+ html += '';
+ html += '<div class="r-title">' + day.dayName + ' · ' + day.title + '</div>';
+ html += '<div class="r-sub">Recovery is part of the process — keep it light or rest.</div>';
+ if (day.finisher) html += '<div class="finisher-box" style="margin-top:0.8rem;max-width:100%;"><b>🔥 ' + day.finisher.label + '</b>' + day.finisher.desc + '</div>';
+ html += '</div>';
+ } else {
+ html += '<div class="day-card">';
+ html += '<div class="day-head"><div><div class="day-name">DAY ' + (d + 1) + ' · ' + day.dayName + '</div><div class="day-title">' + day.title + '</div></div>';
+ html += '<div class="day-ex-count">' + day.exercises.length + ' exercises</div></div>';
+ html += '<div class="day-body">';
+ for (var e = 0; e < day.exercises.length; e++) {
+ var ex = day.exercises[e];
+ var exx = ex.ex;
+ html += '<div class="ex-row">';
+ html += '<div class="ex-top"><div class="ex-num">' + (e + 1) + '</div>';
+ html += '<div class="ex-thumb"><img src="../images/exercises/' + exx.id + '-thumb.svg" alt="' + exx.name + '" loading="lazy" onerror="this.parentNode.style.display=\'none\'"></div>';
+ html += '<div class="ex-info">';
+ html += '<div class="ex-name">' + exx.name + '</div>';
+ html += '<div class="muscle-chips">';
+ html += '<span class="m-chip primary">' + exx.primary + '</span>';
+ for (var j = 0; j < exx.secondary.length; j++) { html += '<span class="m-chip secondary">' + exx.secondary[j] + '</span>'; }
+ html += '</div>';
+ html += '<div class="ex-meta">';
+ html += '<span class="ex-m">' + ex.sets + ' Sets</span>';
+ html += '<span class="ex-m">× ' + ex.reps + ' Reps</span>';
+ html += '<span class="ex-m">' + ex.rest + '</span>';
+ html += '<span class="ex-m">' + ex.equipmentLabel + '</span>';
+ html += '</div>';
+ html += '<div class="ex-toggle"><button class="ex-toggle-btn" onclick="this.nextElementSibling.classList.toggle(\'open\');this.textContent=this.textContent.includes(\'Instructions\')?\'▲ Hide\':\'▼ Show instructions & video\'">▼ Show instructions &amp; video</button>';
+ html += '<div class="ex-detail">';
+ html += '<img class="detail-img" src="../images/exercises/' + exx.id + '.svg" alt="' + exx.name + ' — focus ' + exx.primary + '" loading="lazy" onerror="this.style.display=\'none\'" style="max-width:420px;">';
+ html += '<h5>How to perform</h5><ul class="inst-list">';
+ for (var k = 0; k < exx.instructions.length; k++) { html += '<li>' + exx.instructions[k] + '</li>'; }
+ html += '</ul>';
+ html += '<a class="ex-video" href="' + gymVideoUrl(exx.video) + '" target="_blank" rel="noopener noreferrer">▶ Watch demonstration on YouTube</a>';
+ html += '</div></div>';
+ html += '</div></div></div>';
+ }
+ html += '</div>';
+ if (day.finisher) html += '<div class="finisher-box"><b>🔥 ' + day.finisher.label + '</b>' + day.finisher.desc + '</div>';
+ html += '</div>';
+ }
+ }
+ html += '</div>';
+
+ html += '<div class="why-box" style="margin-top:2.2rem;">';
+ html += '<h4>🎯 Why Every Exercise Shows Its Target Muscles</h4>';
+ html += '<p>Knowing the muscle you\'re training is education, not just a label. It helps you:</p>';
+ html += '<div class="why-grid">';
+ html += '<div class="why-item"><b>Mind-muscle connection</b>When you know which muscle to feel, your form improves and the exercise becomes more effective.</div>';
+ html += '<div class="why-item"><b>Balanced development</b>You can see which muscles you\'re training more and adjust, avoiding imbalances.</div>';
+ html += '<div class="why-item"><b>Smart progression</b>When you get stronger in a movement, you know exactly what part of your body is growing.</div>';
+ html += '</div></div>';
+
+ html += '<div class="disclaimer">This free starter plan is general guidance for fitness and nutrition. It does not replace an in-person assessment by a qualified coach, doctor, or dietitian — especially for medical conditions, allergies, or eating disorders.</div>';
+
+ html += '<div class="section-label-row">';
+ html += '<div class="section-step">2</div>';
+ html += '<div><div class="sec-title">Nutrition Guidance</div><div class="sec-sub">Your daily targets — not a prescription. Calorie and macro estimates based on your body data, goal, activity, and food preferences.</div></div>';
+ html += '<div class="section-line"></div></div>';
+ html += '<div class="note-box" style="margin-bottom:1rem;background:rgba(249,115,22,0.06);border-color:rgba(249,115,22,0.25);font-size:0.82rem;color:var(--text-dim);">These targets are estimates for general fitness goals. If you have a medical condition, allergy, or eating disorder, always get a plan from a qualified professional.</div>';
+
+ html += '<div class="macro-grid">';
+ html += '<div class="macro-card"><div class="m-num">' + nutrition.target + '</div><div class="m-label">Daily Calories</div></div>';
+ html += '<div class="macro-card"><div class="m-num">' + nutrition.protein + 'g</div><div class="m-label">Protein</div></div>';
+ html += '<div class="macro-card"><div class="m-num">' + nutrition.carbs + 'g</div><div class="m-label">Carbs</div></div>';
+ html += '<div class="macro-card"><div class="m-num">' + nutrition.fat + 'g</div><div class="m-label">Fat</div></div>';
+ html += '</div>';
+ html += '<div style="margin:0.9rem 0 0;"><span style="font-size:0.85rem;color:var(--text-muted);">Water: <b style="color:var(--accent-light);font-family:Space Grotesk;">' + nutrition.water + ' ml</b> per day (~30–35 ml/kg)</span></div>';
+ html += '<div style="display:flex;gap:0.4rem;margin-top:0.5rem;">';
+ html += '<div class="macro-bar" style="flex:34;"><div class="fill f-cal" style="width:34%;"></div></div>';
+ html += '<div class="macro-bar" style="flex:30;"><div class="fill f-p" style="width:30%;"></div></div>';
+ html += '<div class="macro-bar" style="flex:16;"><div class="fill f-c" style="width:16%;"></div></div>';
+ html += '<div class="macro-bar" style="flex:20;"><div class="fill f-f" style="width:20%;"></div></div>';
+ html += '</div>';
+ html += '<div style="display:flex;gap:1rem;font-size:0.72rem;color:var(--text-dim);margin-top:0.5rem;"><span>Calories</span><span style="color:#60A5FA;">Protein</span><span style="color:var(--accent);">Carbs</span><span style="color:#10B981;">Fat</span></div>';
+
+ html += '<div class="meal-grid" style="margin-top:1.4rem;">';
+ var mealDiet = profile.diet || 'none';
+ var mi = MEAL_IDEAS[mealDiet] ? MEAL_IDEAS[mealDiet] : MEAL_IDEAS.none;
+ var mealTimes = ['breakfast', 'lunch', 'dinner', 'snack'];
+ var mealLabels = ['☀️ Breakfast', '☀️ Lunch', '🌙 Dinner', 'Snack'];
+ var mealCols = 4;
+ for (var m = 0; m < 4; m++) {
+ var meals = mi[mealTimes[m]];
+ if (!meals) continue;
+ var meal = meals[0];
+ html += '<div class="meal-card"><div class="meal-tag">' + mealLabels[m] + '</div>';
+ html += '<h4>' + meal.title + '</h4><div class="meal-items">';
+ for (var mi2 = 0; mi2 < meal.items.length; mi2++) { html += '<span class="food-tag">' + meal.items[mi2] + '</span>'; }
+ html += '</div><div class="meal-kcal">Approx <b>' + meal.kcal + ' kcal</b> · <b>' + meal.p + 'g protein</b></div></div>';
+ }
+ html += '</div>';
+ html += '<div style="margin-top:0.6rem;font-size:0.82rem;color:var(--text-dim);">Showing one option per meal — open the Meal Builder below to build your own.</div>';
+
+ html += '<div class="section-label-row">';
+ html += '<div class="section-step">3</div>';
+ html += '<div><div class="sec-title">🥗 Meal Builder</div><div class="sec-sub">Pick foods by meal time and see the totals compared to your targets.</div></div>';
+ html += '<div class="section-line"></div></div>';
+html += '<div class="mb-card">';
+  html += '<div class="mb-tabs" id="mbTabs"></div>';
+  html += '<div class="mb-rec" id="mbRec"></div>';
+  html += '<div class="food-chips" id="mbFoodChips"></div>';
+ html += '<div class="mb-totals" id="mbTotals"><div class="mb-t"><div class="v">0</div><div class="k">Calories</div></div><div class="mb-t"><div class="v">0g</div><div class="k">Protein</div></div><div class="mb-t"><div class="v">0g</div><div class="k">Carbs</div></div><div class="mb-t"><div class="v">0g</div><div class="k">Fat</div></div></div>';
+ html += '<div id="mbFitBadge"></div></div>';
+
+ html += '<div class="section-label-row">';
+ html += '<div class="section-step">4</div>';
+ html += '<div><div class="sec-title">Progress Dashboard</div><div class="sec-sub">Log your weekly numbers and watch the trend. Below is your starter data with simulated improvement for Week 1 → Week 2.</div></div>';
+ html += '<div class="section-line"></div></div>';
+
+ html += '<div class="pg-grid">';
+ var last = progress.logs[progress.logs.length - 1];
+ var first = progress.logs[0];
+html += '<div class="pg-card"><div class="pg-label">Body Weight</div><div class="pg-value">' + (last.weight || 0) + wDeltaHtml + '</div><div class="pg-sub">kg</div></div>';
+  html += '<div class="pg-card"><div class="pg-label">Consistency</div><div class="pg-value">' + (last.consistency || 0) + '% <span class="gv">' + '+' + cDelta + '</span></div><div class="pg-sub">workouts completed</div></div>';
+  html += '<div class="pg-card"><div class="pg-label">Energy Level</div><div class="pg-value">' + (last.energy || 0) + '/5 <span class="gv">+' + eDelta + '</span></div><div class="pg-sub">self-reported</div></div>';
+  html += '<div class="pg-card"><div class="pg-label">Performance</div><div class="pg-value">' + (last.performance || 0).toFixed(1) + ' <span class="gv">+' + pDelta + '</span></div><div class="pg-sub">out of 10</div></div>';
+ html += '</div>';
+
+//  html += '<div class="pg-chart">';
+//  html += '<div class="pg-chart-title">Body Weight Trend</div>';
+//  html += '<div class="chart-bars">';
+//  for (var p = 0; p < progress.logs.length; p++) {
+//  var lg = progress.logs[p];
+//  var h = Math.round((lg.weight / profile.weight) * 80);
+//  html += '<div class="cb"><div class="bar"><i style="height:' + h + 'px;"></i></div><div class="val">' + lg.weight + '</div><div class="lbl">Week ' + lg.week + '</div></div>';
+//  }
+//  html += '</div></div>';
+
+//  html += '<div class="pg-chart" style="margin-top:1rem;">';
+//  html += '<div class="pg-chart-title">Strength Progress (Sample)</div>';
+//  html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:0.5rem;">';
+//  html += '<div><div style="font-size:0.82rem;color:var(--text-dim);">Bench Press</div><div style="font-family:Space Grotesk;font-size:1.3rem;font-weight:800;"><span style="color:var(--text-muted);text-decoration:line-through;font-size:1rem;">' + strength.bench + 'kg</span> <span style="color:#10B981;">→ ' + strength.benchTo + 'kg</span></div></div>';
+//  html += '<div><div style="font-size:0.82rem;color:var(--text-dim);">Squat</div><div style="font-family:Space Grotesk;font-size:1.3rem;font-weight:800;"><span style="color:var(--text-muted);text-decoration:line-through;font-size:1rem;">' + strength.squat + 'kg</span> <span style="color:#10B981;">→ ' + Math.round(strength.squatTo) + 'kg</span></div></div>';
+//  html += '<div><div style="font-size:0.82rem;color:var(--text-dim);">Deadlift</div><div style="font-family:Space Grotesk;font-size:1.3rem;font-weight:800;"><span style="color:var(--text-muted);text-decoration:line-through;font-size:1rem;">' + strength.deadlift + 'kg</span> <span style="color:#10B981;">→ ' + Math.round(strength.deadliftTo) + 'kg</span></div></div>';
+//  html += '</div>';
+//  html += '<div style="font-size:0.76rem;color:var(--text-dim);margin-top:0.6rem;">Sample progression based on your goal and level — unlock the full version to track yours.</div></div>';
+
+ html += '<div class="log-form">';
+ html += '<h4>✍️ Log This Week</h4>';
+ html += '<div class="form-grid">';
+ html += '<div class="field"><label>Body weight (kg)</label><input class="in" id="logWeight" type="number" step="0.1" min="20" max="300" value="' + last.weight + '"></div>';
+ html += '<div class="field"><label>Chest (cm)</label><input class="in" id="logChest" type="number" step="0.1" value="' + last.chest + '"></div>';
+ html += '<div class="field"><label>Waist (cm)</label><input class="in" id="logWaist" type="number" step="0.1" value="' + last.waist + '"></div>';
+ html += '<div class="field"><label>Arm (cm)</label><input class="in" id="logArm" type="number" step="0.1" value="' + last.arm + '"></div>';
+ html += '<div class="field"><label>Energy (1–5)</label><input class="in" id="logEnergy" type="number" min="1" max="5" value="' + last.energy + '"></div>';
+ html += '<div class="field"><label>Consistency (%)</label><input class="in" id="logConsistency" type="number" min="0" max="100" value="' + last.consistency + '"></div>';
+ html += '<div class="field"><label>Performance (0–10)</label><input class="in" id="logPerformance" type="number" step="0.1" min="0" max="10" value="' + last.performance + '"></div>';
+ html += '</div>';
+ html += '<button class="btn btn-primary btn-large" style="margin-top:1rem;" onclick="logWeek(this)">Save Week</button>';
+ html += '</div>';
+
+ html += '<div class="section-label-row">';
+ html += '<div class="section-step">5</div>';
+ html += '<div><div class="sec-title">🤖 AI Coach</div><div class="sec-sub">Ask about technique, recovery, or nutrition — not medical advice.</div></div>';
+ html += '<div class="section-line"></div></div>';
+
+ html += '<div class="chat-window">';
+ html += '<div class="chat-head"><div class="chat-avatar"></div><div><div class="chat-name">Chango Coach</div><div class="chat-status">● Online — for training & general nutrition only</div></div></div>';
+ html += '<div class="chat-body" id="chatBody">';
+ html += '<div class="msg bot">Hey! I am your Chango Coach. I can help with your weekly plan, exercise technique, recovery, and general nutrition. What is on your mind?</div>';
+ html += '</div>';
+ html += '<div class="chat-suggest" id="chatSuggest">';
+ html += '<button onclick="sendChat(\'How do I warm up properly?\')">Warm-up tips</button>';
+ html += '<button onclick="sendChat(\'I cannot do pull-ups yet. What is the alternative?\')">Exercise alternative</button>';
+ html += '<button onclick="sendChat(\'How much protein should I eat per meal?\')">Protein per meal</button>';
+ html += '<button onclick="sendChat(\'I feel sore after yesterday. Is that normal?\')">Post-workout sore</button>';
+ html += '</div>';
+ html += '<div class="chat-input-row"><input id="chatIn" type="text" placeholder="Ask your coach…" onkeydown="if(event.key===\'Enter\')sendChat()"><button class="btn btn-primary btn-sm" onclick="sendChat()">Send</button></div>';
+ html += '<div class="chat-disclaimer">The AI coach is a general fitness guide — it does not provide medical advice, diagnoses, or prescriptions. For health concerns, always consult a professional.</div>';
+ html += '</div>';
+
+ // html += '<div class="lock-card" style="margin-top:2.4rem;">';
+ // html += '<div class="lock-inner">';
+ // html += '';
+ // html += '<div class="lock-title">Weeks 2–4 Are Locked</div>';
+ // html += '<div class="lock-sub">Unlock the full 4-week plan with progressive overload, adjusted volume, a personal coach, and weekly check-ins.</div>';
+ // html += '<ul class="lock-feats">';
+ // html += '<li>Full 4-week progressive training plan</li>';
+ // html += '<li>Weekly plan adjustments based on your progress</li>';
+ // html += '<li>Direct coach support and form checks</li>';
+ // html += '<li>Full nutrition plan and meal builder</li>';
+ // html += '<li>Weekly check-in and review</li>';
+ // html += '</ul>';
+ // html += '<a class="btn btn-journey btn-large btn-block" href="' + leadUrl + '" target="_blank" rel="noopener noreferrer" style="max-width:360px;margin:0 auto;">BOOK FREE TRIAL </a>';
+ // html += '<div class="lock-note">No commitment required — just join the free trial and see if it is for you.</div>';
+ // html += '</div></div>';
+
+ // html += '<div class="cta-box" style="margin-top:2rem;">';
+ // html += '<h2>Your Free Plan Is <span class="accent-text">Just the Start</span></h2>';
+ // html += '<p>Ready to go from a starter plan to a full transformation? Join the free trial — it costs nothing to find out.</p>';
+ // html += '<div class="hero-buttons" style="justify-content:center;"><a class="btn btn-journey btn-large" href="' + leadUrl + '" target="_blank" rel="noopener noreferrer">BOOK FREE TRIAL </a><a class="btn btn-outline btn-large" href="gym.html">Edit My Profile</a></div></div>';
+
+ html += '<footer style="margin-top:3rem;">';
+ html += '<div class="footer-inner"><div class="footer-brand"><img src="../images/Logo.jpg" alt="Chango logo"> Chango — The bridge between skills and opportunities</div>';
+ html += '<div class="footer-links"><a href="../index.html">Home</a><a href="../journey.html">Journeys</a><a href="gym.html">Gym</a></div></div></footer>';
+
+ app.innerHTML = html;
+ initMealBuilder(profile);
+ initChat();
+})();
+
+function initMealBuilder(profile) {
+ var mealDiet = profile.diet || 'none';
+
+ function dietOK(f) {
+  return f.tags.indexOf(mealDiet) !== -1;
+ }
+ function poolForTime(t) {
+  var base = (FOODS_BY_MEAL[t] || []).map(gymFoodById).filter(Boolean).filter(dietOK);
+  if (!base.length) base = FOODS.filter(dietOK);
+  return base;
+ }
+
+ var times = ['breakfast', 'lunch', 'dinner', 'snack'];
+ var timeLabels = ['☀️ Breakfast', '☀️ Lunch', '🌙 Dinner', 'Snack'];
+ var tabs = document.getElementById('mbTabs');
+ var recEl = document.getElementById('mbRec');
+ var chipsEl = document.getElementById('mbFoodChips');
+ var totalsEl = document.getElementById('mbTotals');
+ var badgeEl = document.getElementById('mbFitBadge');
+ var current = 0;
+ var selected = {};
+
+ var html = '';
+ times.forEach(function (t, i) { html += '<button class="mtab' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '">' + timeLabels[i] + '</button>'; });
+ tabs.innerHTML = html;
+
+ tabs.querySelectorAll('.mtab').forEach(function (tab) {
+  tab.addEventListener('click', function () {
+  tabs.querySelectorAll('.mtab').forEach(function (t) { t.classList.remove('active'); });
+  tab.classList.add('active');
+  current = parseInt(tab.getAttribute('data-idx'), 10);
+  renderFoods();
+  renderRec();
+  });
+ });
+
+ function renderRec(t) {
+  t = t || times[current];
+  var rec = gymMealRecommend(profile, t);
+  var sel = selected[t] || {};
+  var added = true;
+  for (var i = 0; i < rec.foods.length; i++) { if (!sel[rec.foods[i]]) { added = false; break; } }
+  var items = '';
+  rec.items.forEach(function (n) { items += '<span class="food-tag">' + n + '</span>'; });
+  var pct = Math.round(rec.kcal / rec.target * 100);
+  recEl.innerHTML =
+  '<div class="mb-rec-row">' +
+  '<div class="mb-rec-main">' +
+  '<div class="mb-rec-badge">🍽️ Recommended for this meal</div>' +
+  '<div class="mb-rec-title">' + rec.title + '</div>' +
+  '<div class="mb-rec-items">' + items + '</div>' +
+  '<div class="mb-rec-meta">≈ <b>' + rec.kcal + ' kcal</b> · <b>' + rec.p + 'g protein</b> — target ' + rec.target + ' kcal (' + pct + '%)</div>' +
+  '</div>' +
+  '<div class="mb-rec-actions">' +
+  (added
+  ? '<button class="mb-rec-btn added" onclick="gymMbClear(\'' + t + '\')">✓ Added — Remove</button>'
+  : '<button class="mb-rec-btn" onclick="gymMbAdd(\'' + t + '\')">Add this meal</button>') +
+  '</div>' +
+  '</div>';
+ }
+
+ window.gymMbAdd = function (t) {
+  var rec = gymMealRecommend(profile, t);
+  if (!selected[t]) selected[t] = {};
+  rec.foods.forEach(function (id) { selected[t][id] = true; });
+  setTab(times.indexOf(t));
+  renderFoods();
+  computeTotals();
+  renderRec();
+ };
+
+ window.gymMbClear = function (t) {
+  var rec = gymMealRecommend(profile, t);
+  if (!selected[t]) return;
+  rec.foods.forEach(function (id) { delete selected[t][id]; });
+  setTab(times.indexOf(t));
+  renderFoods();
+  computeTotals();
+  renderRec();
+ };
+
+ function setTab(i) {
+  current = i;
+  tabs.querySelectorAll('.mtab').forEach(function (t) { t.classList.remove('active'); });
+  var cur = tabs.querySelector('.mtab[data-idx="' + i + '"]');
+  if (cur) cur.classList.add('active');
+ }
+
+ function renderFoods() {
+  var pool = poolForTime(times[current]);
+  var out = '';
+  pool.forEach(function (f) {
+  var on = selected[times[current]] && selected[times[current]][f.id];
+  out += '<button class="food-chip' + (on ? ' on' : '') + '" data-id="' + f.id + '">' + f.name + '</button>';
+  });
+  chipsEl.innerHTML = out;
+  chipsEl.querySelectorAll('.food-chip').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+  var fid = btn.getAttribute('data-id');
+  if (!selected[times[current]]) selected[times[current]] = {};
+  selected[times[current]][fid] = !selected[times[current]][fid];
+  btn.classList.toggle('on');
+  computeTotals();
+  });
+  });
+ }
+
+ function computeTotals() {
+ var sel = selected[times[current]] || {};
+ var total = { cal: 0, p: 0, c: 0, f: 0 };
+ Object.keys(sel).forEach(function (k) {
+ if (!sel[k]) return;
+ var food = gymFoodById(k);
+ if (!food) return;
+ total.cal += food.cal;
+ total.p += food.p;
+ total.c += food.c;
+ total.f += food.f;
+ });
+ var nutrition = computeNutrition(profile);
+ var calPct = nutrition.target ? Math.round((total.cal / nutrition.target) * 100) : 0;
+ var pPct = nutrition.protein ? Math.round((total.p / nutrition.protein) * 100) : 0;
+ totalsEl.innerHTML =
+ '<div class="mb-t"><div class="v">' + total.cal + '</div><div class="k">Calories (' + calPct + '%)</div></div>' +
+ '<div class="mb-t"><div class="v">' + total.p + 'g</div><div class="k">Protein (' + pPct + '%)</div></div>' +
+ '<div class="mb-t"><div class="v">' + total.c + 'g</div><div class="k">Carbs</div></div>' +
+ '<div class="mb-t"><div class="v">' + total.f + 'g</div><div class="k">Fat</div></div>';
+ var fit = calPct >= 60 && calPct <= 110 && pPct >= 25;
+ badgeEl.innerHTML = '<div class="fit-badge' + (fit ? '' : ' off') + '">' + (fit ? 'Good — this meal fits your targets' : 'Adjust food to better match your targets') + '</div>';
+ }
+
+renderFoods();
+  computeTotals();
+  renderRec();
+}
+
+function sendChat(preset) {
+ var input = document.getElementById('chatIn');
+ var text = preset || (input ? input.value.trim() : '');
+ if (!text) return;
+ if (input) input.value = '';
+ var body = document.getElementById('chatBody');
+ body.innerHTML += '<div class="msg user">' + escHtml(text) + '</div>';
+ var res = coachReply(text);
+ var cls = 'msg bot' + (res.safe ? ' safe' : '');
+ var safeTag = res.safe ? '<span class="safe-tag">Not medical advice — consult a professional</span>' : '';
+ body.innerHTML += '<div class="' + cls + '">' + safeTag + escHtml(res.reply) + '</div>';
+ body.scrollTop = body.scrollHeight;
+ document.getElementById('chatSuggest').style.display = 'none';
+}
+
+function escHtml(str) {
+ return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function initChat() { window.sendChat = sendChat; }
+
+function logWeek(btn) {
+ if (!btn) btn = event && event.target;
+ var profile = gymLoadProfile();
+ if (!profile) return;
+ var data = gymLoadProgress(profile);
+ var last = data.logs[data.logs.length - 1] || {};
+ function num(id, fallback, minv, maxv) {
+  var el = document.getElementById(id);
+  var v = el ? parseFloat(el.value) : NaN;
+  if (isNaN(v)) v = fallback;
+  if (minv != null) v = Math.max(minv, v);
+  if (maxv != null) v = Math.min(maxv, v);
+  return Math.round(v * 10) / 10;
+ }
+ function whole(id, fallback, minv, maxv) {
+  return Math.round(num(id, fallback, minv, maxv));
+ }
+ var newEntry = {
+  week: data.logs.length + 1,
+  weight: num('logWeight', last.weight != null ? last.weight : profile.weight, 20, 300),
+  chest: num('logChest', last.chest != null ? last.chest : 95, 0, 200),
+  waist: num('logWaist', last.waist != null ? last.waist : 82, 0, 220),
+  arm: num('logArm', last.arm != null ? last.arm : 28, 0, 80),
+  thigh: num('logThigh', last.thigh != null ? last.thigh : Math.round(profile.weight * 0.28), 0, 150),
+  energy: whole('logEnergy', last.energy != null ? last.energy : 3, 1, 5),
+  consistency: whole('logConsistency', last.consistency != null ? last.consistency : 70, 0, 100),
+  performance: num('logPerformance', last.performance != null ? last.performance : 7, 0, 10)
+ };
+ data.logs.push(newEntry);
+ gymSaveProgress(data);
+ if (btn) { btn.textContent = '✓ Saved!'; btn.style.background = 'linear-gradient(135deg, #10B981, #3B82F6)'; }
+ setTimeout(function () { window.location.reload(); }, 1200);
+}
+
+window.logWeek = logWeek;
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

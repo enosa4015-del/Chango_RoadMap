@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programming — Available Courses | Chango</title>
+  <meta name="description" content="All Chango Programming courses in one place. The Backend Developer Roadmap is live now. Frontend, Full Stack, DevOps and more are coming soon.">
+  <link rel="icon" href="../images/Logo.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="programming.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="logo">
+    <div class="logo-icon"><img src="../images/Logo.jpg" alt="Chango logo"></div>
+    <span class="logo-text">Chango</span>
+  </a>
+  <div class="nav-right">
+    <a href="../index.html" class="nav-link">Home</a>
+    <a href="../journey.html" class="nav-link">Journeys</a>
+    <a href="programming.html" class="nav-link active">Programming</a>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-mobile" id="navMobile">
+  <a href="../index.html" class="nav-link">Home</a>
+  <a href="../journey.html" class="nav-link">Journeys</a>
+  <a href="programming.html" class="nav-link active">Programming</a>
+</div>
+
+<script>
+  (function () {
+    var saved = 'dark';
+    try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+    document.documentElement.setAttribute('data-theme', saved);
+    function refresh() {
+      var b = document.getElementById('themeToggle');
+      if (!b) return;
+      b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+    }
+    window.toggleTheme = function () {
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('changoTheme', next); } catch (e) {}
+      document.documentElement.setAttribute('data-theme', next);
+      refresh();
+    };
+    refresh();
+    document.addEventListener('DOMContentLoaded', refresh);
+  })();
+
+  var navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', function () {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  var hamburger = document.getElementById('hamburger');
+  var navMobile = document.getElementById('navMobile');
+  hamburger.addEventListener('click', function () {
+    navMobile.classList.toggle('active');
+  });
+  navMobile.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () { navMobile.classList.remove('active'); });
+  });
+</script>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <!-- <div class="hero-badge reveal"><span class="dot"></span> Chango Programming</div> -->
+    <h1 class="reveal">Stop Learning Randomly.<br><span class="gradient-text">Follow a Real Path.</span></h1>
+    <p class="hero-sub reveal">
+      No more jumping between 47 tutorials and forgetting everything. Pick one road — start at the start, and build until it works.
+    </p>
+    <div class="hero-buttons reveal">
+      <a href="#courses" class="btn btn-primary btn-large">See Available Courses ↓</a>
+      <a href="backend/backend.html" class="btn btn-outline btn-large">Backend Roadmap →</a>
+    </div>
+    <!-- <div class="hero-trust reveal">
+      <span>⚡ 100% free</span>
+      <span>🧭 Guided roadmap</span>
+      <span>🔨 Learn by building</span>
+      <span>📖 Book integrated</span>
+    </div> -->
+  </div>
+</section>
+
+<!-- COURSES -->
+<section class="section" id="courses">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-label"><span class="line"></span> Available Courses</div>
+      <h2 class="section-title">What Can You <span class="gradient-text">Start Today?</span></h2>
+      <p class="section-desc">
+        Every course below is a real, structured roadmap — not another playlist. Available courses are open now. The rest are being built. We'll be honest about which is which.
+      </p>
+    </div>
+    <div class="course-grid" id="courseGrid"></div>
+    <div class="soon-note reveal" id="soonNote">
+      ⏳ The "Coming Soon" badges aren't a joke (or a trick to make you sign up). We publish one clean, finished roadmap at a time — the next one will appear here.
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="section alt" id="philosophy">
+  <div class="container narrow">
+    <div class="section-head reveal">
+      <div class="section-label"><span class="line"></span> How Every Course Works</div>
+      <h2 class="section-title">Learn → Practice → Build → <span class="accent-text">Prove</span></h2>
+      <p class="section-desc">Every roadmap follows the same philosophy: don't memorize, understand. And don't finish a tutorial — finish a project.</p>
+    </div>
+    <div class="project-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+      <div class="project-card reveal"><div class="p-icon">📚</div><h3>Learn</h3><p>Short, funny, human lessons. Each topic explained like a person — not like a manual.</p></div>
+      <div class="project-card reveal"><div class="p-icon">✏️</div><h3>Practice</h3><p>Quick quizzes and challenges after every lesson so the idea actually sticks.</p></div>
+      <div class="project-card reveal"><div class="p-icon">🛠️</div><h3>Build</h3><p>Real projects at the end of every level. Not to-do lists. Things employers care about.</p></div>
+      <div class="project-card reveal"><div class="p-icon">🏁</div><h3>Become Job Ready</h3><p>A complete path that ends with a portfolio and the confidence to apply.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container narrow">
+    <div class="cta-box reveal">
+      <h2>Ready to stop <span class="gradient-text">random-learning</span>?</h2>
+      <p>The Backend Roadmap is live now. It starts with programming fundamentals — zero experience required.</p>
+      <div class="hero-buttons">
+        <a href="backend/backend.html" class="btn btn-journey btn-large">Start the Backend Roadmap →</a>
+        <a href="../journey.html" class="btn btn-outline btn-large">← All Journeys</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="../images/Logo.jpg" alt="Chango logo"> Chango — The bridge between skills and opportunities</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../journey.html">Journeys</a>
+      <a href="programming.html">Programming</a>
+    </div>
+  </div>
+  <p class="footer-quote">Built for developers who are tired of learning without building.</p>
+</footer>
+
+<script src="programming-data.js"></script>
+<script>
+  (function () {
+    var grid = document.getElementById('courseGrid');
+    var out = '';
+    PROGRAMMING_COURSES.forEach(function (c, i) {
+      var available = c.status === 'available';
+      var meta = (c.meta || []).map(function (m) {
+        return '<span><b>' + m.value + '</b> · ' + m.label + '</span>';
+      }).join('');
+
+      var body;
+      if (available) {
+        body = '<a class="course-cta start" href="' + c.href + '" style="background:' + c.grad + ';">' + c.cta + ' →</a>';
+      } else {
+        body = '<span class="course-cta soon">⏳ ' + c.cta + '</span>';
+      }
+
+      out += '<div class="course-card ' + (available ? '' : 'soon') + ' reveal" style="' +
+        '--card-grad:' + c.grad + ';--card-tint:' + c.tint + ';--card-border:' + c.border + ';">' +
+        '<div class="course-top">' +
+          '<div class="course-icon">' + c.icon + '</div>' +
+          '<span class="course-badge ' + c.status + '">' + (available ? '● Available Now' : '⏳ Coming Soon') + '</span>' +
+        '</div>' +
+        '<h3>' + c.title + '</h3>' +
+        '<p>' + c.tagline + '</p>' +
+        '<div class="course-meta">' + meta + '</div>' +
+        body +
+      '</div>';
+    });
+    grid.innerHTML = out;
+
+    var reveals = document.querySelectorAll('.reveal');
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>
