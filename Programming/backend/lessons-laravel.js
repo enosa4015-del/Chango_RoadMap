@@ -62,14 +62,16 @@ Object.assign(LESSONS, {
         'pip install laravel'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Composer, the PHP package manager, is the official installer.', wrong: '❌ Nope. Laravel is PHP — Composer (composer create-project laravel/laravel) is the installer.' }
+      feedback: { correct: 'Composer, the PHP package manager, is the official installer.', wrong: 'Nope. Laravel is PHP — Composer (composer create-project laravel/laravel) is the installer.' }
     },
 
     challenge: {
       lang: 'bash',
       text: 'On your machine (PHP + Composer installed), create a fresh project called <strong>myfirst</strong>, start the dev server, and confirm the Laravel welcome page loads at localhost:8000.',
       hint: 'composer create-project laravel/laravel myfirst then php artisan serve.'
-    },
+    ,
+      solution: "composer create-project laravel/laravel myfirst\ncd myfirst\nphp artisan serve\n\n# open http://localhost:8000 → the Laravel welcome page",
+      solutionLang: "bash"},
 
     prev: { slug: 'sql-ecommerce', title: 'Practice: E-Commerce DB' },
     next: { slug: 'laravel-install', title: 'Installation' }
@@ -151,14 +153,16 @@ Object.assign(LESSONS, {
         'There is no difference'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Show yourself the internals locally; hide them from the world in production.', wrong: '❌ Nope. APP_DEBUG=true exposes stack traces (helpful locally, a security leak publicly).' }
+      feedback: { correct: 'Show yourself the internals locally; hide them from the world in production.', wrong: 'Nope. APP_DEBUG=true exposes stack traces (helpful locally, a security leak publicly).' }
     },
 
     challenge: {
       lang: 'bash',
       text: 'Fresh Laravel is running on your machine. Now visit <strong>/</strong> (welcome page) and <strong>/tinker</strong>? Tinker isn\'t a route — run <strong>php artisan tinker</strong> instead and execute <span class="inline-code">str()->upper("working")</span> to confirm the playground answers.',
       hint: 'Tinker\'s exit is ctrl+d (Windows) / ctrl+d (everywhere, really).'
-    },
+    ,
+      solution: "php artisan tinker\n\n> str()->upper(\"working\")\n// \"WORKING\"\n> exit\n\n# welcome page at / works; /tinker is NOT a route — tinker is a CLI playground",
+      solutionLang: "bash"},
 
     prev: { slug: 'laravel-what', title: 'What is Laravel?' },
     next: { slug: 'laravel-routing', title: 'Routing' }
@@ -222,7 +226,7 @@ Object.assign(LESSONS, {
       'Forgetting to import the controller with <span class="inline-code">use App\\Http\\Controllers\\...</span> — the classic white screen wave.'
     ],
 
-    proTip: 'Give every important route a name. It costs nothing, and it turns "what was that URL" into "route(🕊name)". Refactoring URLs becomes a one-line change.'
+    proTip: 'Give every important route a name. It costs nothing, and it turns "what was that URL" into "route(name)". Refactoring URLs becomes a one-line change.'
 
     ,
 
@@ -237,14 +241,15 @@ Object.assign(LESSONS, {
         'Route::resource("/products")'
       ],
       correct: 0,
-      feedback: { correct: '🔥 {id} is a parameter that captures 42. whereNumber can guard it further.', wrong: '❌ Nope. A {id} parameter in the route captures any segment value like 42.' }
+      feedback: { correct: '{id} is a parameter that captures 42. whereNumber can guard it further.', wrong: 'Nope. A {id} parameter in the route captures any segment value like 42.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Create routes for: a page <strong>/hello/{name}</strong> that returns a view, a <strong>GET /posts</strong>, and a <strong>POST /posts</strong> behind auth. Give the GET posts route the name <strong>posts.index</strong>.',
       hint: 'Use Route::view for trivial views or a closure returning view(), and ->middleware("auth") for the POST.'
-    },
+    ,
+      solution: "Route::get(\"/hello/{name}\", fn (string $name) => view(\"greeting\", [\n    \"name\" => $name,\n]))->name(\"hello\");\n\nRoute::get(\"/posts\", [PostController::class, \"index\"])->name(\"posts.index\");\n\nRoute::post(\"/posts\", [PostController::class, \"store\"])->middleware(\"auth\");"},
 
     prev: { slug: 'laravel-install', title: 'Installation' },
     next: { slug: 'laravel-controllers', title: 'Controllers' }
@@ -334,14 +339,15 @@ Object.assign(LESSONS, {
         'It only works with POST requests'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Route-model binding: Laravel finds the Post for us — automatic 404 if missing.', wrong: '❌ Nope. Laravel\'s route-model binding loads the Post matching {post} for that route.' }
+      feedback: { correct: 'Route-model binding: Laravel finds the Post for us — automatic 404 if missing.', wrong: 'Nope. Laravel\'s route-model binding loads the Post matching {post} for that route.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Generate a resource controller for <strong>Product</strong>, then implement <strong>index</strong> (list with pagination) and <strong>store</strong> (validate title required, create the product, redirect back to index).',
       hint: 'php artisan make:controller ProductController --resource; model name Product assumes App\Models\Product — create it too if missing.'
-    },
+    ,
+      solution: "php artisan make:controller ProductController --resource\nphp artisan make:model Product -m\n\npublic function index()\n{\n    return view(\"products.index\", [\"products\" => Product::paginate(12)]);\n}\n\npublic function store(Request $request)\n{\n    $validated = $request->validate([\"title\" => \"required|string\"]);\n\n    Product::create($validated);\n\n    return redirect()->route(\"products.index\");\n}"},
 
     prev: { slug: 'laravel-routing', title: 'Routing' },
     next: { slug: 'laravel-blade', title: 'Blade Templates' }
@@ -419,14 +425,16 @@ Object.assign(LESSONS, {
         'It prints source code'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Doubles curly = escaped output = your XSS shield.', wrong: '❌ Nope. {{ }} prints and escapes. {!! !!} prints raw and unsafe.' }
+      feedback: { correct: 'Doubles curly = escaped output = your XSS shield.', wrong: 'Nope. {{ }} prints and escapes. {!! !!} prints raw and unsafe.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Build a Blade view listing products: use @forelse to show each product\'s name and price, an @empty message, and a heading. Values must be printed with {{ }} to be safe.',
       hint: 'Pass $products from the controller with ->with("products", ...) or compact().'
-    },
+    ,
+      solution: "<h1>Products</h1>\n\n@forelse ($products as $product)\n    <div>{{ $product->name }} — ${{ $product->price }}</div>\n@empty\n    <p>No products yet.</p>\n@endforelse",
+      solutionLang: "blade"},
 
     prev: { slug: 'laravel-controllers', title: 'Controllers' },
     next: { slug: 'laravel-migrations', title: 'Migrations' }
@@ -513,14 +521,15 @@ Object.assign(LESSONS, {
         'php artisan db:seed'
       ],
       correct: 0,
-      feedback: { correct: '🔥 migrate:fresh drops and rebuilds everything. Development playground only.', wrong: '❌ Nope. migrate:fresh drops all tables then re-migrates from scratch — data included.' }
+      feedback: { correct: 'migrate:fresh drops and rebuilds everything. Development playground only.', wrong: 'Nope. migrate:fresh drops all tables then re-migrates from scratch — data included.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Create a <strong>products</strong> table migration with: id, name (string 160), price (decimal 10,2), stock (integer, default 0), timestamps. Write the up() and down() methods.',
       hint: 'php artisan make:migration create_products_table. price DECIMAL → $table->decimal("price", 10, 2).'
-    },
+    ,
+      solution: "// up()\nSchema::create(\"products\", function (Blueprint $table) {\n    $table->id();\n    $table->string(\"name\", 160);\n    $table->decimal(\"price\", 10, 2);\n    $table->integer(\"stock\")->default(0);\n    $table->timestamps();\n});\n\n// down()\nSchema::dropIfExists(\"products\");"},
 
     prev: { slug: 'laravel-blade', title: 'Blade Templates' },
     next: { slug: 'laravel-eloquent', title: 'Eloquent ORM' }
@@ -615,14 +624,15 @@ Object.assign(LESSONS, {
         'Encrypts the columns'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Fillable controls what create($input) may write — the mass-assignment gate.', wrong: '❌ Nope. $fillable whitelists which fields mass assignment may set; everything else is ignored.' }
+      feedback: { correct: 'Fillable controls what create($input) may write — the mass-assignment gate.', wrong: 'Nope. $fillable whitelists which fields mass assignment may set; everything else is ignored.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Two models: <strong>Category</strong> and <strong>Product</strong> (a product belongs to a category). Define the belongsTo/hasMany relationships, then write a query fetching all categories with their products eager-loaded.',
       hint: 'In Category: public function products() { return $this->hasMany(Product::class); } and query Category::with("products")->get().'
-    },
+    ,
+      solution: "class Category extends Model\n{\n    public function products(): HasMany\n    {\n        return $this->hasMany(Product::class);\n    }\n}\n\nclass Product extends Model\n{\n    public function category(): BelongsTo\n    {\n        return $this->belongsTo(Category::class);\n    }\n}\n\n// query\n$categories = Category::with(\"products\")->get();"},
 
     prev: { slug: 'laravel-migrations', title: 'Migrations' },
     next: { slug: 'laravel-validation', title: 'Validation' }
@@ -695,14 +705,15 @@ Object.assign(LESSONS, {
         'Requires it to match the logged-in user'
       ],
       correct: 0,
-      feedback: { correct: '🔥 required + unique checks both presence and database uniqueness. Registration-ready.', wrong: '❌ Nope. unique:users,email fails if the address already exists in that table.' }
+      feedback: { correct: 'required + unique checks both presence and database uniqueness. Registration-ready.', wrong: 'Nope. unique:users,email fails if the address already exists in that table.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Validate a <strong>profile</strong> update: name required (max 100), bio required (min 20), website nullable and url-valid, birthday date, and before today. Then use the validated data to update the user.',
       hint: 'url rule is literally "url". "nullable" lets an empty website pass. date|before:today for birthdays.'
-    },
+    ,
+      solution: "public function update(Request $request, User $user)\n{\n    $validated = $request->validate([\n        \"name\" => \"required|string|max:100\",\n        \"bio\" => \"required|string|min:20\",\n        \"website\" => \"nullable|url\",\n        \"birthday\" => \"date|before:today\",\n    ]);\n\n    $user->update($validated);\n\n    return back()->with(\"status\", \"Profile updated.\");\n}"},
 
     prev: { slug: 'laravel-eloquent', title: 'Eloquent ORM' },
     next: { slug: 'laravel-forms', title: 'Forms & Requests' }
@@ -781,14 +792,16 @@ Object.assign(LESSONS, {
         'It speeds up submission'
       ],
       correct: 0,
-      feedback: { correct: '🔥 CSRF tokens stop cross-site forgery: another site cannot forge a valid form post.', wrong: '❌ Nope. @csrf injects a session-bound token Laravel verifies — blocking forged cross-site submissions.' }
+      feedback: { correct: 'CSRF tokens stop cross-site forgery: another site cannot forge a valid form post.', wrong: 'Nope. @csrf injects a session-bound token Laravel verifies — blocking forged cross-site submissions.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Build a complete edit form for a product: PUT spoof, @csrf, name input with old()/value, price input, and @error blocks showing messages. Action should point to route("products.update", $product).',
       hint: 'Two forms boss-fights: create needs POST+store, edit needs PUT+update. @error("name") shows only if that key failed validation.'
-    },
+    ,
+      solution: "<form action=\"{{ route(\"products.update\", $product) }}\" method=\"POST\">\n    @csrf\n    @method(\"PUT\")\n\n    <label>Name</label>\n    <input type=\"text\" name=\"name\" value=\"{{ old(\"name\", $product->name) }}\">\n    @error(\"name\") <div class=\"err\">{{ $message }}</div> @enderror\n\n    <label>Price</label>\n    <input type=\"text\" name=\"price\" value=\"{{ old(\"price\", $product->price) }}\">\n    @error(\"price\") <div class=\"err\">{{ $message }}</div> @enderror\n\n    <button type=\"submit\">Save</button>\n</form>",
+      solutionLang: "blade"},
 
     prev: { slug: 'laravel-validation', title: 'Validation' },
     next: { slug: 'laravel-auth', title: 'Auth' }
@@ -879,14 +892,15 @@ Object.assign(LESSONS, {
         'auth()->hashing()'
       ],
       correct: 0,
-      feedback: { correct: '🔥 check() is the question; attempt() is the try-to-log-in.', wrong: '❌ Nope. auth()->check() returns true when a user is authenticated. attempt() tries credentials.' }
+      feedback: { correct: 'check() is the question; attempt() is the try-to-log-in.', wrong: 'Nope. auth()->check() returns true when a user is authenticated. attempt() tries credentials.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Protect a page: create a route GET /dashboard guarded by <strong>auth</strong> middleware, and in the controller show the logged-in user\'s name. Also add a logout POST route.',
       hint: 'Route::get("/dashboard", ...)->middleware("auth"); redirect() routes to /login for guests automatically.'
-    },
+    ,
+      solution: "// routes/web.php\nRoute::get(\"/dashboard\", [DashboardController::class, \"index\"])->middleware(\"auth\");\nRoute::post(\"/logout\", [AuthController::class, \"logout\"])->middleware(\"auth\");\n\n// DashboardController@index\npublic function index()\n{\n    return view(\"dashboard\", [\"userName\" => auth()->user()->name]);\n}"},
 
     prev: { slug: 'laravel-forms', title: 'Forms & Requests' },
     next: { slug: 'laravel-middleware', title: 'Middleware' }
@@ -974,14 +988,15 @@ Object.assign(LESSONS, {
         'Calls the controller anyway'
       ],
       correct: 0,
-      feedback: { correct: '🔥 The request is halted and a response (like 403) is returned immediately.', wrong: '❌ Nope. Middleware short-circuits: the controller is never reached when the check fails.' }
+      feedback: { correct: 'The request is halted and a response (like 403) is returned immediately.', wrong: 'Nope. Middleware short-circuits: the controller is never reached when the check fails.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Create a middleware <strong>CheckRole</strong> that takes a role parameter and blocks users without it (abort 403). Apply it to a /admin route: <span class="inline-code">->middleware("role:admin")</span>.',
       hint: 'handle(Request $request, Closure $next, string $role). Compare $request->user()?->role === $role.'
-    },
+    ,
+      solution: "php artisan make:middleware CheckRole\n\npublic function handle(Request $request, Closure $next, string $role)\n{\n    if ($request->user()?->role !== $role) {\n        abort(403);\n    }\n\n    return $next($request);\n}\n\n// bootstrap/app.php (or Kernel on old versions)\n->withMiddleware(fn (Middleware $m) => $m->alias([\"role\" => CheckRole::class]))\n\n// usage\nRoute::get(\"/admin\", fn () => \"admin\")->middleware(\"role:admin\");"},
 
     prev: { slug: 'laravel-auth', title: 'Auth' },
     next: { slug: 'laravel-upload', title: 'File Upload' }
@@ -1076,14 +1091,15 @@ Object.assign(LESSONS, {
         'novalidate'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Without multipart/form-data, files arrive as empty strings. The classic silent killer.', wrong: '❌ Nope. File forms need enctype="multipart/form-data" or the browser sends no file data.' }
+      feedback: { correct: 'Without multipart/form-data, files arrive as empty strings. The classic silent killer.', wrong: 'Nope. File forms need enctype="multipart/form-data" or the browser sends no file data.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Add a <strong>cover image</strong> to posts: validation (image, mimes jpeg/png/webp, max 2MB), storage under "covers" on the public disk, saving the path to the DB, and displaying it in Blade.',
       hint: 'Add covers column to posts first (migration: nullable string). Store returns a relative path like covers/xyz.jpg.'
-    },
+    ,
+      solution: "// migration: add to posts table\n$table->string(\"cover\")->nullable();\n\n// controller\npublic function update(Request $request, Post $post)\n{\n    $validated = $request->validate([\n        \"title\" => \"required|string\",\n        \"cover\" => \"image|mimes:jpeg,png,webp|max:2048\",\n    ]);\n\n    if ($request->hasFile(\"cover\")) {\n        $validated[\"cover\"] = $request->file(\"cover\")->store(\"covers\", \"public\");\n    }\n\n    $post->update($validated);\n\n    return back();\n}\n\n// blade\n<img src=\"{{ asset(\"storage/\" . $post->cover) }}\" alt=\"{{ $post->title }}\">"},
 
     prev: { slug: 'laravel-middleware', title: 'Middleware' },
     next: { slug: 'laravel-storage', title: 'Storage & Helpers' }
@@ -1166,14 +1182,15 @@ Object.assign(LESSONS, {
         'composer storage:link'
       ],
       correct: 0,
-      feedback: { correct: '🔥 storage:link creates the public/storage symlink that serves public disk files.', wrong: '❌ Nope. php artisan storage:link (via the Artisan console) exposes the public disk.' }
+      feedback: { correct: 'storage:link creates the public/storage symlink that serves public disk files.', wrong: 'Nope. php artisan storage:link (via the Artisan console) exposes the public disk.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Write a controller that: receives a report.txt (validated as file|mimes:txt|max:512), stores it on the public disk under "reports", and returns the public URL.',
       hint: '$request->file("report")->store("reports", "public") returns the path; Storage::disk("public")->url($path) gives the URL.'
-    },
+    ,
+      solution: "public function store(Request $request)\n{\n    $validated = $request->validate([\n        \"report\" => \"file|mimes:txt|max:512\",\n    ]);\n\n    $path = $request->file(\"report\")->store(\"reports\", \"public\");\n\n    return response()->json([\n        \"path\" => $path,\n        \"url\" => Storage::disk(\"public\")->url($path),\n    ]);\n}"},
 
     prev: { slug: 'laravel-upload', title: 'File Upload' },
     next: { slug: 'laravel-components', title: 'Blade Components' }
@@ -1198,7 +1215,7 @@ Object.assign(LESSONS, {
       { tag: 'heading', text: 'Slots' },
       { tag: 'text', text: 'Content between the tags <span class="inline-code">&lt;x-alert&gt;This is the slot&lt;/x-alert&gt;</span> flows into <span class="inline-code">{{ $slot }}</span> inside the component. Components become reusable boxes with changeable insides.' },
       { tag: 'heading', text: 'Named slots & classes' },
-      { tag: 'text', text: 'Class-based components (make:component) get real methods and props validation — for complex components. Named slots (<span class="inline-code">&lt;x-slot:title&gt;...</span>) let one component host several regions.'
+      { tag: 'text', text: 'Class-based components (make:component) get real methods and props validation — for complex components. Named slots (<span class="inline-code">&lt;x-slot:title&gt;...</span>) let one component host several regions.'}
     ],
 
     code: [
@@ -1250,14 +1267,16 @@ Object.assign(LESSONS, {
         'Nowhere — it is ignored'
       ],
       correct: 0,
-      feedback: { correct: '🔥 $slot is the default slot where nested content lands.', wrong: '❌ Nope. Content between the component tags flows into the component view\'s {{ $slot }}.' }
+      feedback: { correct: '$slot is the default slot where nested content lands.', wrong: 'Nope. Content between the component tags flows into the component view\'s {{ $slot }}.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Build a reusable <strong>x-card</strong> component: props for title, a named slot "actions", and a default $slot for the body. Then use it on a page with a title, some body text, and a small action button.',
       hint: 'Named slots: <x-slot:actions>...</x-slot:actions> inside the component tag; in the view use {{ $actions }} next to {{ $slot }}.'
-    },
+    ,
+      solution: "<!-- resources/views/components/card.blade.php -->\n<div class=\"card\">\n    <h2>{{ $title }}</h2>\n    <div class=\"card-body\">{{ $slot }}</div>\n    <div class=\"card-actions\">{{ $actions }}</div>\n</div>\n\n<!-- usage -->\n<x-card title=\"Welcome\">\n    This is the body text.\n\n    <x-slot:actions>\n        <a href=\"/login\">Log in</a>\n    </x-slot:actions>\n</x-card>",
+      solutionLang: "blade"},
 
     prev: { slug: 'laravel-storage', title: 'Storage & Helpers' },
     next: { slug: 'laravel-container', title: 'Service Container' }
@@ -1323,7 +1342,7 @@ Object.assign(LESSONS, {
 
     codeExplained: [
       { tag: 'text', text: 'ReportService needs an exporter and a PDF renderer — the container builds both automatically (constructor injection, promoted properties). You never write <span class="inline-code">new ReportService(new ...)</span> when Laravel does it for you.' },
-      { tag: 'text', text: 'The bind maps a contract to an implementation. Change payment providers later? Edit one binding line, done. This is the "swap a part without new tools" benefit of DI.'
+      { tag: 'text', text: 'The bind maps a contract to an implementation. Change payment providers later? Edit one binding line, done. This is the "swap a part without new tools" benefit of DI.'}
     ],
 
     mistakes: [
@@ -1348,14 +1367,15 @@ Object.assign(LESSONS, {
         'Caches the controller'
       ],
       correct: 0,
-      feedback: { correct: '🔥 The container resolves the whole dependency tree for you. That is its butler talent.', wrong: '❌ Nope. Constructor/parameter injection is resolved by the container, dependencies included.' }
+      feedback: { correct: 'The container resolves the whole dependency tree for you. That is its butler talent.', wrong: 'Nope. Constructor/parameter injection is resolved by the container, dependencies included.' }
     },
 
     challenge: {
       lang: 'php',
       text: 'Define an interface <strong>Mailer</strong> and two implementations <strong>SmtpMailer</strong> and <strong>LoggerMailer</strong> ("sends" into the log). Bind Mailer to SmtpMailer in a service provider, then inject Mailer into a controller method.',
       hint: 'bind(Mailer::class, SmtpMailer::class) in a provider\'s register(). Inject Mailer $mailer — Laravel returns the bound implementation.'
-    },
+    ,
+      solution: "interface Mailer\n{\n    public function send(string $to, string $subject): void;\n}\n\nclass SmtpMailer implements Mailer\n{\n    public function send(string $to, string $subject): void\n    {\n        // real SMTP send\n    }\n}\n\nclass LoggerMailer implements Mailer\n{\n    public function send(string $to, string $subject): void\n    {\n        logger()->info(\"mail to {$to}: {$subject}\");\n    }\n}\n\n// AppServiceProvider::register()\n$this->app->bind(Mailer::class, SmtpMailer::class);\n\n// controller — Laravel resolves Mailer to SmtpMailer\npublic function notify(Mailer $mailer)\n{\n    $mailer->send(\"user@example.com\", \"Welcome aboard\");\n}"},
 
     prev: { slug: 'laravel-components', title: 'Blade Components' },
     next: { slug: 'api-what', title: 'What is an API?' }

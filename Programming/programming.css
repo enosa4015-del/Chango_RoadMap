@@ -635,10 +635,14 @@ h1 {
 .level-body {
   flex: 1;
   display: flex;
-  flex-wrap: wrap;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
 }
+
+.level-info { min-width: 0; }
+
+.level-action-wrap { flex-shrink: 0; align-self: flex-start; }
 
 .level-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 700; }
 
@@ -1130,6 +1134,18 @@ h1 {
 
 .lesson-nav .btn { padding: 0.65rem 1.3rem; font-size: 0.85rem; }
 
+.solution-toggle {
+  margin-top: 1.2rem;
+  background: rgba(108, 60, 225, 0.1);
+  color: var(--primary-light);
+  border: 1.5px solid rgba(108, 60, 225, 0.4);
+}
+
+.solution-toggle:hover { background: var(--gradient-1); color: #fff; box-shadow: 0 6px 20px rgba(108, 60, 225, 0.35); }
+
+.challenge-solution { margin-top: 0.8rem; }
+.challenge-solution .code-block { margin-bottom: 0; }
+
 .mark-btn {
   background: rgba(16, 185, 129, 0.12);
   color: #10B981;
@@ -1305,6 +1321,8 @@ footer {
   .course-grid, .project-grid { grid-template-columns: 1fr; }
 
   .level-card .main { flex-direction: column; gap: 0.8rem; }
+
+  .level-action-wrap { width: 100%; }
 
   .level-action { width: 100%; justify-content: center; }
 

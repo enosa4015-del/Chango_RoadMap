@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Projects — Backend Roadmap | Chango</title>
+  <meta name="description" content="Six real backend projects: Todo API, Blog API, Auth API, E-Commerce API, Job Marketplace API, and your portfolio. Build them to prove you are job ready.">
+  <link rel="icon" href="../../images/Logo.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="../programming.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../../index.html" class="logo">
+    <div class="logo-icon"><img src="../../images/Logo.jpg" alt="Chango logo"></div>
+    <span class="logo-text">Chango</span>
+  </a>
+  <div class="nav-right">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <a href="../../journey.html" class="nav-link">Journeys</a>
+    <a href="../programming.html" class="nav-link">Programming</a>
+    <a href="backend.html" class="nav-link active">Backend Roadmap</a>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">Light</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-mobile" id="navMobile">
+  <a href="../../index.html" class="nav-link">Home</a>
+  <a href="../../journey.html" class="nav-link">Journeys</a>
+  <a href="../programming.html" class="nav-link">Programming</a>
+  <a href="backend.html" class="nav-link active">Backend Roadmap</a>
+</div>
+
+<script>
+  (function () {
+    var saved = 'dark';
+    try { saved = localStorage.getItem('changoTheme') || 'dark'; } catch (e) {}
+    document.documentElement.setAttribute('data-theme', saved);
+    function refresh() {
+      var b = document.getElementById('themeToggle');
+      if (!b) return;
+      b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark';
+    }
+    window.toggleTheme = function () {
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('changoTheme', next); } catch (e) {}
+      document.documentElement.setAttribute('data-theme', next);
+      refresh();
+    };
+    refresh();
+    document.addEventListener('DOMContentLoaded', refresh);
+  })();
+
+  var navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', function () {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  var hamburger = document.getElementById('hamburger');
+  var navMobile = document.getElementById('navMobile');
+  hamburger.addEventListener('click', function () { navMobile.classList.toggle('active'); });
+  navMobile.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () { navMobile.classList.remove('active'); });
+  });
+</script>
+
+<!-- HERO -->
+<section class="hero" style="min-height:auto;padding:9rem 2rem 4rem;">
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <h1 class="reveal">Time to <span class="gradient-text">Prove It.</span></h1>
+    <p class="hero-sub reveal">
+      Six real projects. No "todo-app-is-my-full-stack" energy — these grow in difficulty until you have built the exact things employers pay for.
+      <br><br>
+      Finished a project? Mark it "Understood" in its lesson and watch your roadmap progress fill up.
+    </p>
+    <div class="hero-buttons reveal">
+      <a href="#projects" class="btn btn-primary btn-large">See the Projects ↓</a>
+      <a href="lesson.html?level=programming&lesson=projects-todo" class="btn btn-outline btn-large">Start Project 01 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-label"><span class="line"></span> The Real Projects</div>
+      <h2 class="section-title">Build These in Order. <span class="accent-text">Then Be Proud.</span></h2>
+      <p class="section-desc">
+        Each project has a dedicated lesson with the full requirements, schema, endpoints, and the tests that prove it works. Click a project to open its lesson.
+      </p>
+    </div>
+
+    <div class="roadmap" id="projectsList"></div>
+
+    <div class="soon-note reveal">
+      ✅ Every project is fully documented. Start with the Todo API — it is small enough to finish, and big enough to teach you the production loop.
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section alt">
+  <div class="container narrow">
+    <div class="cta-box reveal">
+      <h2>After the projects comes <span class="gradient-text">Job Ready.</span></h2>
+      <p>Level 12 turns your finished projects into a portfolio, a GitHub profile, a CV, and interview answers. That is the final boss.</p>
+      <div class="hero-buttons">
+        <a href="lesson.html?level=programming&lesson=job-portfolio" class="btn btn-journey btn-large">Go to Level 12 →</a>
+        <a href="backend.html" class="btn btn-outline btn-large">← Back to Roadmap</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="../../images/Logo.jpg" alt="Chango logo"> Chango — The bridge between skills and opportunities</div>
+    <div class="footer-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../journey.html">Journeys</a>
+      <a href="../programming.html">Programming</a>
+      <a href="backend.html">Backend Roadmap</a>
+    </div>
+  </div>
+  <p class="footer-quote">Built for developers who are tired of learning without building.</p>
+</footer>
+
+<script>
+  (function () {
+    var PROJECTS = [
+      {
+        num: '01',
+        icon: '📝',
+        title: 'Todo API',
+        desc: 'Your classic gone professional: Sanctum auth, ownership policies, toggle, and Feature tests. The smallest complete loop you will ever ship.',
+        accent: '#22D3EE',
+        gradient: 'linear-gradient(135deg, #22D3EE, #3B82F6)',
+        tint: 'rgba(34, 211, 238, 0.14)',
+        border: 'rgba(34, 211, 238, 0.4)',
+        time: '3–4 days',
+        level: 'Advanced',
+        stack: 'Laravel · Sanctum · MySQL · Tests',
+        href: 'lesson.html?level=programming&lesson=projects-todo',
+        cta: 'Build Project 01 →'
+      },
+      {
+        num: '02',
+        icon: '✍️',
+        title: 'Blog API',
+        desc: 'Authors, categories, comments, drafts vs published, slugs, and eager loading. Your first real content system with a public read side.',
+        accent: '#10B981',
+        gradient: 'linear-gradient(135deg, #10B981, #3B82F6)',
+        tint: 'rgba(16, 185, 129, 0.14)',
+        border: 'rgba(16, 185, 129, 0.4)',
+        time: '4–5 days',
+        level: 'Advanced',
+        stack: 'Relations · Scopes · Resources · Tests',
+        href: 'lesson.html?level=programming&lesson=projects-blog',
+        cta: 'Build Project 02 →'
+      },
+      {
+        num: '03',
+        icon: '🔐',
+        title: 'Auth API',
+        desc: 'Register, login, logout, me, tokens, rate limit, generic failures, and no user enumeration. The plumbing every app silently depends on.',
+        accent: '#EC4899',
+        gradient: 'linear-gradient(135deg, #EC4899, #8B5CF6)',
+        tint: 'rgba(236, 72, 153, 0.14)',
+        border: 'rgba(236, 72, 153, 0.4)',
+        time: '2–3 days',
+        level: 'Advanced',
+        stack: 'Sanctum · Throttle · Hashes · Tests',
+        href: 'lesson.html?level=programming&lesson=projects-auth',
+        cta: 'Build Project 03 →'
+      },
+      {
+        num: '04',
+        icon: '🛒',
+        title: 'E-Commerce API',
+        desc: 'Carts, products, stock that never goes negative, orders that snapshot prices, and money in integer cents. Transactions do the heavy lifting.',
+        accent: '#F97316',
+        gradient: 'linear-gradient(135deg, #F97316, #E11D48)',
+        tint: 'rgba(249, 115, 22, 0.14)',
+        border: 'rgba(249, 115, 22, 0.4)',
+        time: '5–6 days',
+        level: 'Advanced',
+        stack: 'Transactions · Locks · Cents · Tests',
+        href: 'lesson.html?level=programming&lesson=projects-ecommerce',
+        cta: 'Build Project 04 →'
+      },
+      {
+        num: '05',
+        icon: '💼',
+        title: 'Job Marketplace API',
+        desc: 'Two roles, job search across title/company/type/salary, one application per (developer, job), and CV uploads. Your interview-winning flagship.',
+        accent: '#8B5CF6',
+        gradient: 'linear-gradient(135deg, #8B5CF6, #EC4899)',
+        tint: 'rgba(139, 92, 246, 0.14)',
+        border: 'rgba(139, 92, 246, 0.4)',
+        time: '1–2 weeks',
+        level: 'Advanced',
+        stack: 'Policies · Filters · Uploads · Tests',
+        href: 'lesson.html?level=programming&lesson=projects-job-market',
+        cta: 'Build Project 05 →'
+      },
+      {
+        num: '06',
+        icon: '🏛️',
+        title: 'Portfolio Project',
+        desc: 'Glue your best API to a frontend, ship it on HTTPS with demo accounts, and write the README that makes a recruiter click "apply".',
+        accent: '#10B981',
+        gradient: 'linear-gradient(135deg, #10B981, #F59E0B)',
+        tint: 'rgba(16, 185, 129, 0.14)',
+        border: 'rgba(16, 185, 129, 0.4)',
+        time: '1 week',
+        level: 'Advanced',
+        stack: 'Deploy · HTTPS · README · Demo',
+        href: 'lesson.html?level=programming&lesson=projects-portfolio',
+        cta: 'Build Project 06 →'
+      }
+    ];
+
+    var list = document.getElementById('projectsList');
+    var out = '';
+    PROJECTS.forEach(function (p) {
+      var meta = [
+        '<span>⏱️ <b>' + p.time + '</b></span>',
+        '<span>📊 <b>' + p.level + '</b></span>',
+        '<span>🛠️ <b>' + p.stack + '</b></span>'
+      ].join('');
+
+      out += '<div class="level-card reveal" style="--lv-accent:' + p.accent + ';--lv-tint:' + p.tint + ';--lv-border:' + p.border + ';">' +
+        '<div class="main">' +
+          '<div class="level-num">' + p.icon + '</div>' +
+          '<div class="level-body">' +
+            '<div class="level-info">' +
+              '<div class="level-title"><small>Project ' + p.num + '</small>' + p.title + '</div>' +
+              '<p class="level-desc">' + p.desc + '</p>' +
+              '<div class="level-meta">' + meta + '</div>' +
+            '</div>' +
+            '<div class="level-action-wrap">' +
+              '<a class="level-action" href="' + p.href + '" style="background:' + p.gradient + ';">' + p.cta + '</a>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    list.innerHTML = out;
+
+    var reveals = document.querySelectorAll('.reveal');
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+    reveals.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
+<script data-goatcounter="https://backend.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

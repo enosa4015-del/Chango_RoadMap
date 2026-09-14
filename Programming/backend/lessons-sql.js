@@ -60,7 +60,7 @@ Object.assign(LESSONS, {
         'The database name'
       ],
       correct: 0,
-      feedback: { correct: '🔥 One row = one real-world record. Columns describe it, rows are it.', wrong: '❌ Nope. A row is one record; columns define the fields each record has.' }
+      feedback: { correct: 'One row = one real-world record. Columns describe it, rows are it.', wrong: 'Nope. A row is one record; columns define the fields each record has.' }
     },
 
     challenge: {
@@ -68,7 +68,8 @@ Object.assign(LESSONS, {
       text: 'Write a SELECT query that returns only the <strong>name</strong> and <strong>id</strong> of users whose <strong>country</strong> is "Egypt". Just write the SQL — you will run it for real in the next lessons.',
       code: 'SELECT ...\nFROM users\nWHERE ...;\n',
       hint: 'name and id in the SELECT list, users as the table, country = "Egypt" in WHERE.'
-    },
+    ,
+      solution: "SELECT name, id\nFROM users\nWHERE country = \"Egypt\";"},
 
     prev: { slug: 'git-prs', title: 'Pull Requests' },
     next: { slug: 'sql-select', title: 'SELECT & WHERE' }
@@ -143,14 +144,15 @@ Object.assign(LESSONS, {
         'Random order, 5 products'
       ],
       correct: 1,
-      feedback: { correct: '🔥 DESC = descending = biggest price first. Exactly what a top-selling dashboard needs.', wrong: '❌ Nope. ORDER BY price DESC sorts high to low, and LIMIT 5 keeps the first five — so the five priciest.' }
+      feedback: { correct: 'DESC = descending = biggest price first. Exactly what a top-selling dashboard needs.', wrong: 'Nope. ORDER BY price DESC sorts high to low, and LIMIT 5 keeps the first five — so the five priciest.' }
     },
 
     challenge: {
       lang: 'sql',
       text: 'From an <strong>employees</strong> table with columns (name, salary, department), write a query returning the top 3 highest-paid employees in the "IT" department.',
       hint: 'WHERE department = "IT", ORDER BY salary DESC, LIMIT 3.'
-    },
+    ,
+      solution: "SELECT name, salary\nFROM employees\nWHERE department = \"IT\"\nORDER BY salary DESC\nLIMIT 3;"},
 
     prev: { slug: 'sql-what', title: 'What is a Database?' },
     next: { slug: 'sql-crud', title: 'INSERT, UPDATE, DELETE' }
@@ -220,14 +222,15 @@ Object.assign(LESSONS, {
         'Deletes the role column'
       ],
       correct: 0,
-      feedback: { correct: '🔥 No WHERE = every row. This is the shortest path to a very interesting afternoon.', wrong: '❌ Nope. Without a WHERE clause, UPDATE applies to every row — the entire users table becomes admin.' }
+      feedback: { correct: 'No WHERE = every row. This is the shortest path to a very interesting afternoon.', wrong: 'Nope. Without a WHERE clause, UPDATE applies to every row — the entire users table becomes admin.' }
     },
 
     challenge: {
       lang: 'sql',
       text: 'Write the three statements that (1) insert a product named "Wireless Mouse" priced 30, (2) raise its price to 35 where the name matches, and (3) delete it. Wrap them in <strong>BEGIN</strong> and <strong>COMMIT</strong>.',
       hint: 'INSERT with name+price, UPDATE ... SET price = 35 WHERE name = "Wireless Mouse", DELETE FROM products WHERE name = "Wireless Mouse".'
-    },
+    ,
+      solution: "BEGIN;\n\nINSERT INTO products (name, price) VALUES (\"Wireless Mouse\", 30);\nUPDATE products SET price = 35 WHERE name = \"Wireless Mouse\";\nDELETE FROM products WHERE name = \"Wireless Mouse\";\n\nCOMMIT;"},
 
     prev: { slug: 'sql-select', title: 'SELECT & WHERE' },
     next: { slug: 'sql-joins', title: 'JOINs' }
@@ -299,14 +302,15 @@ Object.assign(LESSONS, {
         'Only a right-join, sorry'
       ],
       correct: 0,
-      feedback: { correct: '🔥 LEFT JOIN preserves everything on the left side; missing matches become NULL.', wrong: '❌ Nope. INNER JOIN drops unmatched rows; LEFT JOIN keeps them, NULLing the right side.' }
+      feedback: { correct: 'LEFT JOIN preserves everything on the left side; missing matches become NULL.', wrong: 'Nope. INNER JOIN drops unmatched rows; LEFT JOIN keeps them, NULLing the right side.' }
     },
 
     challenge: {
       lang: 'sql',
       text: 'For the tables <strong>posts</strong> (id, title, user_id) and <strong>users</strong> (id, name), write a query showing <strong>post title</strong> plus the <strong>author name</strong>, and another showing every <strong>user</strong> with the <strong>count of their posts</strong> (include users with zero posts).',
       hint: 'First needs INNER JOIN posts p JOIN users u ON p.user_id = u.id. Second needs LEFT JOIN + COUNT(o.id) + GROUP BY u.id.'
-    },
+    ,
+      solution: "-- each post with its author\nSELECT p.title, u.name AS author\nFROM posts p\nINNER JOIN users u ON p.user_id = u.id;\n\n-- every user with a post count (including users with zero posts)\nSELECT u.name, COUNT(p.id) AS post_count\nFROM users u\nLEFT JOIN posts p ON p.user_id = u.id\nGROUP BY u.id;"},
 
     prev: { slug: 'sql-crud', title: 'INSERT, UPDATE, DELETE' },
     next: { slug: 'sql-relationships', title: 'Relationships' }
@@ -379,7 +383,7 @@ Object.assign(LESSONS, {
       'Forgetting ON DELETE — what happens to orders when the user is deleted? Decide (CASCADE deletes children, RESTRICT blocks).'
     ],
 
-    proTip: 'Use <span class="inline-code">ON DELETE CASCADE</span> only for closely owned data (post ⭢ comments). For money and history, use RESTRICT or soft-delete. Choosing the wrong deletion behavior is a production incident that interviews love asking about.'
+    proTip: 'Use <span class="inline-code">ON DELETE CASCADE</span> only for closely owned data (post → comments). For money and history, use RESTRICT or soft-delete. Choosing the wrong deletion behavior is a production incident that interviews love asking about.'
 
     ,
 
@@ -393,14 +397,15 @@ Object.assign(LESSONS, {
         'Both'
       ],
       correct: 0,
-      feedback: { correct: '🔥 The many side carries the key to the one side. One user, many orders each pointing back.', wrong: '❌ Nope. orders.user_id points at users.id — the many side holds the foreign key.' }
+      feedback: { correct: 'The many side carries the key to the one side. One user, many orders each pointing back.', wrong: 'Nope. orders.user_id points at users.id — the many side holds the foreign key.' }
     },
 
     challenge: {
       lang: 'sql',
       text: 'Model a blog: <strong>posts</strong> (one user has many posts) and <strong>tags</strong> (many-to-many with posts via a pivot <strong>post_tag</strong>). Write the three CREATE TABLE statements with foreign keys.',
       hint: 'posts.user_id → users.id. post_tag holds post_id and tag_id with a composite primary key.'
-    },
+    ,
+      solution: "CREATE TABLE users (\n    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n    name VARCHAR(255) NOT NULL\n);\n\nCREATE TABLE posts (\n    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n    user_id BIGINT UNSIGNED NOT NULL,\n    title VARCHAR(255) NOT NULL,\n    FOREIGN KEY (user_id) REFERENCES users(id)\n);\n\nCREATE TABLE tags (\n    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n    name VARCHAR(255) NOT NULL\n);\n\nCREATE TABLE post_tag (\n    post_id BIGINT UNSIGNED NOT NULL,\n    tag_id BIGINT UNSIGNED NOT NULL,\n    PRIMARY KEY (post_id, tag_id),\n    FOREIGN KEY (post_id) REFERENCES posts(id),\n    FOREIGN KEY (tag_id) REFERENCES tags(id)\n);"},
 
     prev: { slug: 'sql-joins', title: 'JOINs' },
     next: { slug: 'sql-indexes', title: 'Indexes' }
@@ -474,14 +479,15 @@ Object.assign(LESSONS, {
         'It is required by SQL syntax'
       ],
       correct: 0,
-      feedback: { correct: '🔥 The email index turns a full-table scan into a direct jump.', wrong: '❌ Nope. Indexes let the engine find matching rows directly instead of reading every row.' }
+      feedback: { correct: 'The email index turns a full-table scan into a direct jump.', wrong: 'Nope. Indexes let the engine find matching rows directly instead of reading every row.' }
     },
 
     challenge: {
       lang: 'sql',
       text: 'On an <strong>orders</strong> table that gets filtered by <strong>customer_id</strong> in almost every query, design the correct index (and explain why it should NOT be a UNIQUE index).',
       hint: 'customer_id repeats across orders (one customer, many orders) — so UNIQUE would block legitimate data.'
-    },
+    ,
+      solution: "CREATE INDEX idx_orders_customer_id ON orders (customer_id);\n\n-- Why NOT UNIQUE? UNIQUE forbids a second order for the same customer_id,\n-- but one customer legitimately has many orders. UNIQUE would block real data.\n-- Also worth adding: a UNIQUE index on order_number, which IS unique."},
 
     prev: { slug: 'sql-relationships', title: 'Relationships' },
     next: { slug: 'sql-normalization', title: 'Normalization' }
@@ -566,14 +572,16 @@ Object.assign(LESSONS, {
         'Too many joins'
       ],
       correct: 0,
-      feedback: { correct: '🔥 One fact, one home. Duplicated facts are where corruption begins.', wrong: '❌ Nope. Normalization is about removing redundancy so each fact is stored once.' }
+      feedback: { correct: 'One fact, one home. Duplicated facts are where corruption begins.', wrong: 'Nope. Normalization is about removing redundancy so each fact is stored once.' }
     },
 
     challenge: {
       lang: 'sql',
       text: 'Spot the violation: a <strong>sale</strong> table with columns (id, customer_name, customer_phone, book_title, author_name). Which normalization forms does it break, and how would you split it?',
       hint: 'customer_name/phone duplicate per sale (3NF issue), and book_title/author repeat per sale too — split into customers, books, and sales linking by id.'
-    },
+    ,
+      solution: "Violations in the sale table (id, customer_name, customer_phone, book_title, author_name):\n- 1NF: OK on its own, no repeated columns or arrays.\n- 2NF/3NF: customer_name + customer_phone repeat per sale of the same customer →\n  they belong in a customers table (3NF: no factual dependency on anything but the key).\n- book_title + author_name repeat per sale of the same book →\n  they belong in a books table.\n\nSplit into:\n  customers(id, name, phone)\n  books(id, title, author)\n  sales(id, customer_id, book_id, ...)\nSales then reference customers and books by foreign key — one fact, one place.",
+      solutionLang: "text"},
 
     prev: { slug: 'sql-indexes', title: 'Indexes' },
     next: { slug: 'sql-design', title: 'Designing Tables' }
@@ -653,14 +661,15 @@ Object.assign(LESSONS, {
         'VARCHAR(20)'
       ],
       correct: 0,
-      feedback: { correct: '🔥 DECIMAL is exact for money; FLOAT drifts with rounding errors.', wrong: '❌ Nope. Money needs exact decimals — DECIMAL(10,2). FLOAT rounds and FLOAT falls, wallet suffers.' }
+      feedback: { correct: 'DECIMAL is exact for money; FLOAT drifts with rounding errors.', wrong: 'Nope. Money needs exact decimals — DECIMAL(10,2). FLOAT rounds and FLOAT falls, wallet suffers.' }
     },
 
     challenge: {
       lang: 'sql',
       text: 'Design a <strong>comments</strong> table for a blog: a comment belongs to a post and can optionally belong to a user (guest comments allowed). Include id, content, created_at, and the correct foreign keys/types.',
       hint: 'post_id NOT NULL, user_id NULLABLE (NULL = anonymous). Index the post_id for "comments on this post" queries.'
-    },
+    ,
+      solution: "CREATE TABLE comments (\n    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n    post_id BIGINT UNSIGNED NOT NULL,\n    user_id BIGINT UNSIGNED NULL,          -- NULL = anonymous guest comment\n    content TEXT NOT NULL,\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    INDEX idx_comments_post_id (post_id),\n    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL\n);"},
 
     prev: { slug: 'sql-normalization', title: 'Normalization' },
     next: { slug: 'sql-aggregation', title: 'Aggregation' }
@@ -735,14 +744,15 @@ Object.assign(LESSONS, {
         'ORDER BY'
       ],
       correct: 0,
-      feedback: { correct: '🔥 HAVING is WHERE for groups. Rows get filtered by WHERE, groups by HAVING.', wrong: '❌ Nope. WHERE filters rows before grouping; HAVING filters the grouped results.' }
+      feedback: { correct: 'HAVING is WHERE for groups. Rows get filtered by WHERE, groups by HAVING.', wrong: 'Nope. WHERE filters rows before grouping; HAVING filters the grouped results.' }
     },
 
     challenge: {
       lang: 'sql',
       text: 'For a <strong>sales</strong> table (product_name, amount, region), write a query showing total sales per region, keeping only regions with total sales above 1000, sorted from highest to lowest.',
       hint: 'GROUP BY region, SUM(amount) AS total in SELECT, HAVING SUM(amount) > 1000, ORDER BY total DESC.'
-    },
+    ,
+      solution: "SELECT region, SUM(amount) AS total\nFROM sales\nGROUP BY region\nHAVING SUM(amount) > 1000\nORDER BY total DESC;"},
 
     prev: { slug: 'sql-design', title: 'Designing Tables' },
     next: { slug: 'sql-ecommerce', title: 'Practice: E-Commerce DB' }
@@ -858,14 +868,15 @@ Object.assign(LESSONS, {
         'To make queries faster'
       ],
       correct: 0,
-      feedback: { correct: '🔥 History must survive price changes. Snapshot the price in the item.', wrong: '❌ Nope. Prices change over time — the item row must remember what was actually charged when the order happened.' }
+      feedback: { correct: 'History must survive price changes. Snapshot the price in the item.', wrong: 'Nope. Prices change over time — the item row must remember what was actually charged when the order happened.' }
     },
 
     challenge: {
       lang: 'sql',
       text: 'Using your 5-table schema, find the <strong>3 most expensive orders ever placed</strong>: order id, customer name, and total (sum of quantity × unit_price).',
       hint: 'JOIN order_items→orders→customers, GROUP BY order id + customer name, ORDER BY total DESC LIMIT 3.'
-    },
+    ,
+      solution: "SELECT o.id AS order_id, c.name AS customer_name,\n       SUM(oi.quantity * oi.unit_price) AS total\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nJOIN order_items oi ON oi.order_id = o.id\nGROUP BY o.id, c.name\nORDER BY total DESC\nLIMIT 3;"},
 
     prev: { slug: 'sql-aggregation', title: 'Aggregation' },
     next: { slug: 'laravel-what', title: 'What is Laravel?' }

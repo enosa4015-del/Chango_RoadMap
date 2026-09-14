@@ -13,7 +13,7 @@ Object.assign(LESSONS, {
     difficulty: 'Beginner',
     book: 'Book Chapter 2 · Syntax & Output',
 
-    intro: 'PHP is the language that quietly powers a giant share of the internet. It is not dead. It is not a zombie. It is just very, very employed. 🐘',
+    intro: 'PHP is the language that quietly powers a giant share of the internet. It is not dead. It is not a zombie. It is just very, very employed. ',
 
     whyMatters: 'Your backend stack is PHP + Laravel. Before Laravel gives you the fast lane, you need to understand the car. Syntax is where every PHP developer — including the senior ones — started.',
 
@@ -34,7 +34,8 @@ Object.assign(LESSONS, {
         code: '<?php\n' +
               '$name = "Sara";\n' +
               '$age = 21;\n' +
-              'echo "Hi $name, you are $age years old!";'
+              'echo "Hi $name, you are $age years old!";\n' +
+              '// Output: Hi Sara, you are 21 years old!'
       },
       {
         lang: 'PHP',
@@ -77,7 +78,7 @@ Object.assign(LESSONS, {
         'It crashes'
       ],
       correct: 0,
-      feedback: { correct: '🔥 LET\'S GOOO. Double quotes interpolate. You already know dev.', wrong: '❌ Nope. The bug wins this round. Double quotes insert the variable value; single quotes print it literally.' }
+      feedback: { correct: 'LET\'S GOOO. Double quotes interpolate. You already know dev.', wrong: 'Nope. The bug wins this round. Double quotes insert the variable value; single quotes print it literally.' }
     },
 
     challenge: {
@@ -85,7 +86,9 @@ Object.assign(LESSONS, {
       text: 'Create two variables — <strong>$yourName</strong> and <strong>$yourAge</strong> — and print one sentence using interpolation. Bonus: add a comment explaining sarcastically what you are doing.',
       code: '<?php\n// TODO: actually write my name here\n$yourName = "..."\n$yourAge = ...\n',
       hint: 'Remember the $ on both variables and filter out the "Error: unexpected token" face.'
-    },
+    ,
+      solution: "<?php\n$yourName = \"Sara\";\n$yourAge = 24;\n\necho \"My name is $yourName and I am $yourAge years old.\";\n// Output: My name is Sara and I am 24 years old.\n\n// Bonus: this comment is 100% original and hand-typed.",
+      solutionLang: "PHP"},
 
     prev: { slug: 'loops', title: 'Loops' },
     next: { slug: 'php-functions', title: 'Functions' }
@@ -165,7 +168,7 @@ Object.assign(LESSONS, {
         'Error: missing argument'
       ],
       correct: 0,
-      feedback: { correct: '🔥 LET\'S GOOO. Default parameters are just polite functions.', wrong: '❌ Nope. $b has a default of 2, so multiply(4) is 4 x 2 = 8.' }
+      feedback: { correct: 'LET\'S GOOO. Default parameters are just polite functions.', wrong: 'Nope. $b has a default of 2, so multiply(4) is 4 x 2 = 8.' }
     },
 
     challenge: {
@@ -173,7 +176,8 @@ Object.assign(LESSONS, {
       text: 'Write a function <strong>isAdult($age)</strong> that returns <strong>true</strong> if the age is 18 or more, and <strong>false</strong> otherwise. Then echo the result of calling it with the age 17 and with 23.',
       code: '<?php\nfunction isAdult($age) {\n    // your code here\n}\n',
       hint: 'The comparison operator is >=. The function returns a boolean (true/false), and echoing true/false prints "1" or "" respectively.'
-    },
+    ,
+      solution: "<?php\nfunction isAdult($age) {\n    return $age >= 18;\n}\n\necho isAdult(17);  // prints \"\" (false echo nothing)\necho isAdult(23);  // prints 1 (true)"},
 
     prev: { slug: 'php-syntax', title: 'Syntax & Output' },
     next: { slug: 'php-arrays', title: 'Arrays' }
@@ -223,7 +227,13 @@ Object.assign(LESSONS, {
               '\n' +
               'foreach ($user as $key => $value) {\n' +
               '    echo "$key is $value\n";\n' +
-              '}'
+              '}\n' +
+              '// Output:\n' +
+              '// Hey Ahmed!\n' +
+              '// Hey Sara!\n' +
+              '// Hey Omar!\n' +
+              '// name is Sara\n' +
+              '// age is 21'
       }
     ],
 
@@ -254,7 +264,7 @@ Object.assign(LESSONS, {
         'Array'
       ],
       correct: 0,
-      feedback: { correct: '🔥 LET\'S GOOO. Index 1 is the second item. Zero-indexing strikes again.', wrong: '❌ Nope. Indices start at 0, so index 1 holds 20.' }
+      feedback: { correct: 'LET\'S GOOO. Index 1 is the second item. Zero-indexing strikes again.', wrong: 'Nope. Indices start at 0, so index 1 holds 20.' }
     },
 
     challenge: {
@@ -262,7 +272,8 @@ Object.assign(LESSONS, {
       text: 'Create an associative array for a product with <strong>name</strong>, <strong>price</strong>, and a <strong>stock</strong> — then loop over it with <span class="inline-code">foreach ($product as $key => $value)</span> echoing "<strong>key is value</strong>".',
       code: '<?php\n$product = ["name" => "Keyboard", "price" => 25, "stock" => 100];\n',
       hint: 'Your loop should produce 3 lines, one per key.'
-    },
+    ,
+      solution: "<?php\n$product = [\"name\" => \"Keyboard\", \"price\" => 25, \"stock\" => 100];\n\nforeach ($product as $key => $value) {\n    echo \"$key is $value\n\";\n}\n\n// name is Keyboard\n// price is 25\n// stock is 100"},
 
     prev: { slug: 'php-functions', title: 'Functions' },
     next: { slug: 'php-forms', title: 'Forms & Input' }
@@ -308,7 +319,9 @@ Object.assign(LESSONS, {
               '$email = $_POST["email"] ?? "";\n' +
               '\n' +
               'echo "Welcome, " . htmlspecialchars($username) . "!";\n' +
-              'echo "We will email " . htmlspecialchars($email) . ".";'
+              'echo "We will email " . htmlspecialchars($email) . ".";\n' +
+              '// Output (with username="Ahmed", email="ahmed@example.com"):\n' +
+              '// Welcome, Ahmed! We will email ahmed@example.com.'
       }
     ],
 
@@ -339,14 +352,15 @@ Object.assign(LESSONS, {
         'It never reaches PHP'
       ],
       correct: 0,
-      feedback: { correct: '🔥 POST, don\'t GET, your way to victory.', wrong: '❌ Nope. The method POST sends data in the request body, readable via $_POST.' }
+      feedback: { correct: 'POST, don\'t GET, your way to victory.', wrong: 'Nope. The method POST sends data in the request body, readable via $_POST.' }
     },
 
     challenge: {
       lang: 'PHP',
       text: 'Build a form with a <strong>color</strong> and a <strong>favorite_food</strong> input. On submit, print: "<strong>Your favorite color is X and you love Y</strong>" — both escaped with htmlspecialchars().',
       hint: 'You need two files (form.html + submit.php) or one file that handles both. Escape everything before echoing.'
-    },
+    ,
+      solution: "<?php\n// Handle the submitted form (form.php handles GET + POST itself):\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $color = htmlspecialchars($_POST[\"color\"]);\n    $food  = htmlspecialchars($_POST[\"favorite_food\"]);\n\n    echo \"Your favorite color is $color and you love $food\";\n    exit;\n}\n?>\n<form method=\"post\">\n    <input name=\"color\" placeholder=\"Color\">\n    <input name=\"favorite_food\" placeholder=\"Favorite food\">\n    <button>Submit</button>\n</form>"},
 
     prev: { slug: 'php-arrays', title: 'Arrays' },
     next: { slug: 'php-sessions', title: 'Sessions & Cookies' }
@@ -432,14 +446,15 @@ Object.assign(LESSONS, {
         'The password'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Exactly. The cookie is a ticket with a number on it; the real data stays server-side.', wrong: '❌ Nope. The cookie just carries the session ID. The actual data lives in a server-side file.' }
+      feedback: { correct: 'Exactly. The cookie is a ticket with a number on it; the real data stays server-side.', wrong: 'Nope. The cookie just carries the session ID. The actual data lives in a server-side file.' }
     },
 
     challenge: {
       lang: 'PHP',
       text: 'Build a mini "login" — a form that stores <strong>username</strong> in a session, then on a second page greets "<strong>Welcome back, [username]</strong>" only if the session exists, otherwise shows a login link.',
       hint: 'Three steps: session_start, write to $_SESSION on submit, check isset($_SESSION["username"]) on the other page.'
-    },
+    ,
+      solution: "<?php\n// login.php\nsession_start();\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $_SESSION[\"username\"] = $_POST[\"username\"];\n    header(\"Location: welcome.php\");\n    exit;\n}\n?>\n<form method=\"post\"><input name=\"username\"><button>Log in</button></form>\n\n<?php\n// welcome.php\nsession_start();\nif (isset($_SESSION[\"username\"])) {\n    echo \"Welcome back, \" . htmlspecialchars($_SESSION[\"username\"]);\n} else {\n    echo '<a href=\"login.php\">Log in</a>';\n}"},
 
     prev: { slug: 'php-forms', title: 'Forms & Input' },
     next: { slug: 'php-files', title: 'File Handling' }
@@ -473,7 +488,9 @@ Object.assign(LESSONS, {
         label: 'Read + write',
         code: '<?php\n' +
               '$read = file_get_contents("notes.txt");\n' +
-              'echo $read;'
+              'echo $read;\n' +
+              '// Output (if notes.txt contains "Buy milk"):\n' +
+              '// Buy milk'
       },
       {
         lang: 'PHP',
@@ -484,7 +501,8 @@ Object.assign(LESSONS, {
               '\n' +
               'if (file_exists("logs.txt")) {\n' +
               '    echo "Log exists. Size: " . filesize("logs.txt") . " bytes";\n' +
-              '}'
+              '}\n' +
+              '// Output (sample): Log exists. Size: 53 bytes'
       }
     ],
 
@@ -513,14 +531,15 @@ Object.assign(LESSONS, {
         'fopen($path, "w")'
       ],
       correct: 0,
-      feedback: { correct: '🔥 FILE_APPEND is the friendly flag that never overwrites good data.', wrong: '❌ Nope. file_put_contents alone overwrites; the FILE_APPEND flag keeps the old content and adds at the end.' }
+      feedback: { correct: 'FILE_APPEND is the friendly flag that never overwrites good data.', wrong: 'Nope. file_put_contents alone overwrites; the FILE_APPEND flag keeps the old content and adds at the end.' }
     },
 
     challenge: {
       lang: 'PHP',
       text: 'Write a script that appends the current date and time to a file called <strong>visits.log</strong> every time it runs, then reads the last 5 lines back and prints them.',
       hint: 'date("Y-m-d H:i:s") gives you the timestamp. file() puts lines into an array; array_slice from the end gets the last ones.'
-    },
+    ,
+      solution: "<?php\nfile_put_contents(\"visits.log\", date(\"Y-m-d H:i:s\") . PHP_EOL, FILE_APPEND);\n\n$lines = file(\"visits.log\");\n$lastFive = array_slice($lines, -5);\necho implode(\"\", $lastFive);"},
 
     prev: { slug: 'php-sessions', title: 'Sessions & Cookies' },
     next: { slug: 'php-errors', title: 'Error Handling' }
@@ -576,7 +595,8 @@ Object.assign(LESSONS, {
               '    echo withdraw(100, 250);\n' +
               '} catch (Exception $e) {\n' +
               '    echo "Error: " . $e->getMessage();\n' +
-              '}'
+              '}\n' +
+              '// Output: Error: You are not a bank. No overdraft here.'
       }
     ],
 
@@ -606,7 +626,7 @@ Object.assign(LESSONS, {
         'Nowhere — delete them'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Log it, don\'t show it. Attacks are fueled by leaked stack traces.', wrong: '❌ Nope. Never leak internal details to users — that is free reconnaissance for attackers.' }
+      feedback: { correct: 'Log it, don\'t show it. Attacks are fueled by leaked stack traces.', wrong: 'Nope. Never leak internal details to users — that is free reconnaissance for attackers.' }
     },
 
     challenge: {
@@ -614,7 +634,8 @@ Object.assign(LESSONS, {
       text: 'Write <strong>divideNumbers($a, $b)</strong> that throws an exception if $b is 0 ("Cannot divide by zero"), and otherwise returns the result. Catch it and show a friendly error.',
       code: '<?php\nfunction divideNumbers($a, $b) {\n    // your code\n}\n',
       hint: 'A division by zero in PHP throws a DivisionByZeroError. Throwing an Exception yourself keeps the behavior predictable across PHP versions.'
-    },
+    ,
+      solution: "<?php\nfunction divideNumbers($a, $b) {\n    if ($b === 0) {\n        throw new Exception(\"Cannot divide by zero\");\n    }\n    return $a / $b;\n}\n\ntry {\n    echo divideNumbers(10, 2);   // 5\n    echo divideNumbers(10, 0);   // throws\n} catch (Exception $e) {\n    echo \"Oops: \" . $e->getMessage();   // Oops: Cannot divide by zero\n}"},
 
     prev: { slug: 'php-files', title: 'File Handling' },
     next: { slug: 'php-oop', title: 'OOP Basics' }
@@ -660,7 +681,8 @@ Object.assign(LESSONS, {
               '}\n' +
               '\n' +
               '$sara = new User("Sara");\n' +
-              'echo $sara->greet();'
+              'echo $sara->greet();\n' +
+              '// Output: Hello, I am Sara'
       },
       {
         lang: 'PHP',
@@ -703,14 +725,15 @@ Object.assign(LESSONS, {
         'greet()'
       ],
       correct: 0,
-      feedback: { correct: '🔥 __construct is the class\'s welcome party — it runs the moment the object is created.', wrong: '❌ Nope. The magic method __construct runs automatically at instantiation to set up the object.' }
+      feedback: { correct: '__construct is the class\'s welcome party — it runs the moment the object is created.', wrong: 'Nope. The magic method __construct runs automatically at instantiation to set up the object.' }
     },
 
     challenge: {
       lang: 'PHP',
       text: 'Create a <strong>Product</strong> class with private <strong>name</strong> and <strong>price</strong>, a constructor to set them, and a <strong>getPriceFormatted()</strong> method returning the price with a currency symbol. Instantiate and echo a product.',
       hint: 'echo method return like the User example. "25 USD" or "$25" — your choice, your brand now.'
-    },
+    ,
+      solution: "<?php\nclass Product {\n    private $name;\n    private $price;\n\n    public function __construct($name, $price) {\n        $this->name = $name;\n        $this->price = $price;\n    }\n\n    public function getPriceFormatted() {\n        return $this->price . \" USD\";\n    }\n}\n\n$keyboard = new Product(\"Keyboard\", 25);\necho $keyboard->getPriceFormatted();   // 25 USD"},
 
     prev: { slug: 'php-errors', title: 'Error Handling' },
     next: { slug: 'php-dates', title: 'Date & String Functions' }
@@ -787,14 +810,15 @@ Object.assign(LESSONS, {
         'Error'
       ],
       correct: 0,
-      feedback: { correct: '🔥 strtoupper shouts the whole word back at you. Useful for codes and acronyms.', wrong: '❌ Nope. strtoupper converts every character to uppercase: "LARAVEL".' }
+      feedback: { correct: 'strtoupper shouts the whole word back at you. Useful for codes and acronyms.', wrong: 'Nope. strtoupper converts every character to uppercase: "LARAVEL".' }
     },
 
     challenge: {
       lang: 'PHP',
       text: 'Create an array of 3 names, some with extra spaces. Clean each with trim(), format to proper case (first letter capital), and print them today\'s date as "dd/mm/yyyy".',
       hint: 'Combine strtolower()+ucwords() or ucfirst() as you like. explode/implode can help join cleaned values.'
-    },
+    ,
+      solution: "<?php\n$names = [\"  ahmed \", \"sara\", \"  mohamed  \"];\n\n$clean = [];\nforeach ($names as $name) {\n    $clean[] = ucwords(strtolower(trim($name)));\n}\n\necho implode(\", \", $clean);   // Ahmed, Sara, Mohamed\n\necho date(\"d/m/Y\");           // e.g. 14/09/2026"},
 
     prev: { slug: 'php-oop', title: 'OOP Basics' },
     next: { slug: 'php-mysql', title: 'MySQL Connection' }
@@ -809,7 +833,7 @@ Object.assign(LESSONS, {
     difficulty: 'Intermediate',
     book: 'Book Chapter 2 · Databases',
 
-    intro: 'Now your PHP gets a memory that survives restarts — the database. This is where "website" starts becoming "application". The elephant meets the dolphin. 🐘 🐬',
+    intro: 'Now your PHP gets a memory that survives restarts — the database. This is where "website" starts becoming "application". The elephant meets the dolphin.  ',
 
     whyMatters: 'Without a database you have a brochure. With one you have a product. This lesson shows the bridge — PDO — the one habit that saves you from SQL injection attacks.',
 
@@ -837,7 +861,8 @@ Object.assign(LESSONS, {
               '} catch (PDOException $e) {\n' +
               '    error_log($e->getMessage());\n' +
               '    echo "Database trouble. Not you, us.";\n' +
-              '}'
+              '}\n' +
+              '// Output (on success): Connected!'
       },
       {
         lang: 'PHP',
@@ -867,7 +892,7 @@ Object.assign(LESSONS, {
       'Using mysql_* or mysqli_* legacy functions instead of PDO — the 2005 way, and a security headache.'
     ],
 
-    proTip: 'charset=utf8mb4 in the DSN supports Arabic and full emoji. Without it, a single "💻" crashes your insert and costs you an evening of Googling.'
+    proTip: 'charset=utf8mb4 in the DSN supports Arabic and full emoji. Without it, a single "emoji" crashes your insert and costs you an evening of Googling.'
 
     ,
 
@@ -883,14 +908,15 @@ Object.assign(LESSONS, {
         'They remove the need for a password'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Parameters keep user input as data, never as code. SQL injection done.', wrong: '❌ Nope. Prepared statements send values separately from the query, so attackers cannot inject SQL into it.' }
+      feedback: { correct: 'Parameters keep user input as data, never as code. SQL injection done.', wrong: 'Nope. Prepared statements send values separately from the query, so attackers cannot inject SQL into it.' }
     },
 
     challenge: {
       lang: 'PHP',
       text: 'Write <strong>findUserByEmail($pdo, $email)</strong> that uses a prepared statement to return the matching user row or null. Then call it with the string <span class="inline-code">"foo\"; DROP TABLE users; --"</span> and confirm it does not destroy anything.',
       hint: 'Try it against a test database. The point is to see it fail safely — the query returns no rows instead of dropping tables.'
-    },
+    ,
+      solution: "<?php\nfunction findUserByEmail($pdo, $email) {\n    $stmt = $pdo->prepare(\"SELECT * FROM users WHERE email = ?\");\n    $stmt->execute([$email]);\n    return $stmt->fetch() ?: null;\n}\n\n$user = findUserByEmail($pdo, 'foo\"; DROP TABLE users; --');\n# Returns null. Nothing is dropped — prepared statements treat the input as data,\n# so the injection string is just an email that matches nothing."},
 
     prev: { slug: 'php-dates', title: 'Date & String Functions' },
     next: { slug: 'git-why', title: 'Why Git?' }

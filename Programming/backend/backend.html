@@ -23,7 +23,7 @@
     <a href="../../journey.html" class="nav-link">Journeys</a>
     <a href="../programming.html" class="nav-link" id="navProgramming">Programming</a>
     <a href="backend.html" class="nav-link active">Backend Roadmap</a>
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">☀️</button>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light theme" title="Toggle theme">Light</button>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -45,7 +45,7 @@
     function refresh() {
       var b = document.getElementById('themeToggle');
       if (!b) return;
-      b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+      b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark';
     }
     window.toggleTheme = function () {
       var cur = document.documentElement.getAttribute('data-theme');

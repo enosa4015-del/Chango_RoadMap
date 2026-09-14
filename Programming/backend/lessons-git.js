@@ -69,7 +69,7 @@ Object.assign(LESSONS, {
         'Git is only for Windows'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Exactly. Git on your machine, GitHub on the internet. Together they are the industry standard.', wrong: '❌ Nope. Git is the version-control tool; GitHub is its most famous online home.' }
+      feedback: { correct: 'Exactly. Git on your machine, GitHub on the internet. Together they are the industry standard.', wrong: 'Nope. Git is the version-control tool; GitHub is its most famous online home.' }
     },
 
     challenge: {
@@ -79,7 +79,9 @@ Object.assign(LESSONS, {
             'echo "hello" > hello.txt\n' +
             'git add .\n',
       hint: 'Your history should show exactly one commit: your very first.'
-    },
+    ,
+      solution: "git init\necho \"hello\" > hello.txt\ngit add hello.txt\ngit commit -m \"First commit: hello\"\n\ngit log --oneline\n# exactly one line of history",
+      solutionLang: "bash"},
 
     prev: { slug: 'php-mysql', title: 'MySQL Connection' },
     next: { slug: 'git-commits', title: 'Commits & History' }
@@ -149,14 +151,16 @@ Object.assign(LESSONS, {
         'Delete the broken files manually'
       ],
       correct: 0,
-      feedback: { correct: '🔥 revert adds a clean "undo" commit — shared history stays intact. Others\' clones stay happy.', wrong: '❌ Nope. On a pushed branch, revert (a new undo commit) is the safe move. reset rewrites history and breaks collaborators.' }
+      feedback: { correct: 'revert adds a clean "undo" commit — shared history stays intact. Others\' clones stay happy.', wrong: 'Nope. On a pushed branch, revert (a new undo commit) is the safe move. reset rewrites history and breaks collaborators.' }
     },
 
     challenge: {
       lang: 'bash',
       text: 'Make 3 small commits ("add header", "add footer", "fix footer bug"). Then use <strong>git log --oneline</strong> to show all three, and spot which one is the bug fix by its message.',
       hint: 'Three separate commits, three clear messages. This is the workflow interviewers are looking for.'
-    },
+    ,
+      solution: "git add header.html && git commit -m \"add header\"\ngit add footer.html && git commit -m \"add footer\"\ngit add footer.html && git commit -m \"fix footer bug\"\n\ngit log --oneline\n# \"fix footer bug\" is the one at the top of the list",
+      solutionLang: "bash"},
 
     prev: { slug: 'git-why', title: 'Why Git?' },
     next: { slug: 'git-branches', title: 'Branches & Merge' }
@@ -234,14 +238,16 @@ Object.assign(LESSONS, {
         'git checkout feature'
       ],
       correct: 0,
-      feedback: { correct: '🔥 checkout -b creates and switches. One keystroke fewer, one mistake less.', wrong: '❌ Nope. git checkout -b FEATURE does both: create the branch and move onto it.' }
+      feedback: { correct: 'checkout -b creates and switches. One keystroke fewer, one mistake less.', wrong: 'Nope. git checkout -b FEATURE does both: create the branch and move onto it.' }
     },
 
     challenge: {
       lang: 'bash',
       text: 'From main, create <strong>feature/about</strong>, add an about.txt file, commit it, switch back to main, and merge the feature branch. Confirm the file exists on main after the merge.',
       hint: 'git checkout -b feature/about → commit → git checkout main → git merge feature/about.'
-    },
+    ,
+      solution: "git checkout -b feature/about\necho \"about us\" > about.txt\ngit add about.txt && git commit -m \"add about page\"\n\ngit checkout main\ngit merge feature/about\n\nls    # about.txt exists on main now",
+      solutionLang: "bash"},
 
     prev: { slug: 'git-commits', title: 'Commits & History' },
     next: { slug: 'git-github', title: 'GitHub' }
@@ -312,14 +318,16 @@ Object.assign(LESSONS, {
         'Stores your password'
       ],
       correct: 0,
-      feedback: { correct: '🔥 Exactly: secrets, vendor/, node_modules/ never even get tracked.', wrong: '❌ Nope. .gitignore lists paths Git should not track — it removes nothing from disk.' }
+      feedback: { correct: 'Exactly: secrets, vendor/, node_modules/ never even get tracked.', wrong: 'Nope. .gitignore lists paths Git should not track — it removes nothing from disk.' }
     },
 
     challenge: {
       lang: 'bash',
       text: 'Create a .gitignore that ignores <strong>.env</strong>, the <strong>vendor</strong> folder, and <strong>logs/</strong>. Then run <strong>git status</strong> after creating a dummy .env — it should NOT appear as untracked.',
       hint: 'One entry per line: .env, vendor/, logs/. Confirm with git status that .env is absent from the untracked list.'
-    },
+    ,
+      solution: "# .gitignore\n.env\nvendor/\nlogs/\n\necho \"DB_PASSWORD=secret\" > .env\n\ngit status\n# .env is NOT in the untracked list — ignored correctly\n\ngit check-ignore .env    # echoes .env → confirmed",
+      solutionLang: "bash"},
 
     prev: { slug: 'git-branches', title: 'Branches & Merge' },
     next: { slug: 'git-prs', title: 'Pull Requests' }
@@ -386,14 +394,16 @@ Object.assign(LESSONS, {
         'Nothing — main updates itself'
       ],
       correct: 0,
-      feedback: { correct: '🔥 PR + review is the quality door. Changes enter main through that door only.', wrong: '❌ Nope. Teams isolate work on a branch, open a PR, get it reviewed, then merge.' }
+      feedback: { correct: 'PR + review is the quality door. Changes enter main through that door only.', wrong: 'Nope. Teams isolate work on a branch, open a PR, get it reviewed, then merge.' }
     },
 
     challenge: {
       lang: 'bash',
       text: 'Simulate the workflow on a test repo: create feature branch "feature/docs", add a README, push it (or just commit locally). Then check out main and confirm the feature branch is listed via <strong>git branch</strong>. Optionally open a real PR if you have a GitHub account.',
       hint: 'git branch (no args) lists local branches. The * marks the one you are on.'
-    },
+    ,
+      solution: "git checkout -b feature/docs\necho \"# Docs\" > README.md\ngit add README.md && git commit -m \"add README\"\ngit push -u origin feature/docs    # optional\n\ngit checkout main\ngit branch               # feature/docs is listed, * marks main\n\n# if on GitHub, the push shows \"Compare & pull request\" → open a PR",
+      solutionLang: "bash"},
 
     prev: { slug: 'git-github', title: 'GitHub' },
     next: { slug: 'sql-what', title: 'What is a Database?' }

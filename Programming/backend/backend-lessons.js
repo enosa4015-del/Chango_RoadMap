@@ -207,7 +207,7 @@ var LESSONS = {
         pre: true,
         lang: 'PHP',
         label: 'Your very first program',
-        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-f">echo</span> <span class="tok-s">"Hello, World!"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Welcome to programming."</span>;\n'
+        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-f">echo</span> <span class="tok-s">"Hello, World!"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Welcome to programming."</span>;\n<span class="tok-c">// Output:</span>\n<span class="tok-c">// Hello, World!</span>\n<span class="tok-c">// Welcome to programming.</span>\n'
       }
     ],
 
@@ -239,7 +239,7 @@ var LESSONS = {
         pre: true,
         lang: 'PHP',
         label: 'What if we change the order?',
-        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-f">echo</span> <span class="tok-s">"Second line"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"First line"</span>;\n'
+        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-f">echo</span> <span class="tok-s">"Second line"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"First line"</span>;\n<span class="tok-c">// Output:</span>\n<span class="tok-c">// Second line</span>\n<span class="tok-c">// First line</span>\n'
       }
     ],
 
@@ -269,16 +269,19 @@ var LESSONS = {
       ],
       correct: 0,
       feedback: {
-        correct: '🔥 Correct. Computers are very obedient — they just follow exactly what you write. Line. By. Line.',
-        wrong: '❌ Not quite. A program is a set of step-by-step instructions the computer executes exactly as written. No guessing involved.'
+        correct: 'Correct. Computers are very obedient — they just follow exactly what you write. Line. By. Line.',
+        wrong: 'Not quite. A program is a set of step-by-step instructions the computer executes exactly as written. No guessing involved.'
       }
     },
 
     challenge: {
+      pre: true,
       text: 'What will this code output? Don\'t run it — predict it first.',
       code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-f">echo</span> <span class="tok-s">"I am "</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"learning"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">" programming."</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"This is line 5."</span>;\n',
       hint: 'The computer reads top to bottom, line by line, and prints exactly what it sees. Don\'t overthink it.'
-    },
+    ,
+      solution: "\"I am learning programming.\"\n\"This is line 5.\"",
+      solutionLang: "text"},
 
     bookChapter: '#',
     prev: null,
@@ -322,7 +325,7 @@ var LESSONS = {
         pre: true,
         lang: 'PHP',
         label: 'Creating variables',
-        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-v">$name</span> = <span class="tok-s">"John"</span>;\n<span class="tok-v">$age</span> = <span class="tok-n">22</span>;\n<span class="tok-v">$isStudent</span> = <span class="tok-k">true</span>;\n\n<span class="tok-f">echo</span> <span class="tok-s">"Hello, "</span> . <span class="tok-v">$name</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Age: "</span> . <span class="tok-v">$age</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Student: "</span> . <span class="tok-v">$isStudent</span>;\n'
+        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-v">$name</span> = <span class="tok-s">"John"</span>;\n<span class="tok-v">$age</span> = <span class="tok-n">22</span>;\n<span class="tok-v">$isStudent</span> = <span class="tok-k">true</span>;\n\n<span class="tok-f">echo</span> <span class="tok-s">"Hello, "</span> . <span class="tok-v">$name</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Age: "</span> . <span class="tok-v">$age</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Student: "</span> . <span class="tok-v">$isStudent</span>;\n<span class="tok-c">// Output:</span>\n<span class="tok-c">// Hello, John</span>\n<span class="tok-c">// Age: 22</span>\n<span class="tok-c">// Student: 1</span>\n'
       }
     ],
 
@@ -350,7 +353,7 @@ var LESSONS = {
         pre: true,
         lang: 'PHP',
         label: 'Changing a variable',
-        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-v">$score</span> = <span class="tok-n">0</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Score: "</span> . <span class="tok-v">$score</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n\n<span class="tok-v">$score</span> = <span class="tok-v">$score</span> + <span class="tok-n">10</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Score: "</span> . <span class="tok-v">$score</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n\n<span class="tok-v">$score</span> += <span class="tok-n">5</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Final: "</span> . <span class="tok-v">$score</span>;\n'
+        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-v">$score</span> = <span class="tok-n">0</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Score: "</span> . <span class="tok-v">$score</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n\n<span class="tok-v">$score</span> = <span class="tok-v">$score</span> + <span class="tok-n">10</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Score: "</span> . <span class="tok-v">$score</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n\n<span class="tok-v">$score</span> += <span class="tok-n">5</span>;\n<span class="tok-f">echo</span> <span class="tok-s">"Final: "</span> . <span class="tok-v">$score</span>;\n<span class="tok-c">// Output:</span>\n<span class="tok-c">// Score: 0</span>\n<span class="tok-c">// Score: 10</span>\n<span class="tok-c">// Final: 15</span>\n'
       }
     ],
 
@@ -386,16 +389,18 @@ var LESSONS = {
       ],
       correct: 0,
       feedback: {
-        correct: '🔥 Correct. Every statement in PHP must end with a semicolon. Without it, PHP throws a parse error. Little things, big consequences.',
-        wrong: '❌ The semicolon is missing. PHP statements must end with <code>;</code>. This is a syntax error.'
+        correct: 'Correct. Every statement in PHP must end with a semicolon. Without it, PHP throws a parse error. Little things, big consequences.',
+        wrong: 'The semicolon is missing. PHP statements must end with <code>;</code>. This is a syntax error.'
       }
     },
 
     challenge: {
+      pre: true,
       text: 'Fix the bugs in this code. How many mistakes can you find?',
       code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-v">$name</span> = <span class="tok-s">"Ahmed"</span>\n<span class="tok-f">echo</span> <span class="tok-v">$name</span>\n<span class="tok-f">echo</span> <span class="tok-v">$age</span>;\n',
       hint: 'Two lines are missing semicolons, and $age was never created. A computer does exactly what you wrote — and nothing more.'
-    },
+    ,
+      solution: "$name = \"Ahmed\";\necho $name;    // Ahmed\n$age = 25;     // $age was never created\necho $age;     // 25\n\n// 3 mistakes: two missing semicolons + undefined $age"},
 
     bookChapter: '#',
     prev: { slug: 'what-is-programming', title: 'What Is Programming?' },
@@ -523,16 +528,18 @@ var LESSONS = {
       ],
       correct: 2,
       feedback: {
-        correct: '🔥 Correct. 7 ÷ 2 = 3 with a remainder of 1. The % operator gives you the remainder. So $result = 1. Your operators are sharp.',
-        wrong: '❌ Nope. % is the modulo operator — it returns the REMAINDER after division. 7 ÷ 2 = 3 remainder 1. So $result = 1.'
+        correct: 'Correct. 7 ÷ 2 = 3 with a remainder of 1. The % operator gives you the remainder. So $result = 1. Your operators are sharp.',
+        wrong: 'Nope. % is the modulo operator — it returns the REMAINDER after division. 7 ÷ 2 = 3 remainder 1. So $result = 1.'
       }
     },
 
     challenge: {
+      pre: true,
       text: 'Create variables and calculate the average of three exam scores:',
       code: '<span class="tok-c">// Complete this code:</span>\n<span class="tok-v">$math</span> = <span class="tok-n">85</span>;\n<span class="tok-v">$english</span> = <span class="tok-n">92</span>;\n<span class="tok-v">$science</span> = <span class="tok-n">78</span>;\n\n<span class="tok-c">// Calculate average here</span>\n<span class="tok-v">$average</span> = <span class="tok-c">???</span>;\n\n<span class="tok-f">echo</span> <span class="tok-s">"Average: "</span> . <span class="tok-v">$average</span>;\n<span class="tok-c">// Should print: Average: 85</span>\n',
       hint: 'Add the three numbers, then divide by 3.'
-    },
+    ,
+      solution: "$average = ($math + $english + $science) / 3;\necho \"Average: \" . $average;   // Average: 85"},
 
     bookChapter: '#',
     prev: { slug: 'variables', title: 'Variables' },
@@ -584,7 +591,7 @@ var LESSONS = {
         pre: true,
         lang: 'PHP',
         label: 'Basic if / else',
-        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-v">$age</span> = <span class="tok-n">20</span>;\n\n<span class="tok-k">if</span> (<span class="tok-v">$age</span> >= <span class="tok-n">18</span>) {\n    <span class="tok-f">echo</span> <span class="tok-s">"You are an adult."</span>;\n} <span class="tok-k">else</span> {\n    <span class="tok-f">echo</span> <span class="tok-s">"You are a minor."</span>;\n}\n'
+        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-v">$age</span> = <span class="tok-n">20</span>;\n\n<span class="tok-k">if</span> (<span class="tok-v">$age</span> >= <span class="tok-n">18</span>) {\n    <span class="tok-f">echo</span> <span class="tok-s">"You are an adult."</span>;\n} <span class="tok-k">else</span> {\n    <span class="tok-f">echo</span> <span class="tok-s">"You are a minor."</span>;\n}\n<span class="tok-c">// Output: You are an adult.</span>\n'
       }
     ],
 
@@ -652,16 +659,18 @@ var LESSONS = {
       ],
       correct: 0,
       feedback: {
-        correct: '🔥 Correct! $years = 12 matches >= 10 first, so the first branch wins. Top to bottom — always.',
-        wrong: '❌ Nope. $years is 12, which is >= 10. The first condition matches, so PHP runs that block and skips everything else.'
+        correct: 'Correct! $years = 12 matches >= 10 first, so the first branch wins. Top to bottom — always.',
+        wrong: 'Nope. $years is 12, which is >= 10. The first condition matches, so PHP runs that block and skips everything else.'
       }
     },
 
     challenge: {
+      pre: true,
       text: 'Write an if/else chain that assigns a traffic light color based on speed:',
       code: '<span class="tok-c">// Speed conditions:</span>\n<span class="tok-c">// speed <= 40  → "Green: go!"</span>\n<span class="tok-c">// speed <= 70  → "Yellow: slow down"</span>\n<span class="tok-c">// speed > 70   → "Red: stop!"</span>\n\n<span class="tok-v">$speed</span> = <span class="tok-n">55</span>;\n<span class="tok-c">// Your if/else code here:</span>\n',
       hint: 'Start from the highest number and work down, or use <= conditions in order from lowest to highest.'
-    },
+    ,
+      solution: "$speed = 55;\n\nif ($speed <= 40) {\n    echo \"Green: go!\";\n} elseif ($speed <= 70) {\n    echo \"Yellow: slow down\";\n} else {\n    echo \"Red: stop!\";\n}\n\n// $speed = 55 → \"Yellow: slow down\""},
 
     bookChapter: '#',
     prev: { slug: 'data-types', title: 'Data Types & Operators' },
@@ -701,7 +710,7 @@ var LESSONS = {
         pre: true,
         lang: 'PHP',
         label: 'The for loop',
-        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-k">for</span> (<span class="tok-v">$i</span> = <span class="tok-n">0</span>; <span class="tok-v">$i</span> < <span class="tok-n">5</span>; <span class="tok-v">$i</span>++) {\n    <span class="tok-f">echo</span> <span class="tok-s">"Count: "</span> . <span class="tok-v">$i</span> . <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n}\n'
+        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-k">for</span> (<span class="tok-v">$i</span> = <span class="tok-n">0</span>; <span class="tok-v">$i</span> < <span class="tok-n">5</span>; <span class="tok-v">$i</span>++) {\n    <span class="tok-f">echo</span> <span class="tok-s">"Count: "</span> . <span class="tok-v">$i</span> . <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n}\n<span class="tok-c">// Output:</span>\n<span class="tok-c">// Count: 0</span>\n<span class="tok-c">// Count: 1</span>\n<span class="tok-c">// Count: 2</span>\n<span class="tok-c">// Count: 3</span>\n<span class="tok-c">// Count: 4</span>\n'
       }
     ],
 
@@ -729,7 +738,7 @@ var LESSONS = {
         pre: true,
         lang: 'PHP',
         label: 'The while loop (when you don\'t know how many times)',
-        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-v">$attempts</span> = <span class="tok-n">0</span>;\n\n<span class="tok-k">while</span> (<span class="tok-v">$attempts</span> < <span class="tok-n">3</span>) {\n    <span class="tok-f">echo</span> <span class="tok-s">"Attempt "</span> . (<span class="tok-v">$attempts</span> + <span class="tok-n">1</span>) . <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n    <span class="tok-v">$attempts</span>++;\n}\n<span class="tok-f">echo</span> <span class="tok-s">"Done. "</span> . <span class="tok-v">$attempts</span> . <span class="tok-s">" attempts."</span>;\n'
+        code: '<span class="tok-k">&lt;?php</span>\n\n<span class="tok-v">$attempts</span> = <span class="tok-n">0</span>;\n\n<span class="tok-k">while</span> (<span class="tok-v">$attempts</span> < <span class="tok-n">3</span>) {\n    <span class="tok-f">echo</span> <span class="tok-s">"Attempt "</span> . (<span class="tok-v">$attempts</span> + <span class="tok-n">1</span>) . <span class="tok-s">"</span><span class="tok-s">\n"</span>;\n    <span class="tok-v">$attempts</span>++;\n}\n<span class="tok-f">echo</span> <span class="tok-s">"Done. "</span> . <span class="tok-v">$attempts</span> . <span class="tok-s">" attempts."</span>;\n<span class="tok-c">// Output:</span>\n<span class="tok-c">// Attempt 1</span>\n<span class="tok-c">// Attempt 2</span>\n<span class="tok-c">// Attempt 3</span>\n<span class="tok-c">// Done. 3 attempts.</span>\n'
       }
     ],
 
@@ -777,16 +786,18 @@ var LESSONS = {
       ],
       correct: 0,
       feedback: {
-        correct: '🔥 LET\'S GOOO. foreach walks through every item in order. All 4 names print, one per line.',
-        wrong: '❌ Nope. foreach goes through each item in the array — there are 4 of them. Semicolons are fine here, the array is valid. The result is 4 lines, in order.'
+        correct: 'LET\'S GOOO. foreach walks through every item in order. All 4 names print, one per line.',
+        wrong: 'Nope. foreach goes through each item in the array — there are 4 of them. Semicolons are fine here, the array is valid. The result is 4 lines, in order.'
       }
     },
 
     challenge: {
+      pre: true,
       text: 'Write a loop that prints even numbers from 1 to 20 (2, 4, 6, 8, ... 20):',
       code: '<span class="tok-c">// Use a for loop</span>\n<span class="tok-c">// Hint: check if a number is even using the % operator</span>\n\n<span class="tok-k">for</span> (<span class="tok-v">$i</span> = <span class="tok-n">1</span>; <span class="tok-v">$i</span> <= <span class="tok-n">20</span>; <span class="tok-v">$i</span>++) {\n    <span class="tok-c">// Your code here</span>\n}\n',
       hint: 'An even number divided by 2 has no remainder: <code>$i % 2 === 0</code>.'
-    },
+    ,
+      solution: "for ($i = 1; $i <= 20; $i++) {\n    if ($i % 2 === 0) {\n        echo $i . \" \";\n    }\n}\n// 2 4 6 8 10 12 14 16 18 20"},
 
     miniProject: {
       title: 'Console Calculator',

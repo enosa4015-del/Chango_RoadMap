@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +33,7 @@
       onclick="toggleTheme()"
       aria-label="Toggle dark / light theme"
       title="Toggle theme"
-    >☀️</button>
+    >Light</button>
 
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span>
@@ -67,8 +66,8 @@
 
       b.textContent =
         document.documentElement.getAttribute('data-theme') === 'dark'
-          ? '☀️'
-          : '🌙';
+          ? 'Light'
+          : 'Dark';
     }
 
     window.toggleTheme = function () {
@@ -498,7 +497,7 @@
           isDone
             ? '✓'
             : isLocked
-            ? '🔒'
+            ? '○'
             : isActive
             ? '▶'
             : '○';
@@ -584,7 +583,7 @@
   function renderMistakes(arr) {
 
     var html =
-      '<div class="warn-box"><h3>⚠️ Common Mistake' +
+      '<div class="warn-box"><h3>Common Mistake' +
       (arr.length > 1 ? 's' : '') +
       '</h3><ul>';
 
@@ -682,7 +681,7 @@
     var html =
       '<div class="challenge-box">';
 
-    html += '<h3>🔥 Challenge</h3>';
+    html += '<h3>Challenge</h3>';
 
     html +=
       '<p>' +
@@ -709,9 +708,25 @@
     if (c.hint) {
 
       html +=
-        '<p><b>💡 Hint:</b> ' +
+        '<p><b>Hint:</b> ' +
         c.hint +
         '</p>';
+    }
+
+    if (c.solution) {
+
+      var slang = c.solutionLang || lang || 'php';
+
+      html +=
+        '<button class="btn btn-outline btn-sm solution-toggle" onclick="toggleSolution(this)">Show Solution</button>' +
+        '<div class="challenge-solution" style="display:none;"><div class="code-block"><div class="code-head">' +
+        '<span class="code-lang">' +
+        esc(slang) +
+        '</span>' +
+        '<button class="code-copy" onclick="copyCode(this)">Copy</button>' +
+        '</div><pre><code>' +
+        highlight(slang, c.solution) +
+        '</code></pre></div></div>';
     }
 
     html += '</div>';
@@ -732,7 +747,7 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
     var isDone = done.indexOf(slug) !== -1;
 
     var html =
-      '<button class="side-drawer-btn" onclick="toggleDrawer()">☰ Menu</button>';
+      '<button class="side-drawer-btn" onclick="toggleDrawer()">Menu</button>';
 
     html += '<div class="lesson-card">';
 
@@ -756,7 +771,7 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
       '</span>';
 
     html +=
-      '<span class="lesson-tag time">⏱ ' +
+      '<span class="lesson-tag time">' +
       esc(l.time) +
       '</span>';
 
@@ -766,7 +781,7 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
       '</span>';
 
     html +=
-      '<span class="lesson-tag book">📖 ' +
+      '<span class="lesson-tag book">' +
       esc(l.book) +
       '</span>';
 
@@ -783,7 +798,7 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
     /* why box */
 
     html +=
-      '<div class="lesson-card"><div class="why-box"><h3>💡 Why This Matters</h3><p>' +
+      '<div class="lesson-card"><div class="why-box"><h3>Why This Matters</h3><p>' +
       l.whyMatters +
       '</p></div>';
 
@@ -845,7 +860,7 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
     if (l.proTip) {
 
       html +=
-        '<div class="lesson-card"><div class="pro-box"><h3>💡 Pro Tip</h3><p>' +
+        '<div class="lesson-card"><div class="pro-box"><h3>Pro Tip</h3><p>' +
         l.proTip +
         '</p></div></div>';
     }
@@ -878,7 +893,7 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
     if (l.miniProject) {
 
       html +=
-        '<div class="lesson-card"><h3>🛠️ Mini Project: ' +
+        '<div class="lesson-card"><h3>Mini Project: ' +
         esc(l.miniProject.title) +
         '</h3>';
 
@@ -904,7 +919,7 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
       html +=
         '<div class="lesson-card"><a class="book-link" href="' +
         l.bookChapter +
-        '"><span style="font-size:1.4rem;">📖</span><span><b>Read this chapter in the book</b><br>Expand your understanding with the full chapter.</span></a></div>';
+        '"><span style="font-size:1.2rem;">→</span><span><b>Read this chapter in the book</b><br>Expand your understanding with the full chapter.</span></a></div>';
     }
 
 
@@ -946,7 +961,7 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
     } else {
 
       html +=
-        '<a class="btn btn-primary btn-sm" href="backend.html">🎉 Level Complete →</a>';
+        '<a class="btn btn-primary btn-sm" href="backend.html">Level Complete →</a>';
     }
 
     html += '</div></div>';
@@ -1021,6 +1036,20 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
 
       fallback();
     }
+  };
+
+
+  window.toggleSolution = function (btn) {
+
+    var box = btn.nextElementSibling;
+
+    if (!box) return;
+
+    var hidden = box.style.display === 'none';
+
+    box.style.display = hidden ? 'block' : 'none';
+
+    btn.textContent = hidden ? 'Hide Solution' : 'Show Solution';
   };
 
 
@@ -1135,5 +1164,4 @@ if (!l) { document.getElementById('lessonMain').innerHTML = '<div style="text-al
 ></script>
 
 </body>
-</html>
-```
+      </html>
